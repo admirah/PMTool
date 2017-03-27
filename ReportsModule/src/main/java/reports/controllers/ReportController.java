@@ -1,4 +1,4 @@
-package com.pmtool.controllers;
+package reports.controllers;
 
 import java.util.Date;
 
@@ -6,8 +6,8 @@ import java.util.Date;
 import java.util.List;
 
 import java.text.SimpleDateFormat;
-import com.pmtool.models.Report;
-import com.pmtool.models.ReportDao;
+import reports.models.Report;
+import reports.models.ReportDao;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;

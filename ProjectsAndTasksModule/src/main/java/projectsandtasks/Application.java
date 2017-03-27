@@ -1,8 +1,9 @@
-package com.projectsandtasks;
+package projectsandtasks;
 
 
-import com.projectsandtasks.models.Weight;
-import com.projectsandtasks.repository.WeightRepository;
+import projectsandtasks.models.Weight;
+
+import projectsandtasks.repository.WeightRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

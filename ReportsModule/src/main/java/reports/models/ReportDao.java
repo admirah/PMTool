@@ -1,11 +1,11 @@
-package com.pmtool.models;
+package reports.models;
 
 import java.util.Arrays;
 /**
  * Created by Emina on 21.03.2017..
  */
 import java.util.List;
-import com.pmtool.models.Report;
+import reports.models.Report;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.jpa.repository.JpaRepository;

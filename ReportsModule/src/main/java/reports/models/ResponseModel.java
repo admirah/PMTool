@@ -1,4 +1,4 @@
-package com.pmtool.models;
+package reports.models;
 
 public class ResponseModel {
 

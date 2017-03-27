@@ -17,7 +17,7 @@ import java.util.List;
 
 /**
  * Created by abasic on 20.03.2017..
- */   /*
+ */
 @RestController
 @RequestMapping("/users")
 public class UsersController {
@@ -90,4 +90,4 @@ public class UsersController {
         }
         return new ResponseEntity(new ResponseModel("User not found"), HttpStatus.NOT_FOUND);
     }
-}*/
+}

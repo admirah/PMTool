@@ -1,4 +1,4 @@
-package com.projectsandtasks.models;
+package projectsandtasks.models;
 
 import javax.persistence.*;
 import java.util.Date;
