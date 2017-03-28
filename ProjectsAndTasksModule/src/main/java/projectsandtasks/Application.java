@@ -48,8 +48,6 @@ public class Application {
 }
 
 
-
-
 @RefreshScope
 @RestController
 class MessageRestController {
