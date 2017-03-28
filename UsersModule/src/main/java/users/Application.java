@@ -34,7 +34,7 @@ class MessageRestController {
 
 	@RequestMapping(value = "/whoami/{username}", method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
     public String whoami(@PathVariable("username") String username) {
-        return String.format("Hello! You're %s your password is '%s'!\n", username, password);
+        return String.format("Hello from Users Module! You're %s your password is '%s'!\n", username, password);
     }
 
 }
