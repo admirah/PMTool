@@ -48,3 +48,27 @@ public class Application {
 }
 
 
+<<<<<<< HEAD
+=======
+
+
+@RefreshScope
+@RestController
+class MessageRestController {
+    @Value("${password}")
+    private String password;
+    @RequestMapping("/pass")
+    String getPass() {
+        return this.password;
+    }
+
+
+    @Value("${message:Hello default}")
+    private String message;
+
+    @RequestMapping("/message")
+    String getMessage() {
+        return this.password;
+    }
+}
+>>>>>>> 5dea8b0adece5d44895583b6598e44bb6612f235
