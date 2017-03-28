@@ -48,10 +48,6 @@ public class Application {
 }
 
 
-<<<<<<< HEAD
-=======
-
-
 @RefreshScope
 @RestController
 class MessageRestController {
@@ -71,4 +67,3 @@ class MessageRestController {
         return this.password;
     }
 }
->>>>>>> 5dea8b0adece5d44895583b6598e44bb6612f235
