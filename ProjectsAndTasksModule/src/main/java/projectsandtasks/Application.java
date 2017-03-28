@@ -66,6 +66,6 @@ class MessageRestController {
 
     @RequestMapping("/message")
     String getMessage() {
-        return this.message;
+        return this.password;
     }
 }
