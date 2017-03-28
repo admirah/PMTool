@@ -53,7 +53,7 @@ public class Application {
 @RefreshScope
 @RestController
 class MessageRestController {
-    @Value("${password:n}")
+    @Value("${password}")
     private String password;
     @RequestMapping("/pass")
     String getPass() {
