@@ -13,7 +13,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
@@ -51,19 +54,15 @@ public class Application {
 @RefreshScope
 @RestController
 class MessageRestController {
-    @Value("${password}")
+
+	
+	@Value("${password}")
     private String password;
-    @RequestMapping("/pass")
-    String getPass() {
-        return this.password;
+ 
+
+	@RequestMapping(value = "/whoami/{username}", method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
+    public String whoami(@PathVariable("username") String username) {
+        return String.format("Hello from Project and Tasks Module! You're %s your password is '%s'!\n", username, password);
     }
 
-
-    @Value("${message:Hello default}")
-    private String message;
-
-    @RequestMapping("/message")
-    String getMessage() {
-        return this.password;
-    }
 }

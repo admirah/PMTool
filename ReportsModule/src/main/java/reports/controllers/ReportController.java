@@ -1,43 +1,36 @@
 package reports.controllers;
 
-import java.util.Date;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import reports.models.Report;
+import reports.models.ReportDao;
+import reports.models.ResponseModel;
 
 import java.util.List;
 
-import java.text.SimpleDateFormat;
-import reports.models.Report;
-import reports.models.ReportDao;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Date;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 /**
  * Created by Emina on 21.03.2017..
  */
-import java.time.format.DateTimeFormatter;
 @Controller
 public class ReportController {
 
-    @RequestMapping("/create")
-    @ResponseBody
-    public String create(String name){
+    @RequestMapping(value = "", method = RequestMethod.PATCH, produces = "application/json")
+    public ResponseEntity<Report> create(@RequestBody Report report){
         String reportId="";
         try{
-
-            Report report = new Report(name);
             reportDao.save(report);
             reportId=String.valueOf(report.getId());
         }
-        catch(Exception ex){
-            return "Error creating the report" + ex.toString();
+        catch(Exception e){
+            return new ResponseEntity(new ResponseModel(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
-        return "Report succesfully created with id = "+reportId;
+        return new ResponseEntity<Report>(report, HttpStatus.OK);
 
     }
 
@@ -71,19 +64,16 @@ public class ReportController {
     }
 
 
-    @RequestMapping("/update")
-    @ResponseBody
-    public String updateReport(long id, String name, Date date) {
+    @RequestMapping(value = "", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<Report> updateReport(@RequestBody Report report) {
         try {
-            Report report = reportDao.findOne(id);
-            report.setCreatedOn(date);
-            report.setName(name);
+
             reportDao.save(report);
         }
-        catch (Exception ex) {
-            return "Error updating the report: " + ex.toString();
+        catch (Exception e) {
+            return new ResponseEntity(new ResponseModel(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
-        return "Report succesfully updated!";
+        return new ResponseEntity<Report>(report,HttpStatus.OK);
     }
 
     @Autowired
