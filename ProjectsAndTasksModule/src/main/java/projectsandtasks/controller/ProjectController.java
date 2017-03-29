@@ -14,14 +14,13 @@ import java.util.List;
 /**
  * Created by Vejsil on 28.03.2017..
  */
-
 @RestController
-@RequestMapping("/project")
+@RequestMapping(value = "/project", produces = "application/json", consumes = "application/json")
 public class ProjectController {
     @Autowired
     private ProjectRepository repository;
 
-    @RequestMapping(value = "", method = RequestMethod.PATCH, produces = "application/json")
+    @RequestMapping(value = "", method = RequestMethod.PATCH)
     public ResponseEntity<Project> Update(@RequestBody Project project) {
         if (project == null) return new ResponseEntity(HttpStatus.BAD_REQUEST);
         try {
@@ -32,7 +31,7 @@ public class ProjectController {
         return new ResponseEntity<Project>(project, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseEntity<Project> Insert(@RequestBody Project project) {
         if (project == null) return new ResponseEntity(HttpStatus.BAD_REQUEST);
         try {
