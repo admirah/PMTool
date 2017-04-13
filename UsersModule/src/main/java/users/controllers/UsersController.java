@@ -4,6 +4,7 @@ import users.database.User;
 import users.models.Factory;
 import users.models.ResponseModel;
 import users.models.UserModel;
+import users.models.UsersIds;
 import users.services.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -44,6 +45,20 @@ public class UsersController {
         return new ResponseEntity(new ResponseModel("User not found"), HttpStatus.NOT_FOUND);
     }
 
+    @RequestMapping(value = "/all", method = RequestMethod.POST, produces = "application/json")
+    public @ResponseBody ResponseEntity<List<UserModel>> GetByIds(@RequestBody UsersIds model) {
+        try {
+        	List<UserModel> usersModel = new ArrayList<>();
+            service.Get().stream().filter(x -> model.getIds().contains(x.getId()))
+            					  .map(x -> factory.Create(x))
+            					  .forEach(x -> usersModel.add(x));
+            return new ResponseEntity<List<UserModel>>(usersModel, HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        return new ResponseEntity(new ResponseModel("Error while fetching data"), HttpStatus.BAD_REQUEST);
+    }
+    
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<UserModel> Get(@PathVariable("id") Long id) {
         try {
