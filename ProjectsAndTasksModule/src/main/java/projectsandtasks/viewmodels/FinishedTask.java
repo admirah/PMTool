@@ -1,9 +1,9 @@
-package viewmodels;
+package projectsandtasks.viewmodels;
 
-import org.joda.time.DateTime;
+import java.util.Date;
 
 public class FinishedTask {
-	private int userId;
+	private Long userId;
 	private String name;
 	public String getName() {
 		return name;
@@ -12,11 +12,11 @@ public class FinishedTask {
 		this.name = name;
 	}
 	private String taskName;
-	private DateTime finishedOn;
-	public int getUserId() {
+	private Date finishedOn;
+	public Long getUserId() {
 		return userId;
 	}
-	public void setUserId(int userId) {
+	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
 	public String getTaskName() {
@@ -25,18 +25,17 @@ public class FinishedTask {
 	public void setTaskName(String taskName) {
 		this.taskName = taskName;
 	}
-	public DateTime getFinishedOn() {
+	public Date getFinishedOn() {
 		return finishedOn;
 	}
-	public void setFinishedOn(DateTime finishedOn) {
+	public void setFinishedOn(Date finishedOn) {
 		this.finishedOn = finishedOn;
 	}
-	public FinishedTask(int userId, String name, String taskName, DateTime finishedOn) {
+	public FinishedTask(Long userId, String name, String taskName, Date date) {
 		super();
 		this.userId = userId;
 		this.name = name;
 		this.taskName = taskName;
-		this.finishedOn = finishedOn;
+		this.finishedOn = date;
 	}
-	
 }

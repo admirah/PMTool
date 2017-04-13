@@ -20,9 +20,13 @@ import projectsandtasks.models.UserModel;
 import projectsandtasks.repository.ProjectRepository;
 import projectsandtasks.repository.TaskRepository;
 import projectsandtasks.repository.UsersRepository;
-import viewmodels.FinishedTask;
+import projectsandtasks.viewmodels.FinishedTask;
+import projectsandtasks.viewmodels.UsersIds;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Vejsil on 28.03.2017..
@@ -35,13 +39,28 @@ public class TaskController {
     @Autowired
     private TaskRepository repository;
     @Autowired 
+    private UsersRepository uRepository;
     
-
-    @RequestMapping(value="/finished")
-	public ResponseEntity<List<projectsandtasks.models.Task>> finishedTasks(@RequestParam("projectid") Long projectid) {
-    	System.out.println("HEHEH");
-    	List<projectsandtasks.models.Task> tasks = repository.getAllFinishedTasksForProject();
-    	return new ResponseEntity<List<projectsandtasks.models.Task>>(tasks, HttpStatus.OK);
+	public ResponseEntity<List<projectsandtasks.viewmodels.FinishedTask>> finishedTasks() {
+    	ArrayList<projectsandtasks.models.Task> tasks = (ArrayList<projectsandtasks.models.Task>) repository.getAllFinishedTasksForProject();
+    	ArrayList<FinishedTask> finishedTasks = new ArrayList<FinishedTask>();
+    	ArrayList<Long> idovi = new ArrayList<Long>();
+    	for(projectsandtasks.models.Task task: tasks)
+    		idovi.add(task.getId());
+    	UsersIds userIDs = new UsersIds();
+        userIDs.setIds(idovi);
+    	List<UserModel> sviUseri = uRepository.GetByIds(userIDs);
+    	for(projectsandtasks.models.Task task: tasks){
+    		finishedTasks.add(new FinishedTask(task.getId(), this.getUserName(sviUseri, task.getId()), task.getName(), task.getFinishedOn()));
+    	}
+    	return new ResponseEntity<List<projectsandtasks.viewmodels.FinishedTask>>(finishedTasks, HttpStatus.OK);
 	}
+    
+    private String getUserName(List<UserModel> sviUseri, Long id){
+    	for(UserModel user: sviUseri){
+    		if(user.getId() == id) return user.getName();
+    	}
+		return null;
+    }
 
 }

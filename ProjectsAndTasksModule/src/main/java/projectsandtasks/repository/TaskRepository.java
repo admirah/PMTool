@@ -5,7 +5,7 @@ package projectsandtasks.repository;
  */
 
 import projectsandtasks.models.Task;
-import viewmodels.FinishedTask;
+import projectsandtasks.viewmodels.FinishedTask;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,6 +17,6 @@ import java.util.List;
 public interface TaskRepository extends org.springframework.data.jpa.repository.JpaRepository<Task, Long> {
     List<Task> findById(@Param("id") Long id);
     
-    @Query("SELECT t.owner, t.id, t.finishedOn FROM Task t WHERE t.taskStatus = 1 AND t.project = 1")
+    @Query("SELECT t.owner, t.id, t.finishedOn FROM Task t WHERE t.finishedOn NOT NULL AND t.project = 1")
     List<projectsandtasks.models.Task> getAllFinishedTasksForProject();
 }
