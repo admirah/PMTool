@@ -49,10 +49,10 @@ public class TaskController {
     		idovi.add(task.getId());
     	UsersIds userIDs = new UsersIds();
         userIDs.setIds(idovi);
-    	List<UserModel> sviUseri = uRepository.GetByIds(userIDs);
+    	/*List<UserModel> sviUseri = uRepository.GetByIds(userIDs);
     	for(projectsandtasks.models.Task task: tasks){
     		finishedTasks.add(new FinishedTask(task.getId(), this.getUserName(sviUseri, task.getId()), task.getName(), task.getFinishedOn()));
-    	}
+    	}*/
     	return new ResponseEntity<List<projectsandtasks.viewmodels.FinishedTask>>(finishedTasks, HttpStatus.OK);
 	}
     
