@@ -46,5 +46,4 @@ public class UserService {
         if(user == null) throw new Exception("User not found");
         user.setDeleted(true);
     }
-
 }
