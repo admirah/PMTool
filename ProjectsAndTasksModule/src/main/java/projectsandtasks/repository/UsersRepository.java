@@ -14,7 +14,8 @@ import projectsandtasks.viewmodels.UsersIds;
 public interface UsersRepository {
 	@RequestMapping("/users")
 	public ResponseEntity<List<UserModel>> Get();
+	
 	@RequestMapping("/all")
-	public ResponseEntity<List<UserModel>> GetByIds(UsersIds model);
+	public List<UserModel> GetByIds(UsersIds model);
 	
 }
