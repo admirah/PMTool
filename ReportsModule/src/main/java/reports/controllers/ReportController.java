@@ -19,10 +19,9 @@ import reports.models.UsersIds;
 import reports.repository.TaskRepository;
 import reports.repository.UsersRepository;
 import reports.viewmodels.TaskModel;
-import reports.viewmodels.UserModel;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -63,12 +62,6 @@ public class ReportController {
         return new ResponseEntity(new ResponseModel("Error while fetching data"), HttpStatus.BAD_REQUEST);
     }
 
-    public Long getUserName(List<UserModel> sviUseri, Long id){
-        for(UserModel user: sviUseri){
-            if(user.getId() == id) return user.getId();
-        }
-        return null;
-    }
     public ResponseEntity<List<reports.viewmodels.TaskModel>> tasksById(int id){
         List<TaskModel> tasks =(List<TaskModel>) repository.getFinishedTasks();
         ArrayList<TaskModel> taskoviZaUsera = new ArrayList<>();
