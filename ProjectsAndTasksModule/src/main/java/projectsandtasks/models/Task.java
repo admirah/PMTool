@@ -34,6 +34,19 @@ public class Task {
     private Date startedOn;
     private Date endOn;
 
+    public Task(Task x) {
+        this.endOn = x.endOn;
+        this.startedOn = x.startedOn;
+        this.orderNo = x.orderNo;
+        this.weight = x.weight;
+        this.owner = x.owner;
+        this.finishedOn = x.finishedOn;
+        this.createdOn = x.createdOn;
+        this.description = x.description;
+        this.name = x.name;
+        this.id = x.id;
+    }
+
     public TaskStatus getTaskStatus() {
         return taskStatus;
     }

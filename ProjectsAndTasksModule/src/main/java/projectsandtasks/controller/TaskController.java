@@ -40,9 +40,12 @@ public class TaskController {
     private TaskRepository repository;
     @Autowired 
     private UsersRepository uRepository;
-    
-	public ResponseEntity<List<projectsandtasks.viewmodels.FinishedTask>> finishedTasks() {
-    	ArrayList<projectsandtasks.models.Task> tasks = (ArrayList<projectsandtasks.models.Task>) repository.getAllFinishedTasksForProject();
+
+    @RequestMapping(value = "/finished", method = RequestMethod.GET, produces = "application/json")
+	public ResponseEntity<List<projectsandtasks.viewmodels.FinishedTask>> finishedTasks(@RequestParam(value="projectId") Long projectId) {
+		List<projectsandtasks.models.Task> tasks = new ArrayList<>();
+		repository.findAll().stream().filter(x -> {return (x.getProject().getId() == projectId && x.getFinishedOn() != null);}).map(x -> new projectsandtasks.models.Task(x))
+				.forEach(x -> tasks.add(x));
     	ArrayList<FinishedTask> finishedTasks = new ArrayList<FinishedTask>();
     	ArrayList<Long> idovi = new ArrayList<Long>();
     	for(projectsandtasks.models.Task task: tasks)
