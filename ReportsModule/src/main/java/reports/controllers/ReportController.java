@@ -11,7 +11,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import reports.models.Report;
 import reports.models.ReportDao;
 import reports.models.ResponseModel;
+import reports.repository.TaskRepository;
+import reports.viewmodels.TaskModel;
 
+import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,6 +23,48 @@ import java.util.List;
  */
 @Controller
 public class ReportController {
+
+    @Autowired
+    private TaskRepository repository;
+
+    @Autowired
+    private ReportDao reportDao;
+
+    public ResponseEntity<List<reports.viewmodels.TaskModel>> tasksById(int id){
+        List<TaskModel> tasks =(List<TaskModel>) repository.getFinishedTasks();
+        ArrayList<TaskModel> taskoviZaUsera = new ArrayList<>();
+        for (TaskModel task: tasks)
+            if (task.getUserId()==id)
+            {
+                taskoviZaUsera.add(task);
+            }
+            return new ResponseEntity<List<TaskModel>>(taskoviZaUsera,HttpStatus.OK);
+
+    }
+    public ResponseEntity<List<reports.viewmodels.TaskModel>> tasksByDateAndMembers(int id, Date date){
+        List<TaskModel> tasks =(List<TaskModel>) repository.getFinishedTasks();
+        ArrayList<TaskModel> taskoviZaUsera = new ArrayList<>();
+        for (TaskModel task: tasks)
+            if (task.getUserId()==id && task.getFinishedOn()==date)
+            {
+                taskoviZaUsera.add(task);
+            }
+        return new ResponseEntity<List<TaskModel>>(taskoviZaUsera,HttpStatus.OK);
+
+    }
+    public ResponseEntity<List<reports.viewmodels.TaskModel>> tasksByDateWeight(int weight, Date date){
+        List<TaskModel> tasks =(List<TaskModel>) repository.getFinishedTasks();
+        ArrayList<TaskModel> taskovi = new ArrayList<>();
+
+        for (TaskModel task: tasks)
+            if (task.getWeightValue()==weight && task.getFinishedOn()==date)
+            {
+                taskovi.add(task);
+            }
+        return new ResponseEntity<List<TaskModel>>(taskovi,HttpStatus.OK);
+
+    }
+
 
     @RequestMapping(value = "", method = RequestMethod.PATCH, produces = "application/json")
     public ResponseEntity<Report> create(@RequestBody Report report){
@@ -76,7 +122,6 @@ public class ReportController {
         return new ResponseEntity<Report>(report,HttpStatus.OK);
     }
 
-    @Autowired
-    private ReportDao reportDao;
+
 }
 

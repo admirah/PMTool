@@ -33,7 +33,7 @@ public class Application {
 
 }
 
-
+/*
 @RefreshScope
 @RestController
 class MessageRestController {
@@ -56,4 +56,4 @@ class MessageRestController {
             @PathVariable String applicationName) {
         return this.discoveryClient.getInstances(applicationName);
     }
-}
+}*/

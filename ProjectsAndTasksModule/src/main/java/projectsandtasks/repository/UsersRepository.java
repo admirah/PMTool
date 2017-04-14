@@ -8,9 +8,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import projectsandtasks.FeignConfiguration;
 import projectsandtasks.models.UserModel;
+import projectsandtasks.viewmodels.UsersIds;
 
 @FeignClient(name = "users-module", configuration = FeignConfiguration.class)
 public interface UsersRepository {
 	@RequestMapping("/users")
 	public ResponseEntity<List<UserModel>> Get();
+	
+	@RequestMapping("/all")
+	public List<UserModel> GetByIds(UsersIds model);
+	
 }
