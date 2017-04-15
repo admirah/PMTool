@@ -1,5 +1,6 @@
 package projectsandtasks.controller;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.h2.util.Task;
 import org.hibernate.sql.Insert;
 import org.slf4j.Logger;
@@ -21,12 +22,11 @@ import projectsandtasks.repository.ProjectRepository;
 import projectsandtasks.repository.TaskRepository;
 import projectsandtasks.repository.UsersRepository;
 import projectsandtasks.viewmodels.FinishedTask;
+import projectsandtasks.viewmodels.FinishedTaskGrouped;
+import projectsandtasks.viewmodels.FinishedTaskGroupedTotal;
 import projectsandtasks.viewmodels.UsersIds;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Vejsil on 28.03.2017..
@@ -58,8 +58,22 @@ public class TaskController {
     	}
     	return new ResponseEntity<List<projectsandtasks.viewmodels.FinishedTask>>(finishedTasks, HttpStatus.OK);
 	}
-    
-    private String getUserName(List<UserModel> sviUseri, Long id){
+
+	@RequestMapping(value = "/finished/grouped", method = RequestMethod.GET, produces = "application/json")
+	public ResponseEntity<FinishedTaskGroupedTotal> finishedTasksGroupedBy (@RequestParam(value="taskStatus") Long taskStatus){
+		Date dateBefore30Days = DateUtils.addDays(new Date(),-30); //day 30 days ago
+		ArrayList<FinishedTaskGrouped> finishedTasksGroupedList = new ArrayList<FinishedTaskGrouped>();
+    	repository.findAll().stream().filter(x -> {return (x.getTaskStatus().getId() == taskStatus && x.getFinishedOn() != null && x.getFinishedOn().compareTo(dateBefore30Days) > 0);}).map(x -> new FinishedTaskGrouped(x)).forEach((x -> finishedTasksGroupedList.add(x)));
+    	int totalWeight = 0;
+    	for(FinishedTaskGrouped ftG: finishedTasksGroupedList){
+    		totalWeight += ftG.getWeight().getValue();
+		}
+		FinishedTaskGroupedTotal finishedTaskGroupedTotal = new FinishedTaskGroupedTotal(finishedTasksGroupedList, totalWeight);
+    	return new ResponseEntity<FinishedTaskGroupedTotal>(finishedTaskGroupedTotal, HttpStatus.OK);
+	}
+
+
+	private String getUserName(List<UserModel> sviUseri, Long id){
     	for(UserModel user: sviUseri){
     		if(user.getId() == id) return user.getName();
     	}
