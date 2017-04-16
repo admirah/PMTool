@@ -1,10 +1,10 @@
 package projectsandtasks;
 
+import feign.Logger;
+import feign.Request;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import feign.Logger;
-import feign.Request;
 
 @Configuration
 public class FeignConfiguration {
@@ -17,4 +17,6 @@ public class FeignConfiguration {
     public Request.Options options() {
         return new Request.Options(FIVE_SECONDS, FIVE_SECONDS);
     }
+
+
 }

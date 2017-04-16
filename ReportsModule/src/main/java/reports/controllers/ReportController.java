@@ -6,11 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import reports.models.Report;
 import reports.models.ReportDao;
 import reports.models.ResponseModel;
@@ -62,15 +58,10 @@ public class ReportController {
         return new ResponseEntity(new ResponseModel("Error while fetching data"), HttpStatus.BAD_REQUEST);
     }
 
-    public ResponseEntity<List<reports.viewmodels.TaskModel>> tasksById(int id){
-        List<TaskModel> tasks =(List<TaskModel>) repository.getFinishedTasks();
-        ArrayList<TaskModel> taskoviZaUsera = new ArrayList<>();
-        for (TaskModel task: tasks)
-            if (task.getUserId()==id)
-            {
-                taskoviZaUsera.add(task);
-            }
-            return new ResponseEntity<List<TaskModel>>(taskoviZaUsera,HttpStatus.OK);
+    @RequestMapping(value = "task/numberoftasks", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<String> tasksById(@RequestParam(value="projectId") long projectId,@RequestParam(value="userId") long userId){
+        return repository.finishedTasksGroupedBy(projectId,userId);
+
 
     }
     public ResponseEntity<List<reports.viewmodels.TaskModel>> tasksByDateAndMembers(int id, Date date){
