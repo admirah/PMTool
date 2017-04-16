@@ -1,24 +1,15 @@
 package projectsandtasks.controller;
 
 import org.apache.commons.lang.time.DateUtils;
-import org.h2.util.Task;
-import org.hibernate.sql.Insert;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.netflix.feign.EnableFeignClients;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-
-import projectsandtasks.Application;
-import projectsandtasks.helpers.ResponseModel;
-import projectsandtasks.models.Project;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import projectsandtasks.models.UserModel;
-import projectsandtasks.repository.ProjectRepository;
 import projectsandtasks.repository.TaskRepository;
 import projectsandtasks.repository.UsersRepository;
 import projectsandtasks.viewmodels.FinishedTask;
@@ -26,7 +17,9 @@ import projectsandtasks.viewmodels.FinishedTaskGrouped;
 import projectsandtasks.viewmodels.FinishedTaskGroupedTotal;
 import projectsandtasks.viewmodels.UsersIds;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Vejsil on 28.03.2017..
@@ -63,10 +56,10 @@ public class TaskController {
 	public ResponseEntity<FinishedTaskGroupedTotal> finishedTasksGroupedBy (@RequestParam(value="taskStatus") Long taskStatus){
 		Date dateBefore30Days = DateUtils.addDays(new Date(),-30); //day 30 days ago
 		ArrayList<FinishedTaskGrouped> finishedTasksGroupedList = new ArrayList<FinishedTaskGrouped>();
-    	repository.findAll().stream().filter(x -> {return (x.getTaskStatus().getId() == taskStatus && x.getFinishedOn() != null && x.getFinishedOn().compareTo(dateBefore30Days) > 0);}).map(x -> new FinishedTaskGrouped(x)).forEach((x -> finishedTasksGroupedList.add(x)));
+    	repository.findAll().stream().filter(x -> {return (x.getTaskStatus().getId() == taskStatus && x.getFinishedOn() != null && x.getFinishedOn().compareTo(dateBefore30Days) > 0);}).map(x -> new FinishedTaskGrouped(x.getTaskStatus().getName(),x.getName(),x.getFinishedOn(),x.getWeight().getName(),x.getWeight().getValue())).forEach((x -> finishedTasksGroupedList.add(x)));
     	int totalWeight = 0;
     	for(FinishedTaskGrouped ftG: finishedTasksGroupedList){
-    		totalWeight += ftG.getWeight().getValue();
+    		totalWeight += ftG.getWeightValue();
 		}
 		FinishedTaskGroupedTotal finishedTaskGroupedTotal = new FinishedTaskGroupedTotal(finishedTasksGroupedList, totalWeight);
     	return new ResponseEntity<FinishedTaskGroupedTotal>(finishedTaskGroupedTotal, HttpStatus.OK);

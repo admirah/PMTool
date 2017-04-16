@@ -14,7 +14,8 @@ import reports.models.UserModel;
 import reports.models.UsersIds;
 import reports.repository.TaskRepository;
 import reports.repository.UsersRepository;
-import reports.viewmodels.TaskModel;
+import reports.viewmodels.FinishedTask;
+import reports.viewmodels.FinishedTaskGroupedTotal;
 
 import java.util.Date;
 import java.util.ArrayList;
@@ -64,27 +65,38 @@ public class ReportController {
 
 
     }
-    public ResponseEntity<List<reports.viewmodels.TaskModel>> tasksByDateAndMembers(int id, Date date){
-        List<TaskModel> tasks =(List<TaskModel>) repository.getFinishedTasks();
-        ArrayList<TaskModel> taskoviZaUsera = new ArrayList<>();
-        for (TaskModel task: tasks)
+    @RequestMapping(value = "/task/finished", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<List<FinishedTask>> finishedTasks(@RequestParam(value="projectId") long projectId)
+    {
+        return repository.finishedTasks(projectId);
+    }
+
+    @RequestMapping(value = "/task/finished/grouped", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<FinishedTaskGroupedTotal> finishedTasksGroupedBy(@RequestParam(value="taskStatus") long status)
+    {
+        return repository.finishedTasksGroupedBy(status);
+    }
+    public ResponseEntity<List<reports.viewmodels.FinishedTask>> tasksByDateAndMembers(int id, Date date){
+        List<FinishedTask> tasks =(List<FinishedTask>) repository.getFinishedTasks();
+        ArrayList<FinishedTask> taskoviZaUsera = new ArrayList<>();
+        for (FinishedTask task: tasks)
             if (task.getUserId()==id && task.getFinishedOn()==date)
             {
                 taskoviZaUsera.add(task);
             }
-        return new ResponseEntity<List<TaskModel>>(taskoviZaUsera,HttpStatus.OK);
+        return new ResponseEntity<List<FinishedTask>>(taskoviZaUsera,HttpStatus.OK);
 
     }
-    public ResponseEntity<List<reports.viewmodels.TaskModel>> tasksByDateWeight(int weight, Date date){
-        List<TaskModel> tasks =(List<TaskModel>) repository.getFinishedTasks();
-        ArrayList<TaskModel> taskovi = new ArrayList<>();
+    public ResponseEntity<List<reports.viewmodels.FinishedTask>> tasksByDateWeight(int weight, Date date){
+        List<FinishedTask> tasks =(List<FinishedTask>) repository.getFinishedTasks();
+        ArrayList<FinishedTask> taskovi = new ArrayList<>();
 
-        for (TaskModel task: tasks)
+        for (FinishedTask task: tasks)
             if (task.getWeightValue()==weight && task.getFinishedOn()==date)
             {
                 taskovi.add(task);
             }
-        return new ResponseEntity<List<TaskModel>>(taskovi,HttpStatus.OK);
+        return new ResponseEntity<List<FinishedTask>>(taskovi,HttpStatus.OK);
 
     }
 

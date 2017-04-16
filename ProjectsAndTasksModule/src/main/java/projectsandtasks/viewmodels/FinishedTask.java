@@ -5,14 +5,15 @@ import java.util.Date;
 public class FinishedTask {
 	private Long userId;
 	private String name;
+	private String taskName;
+	private Date finishedOn;
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
-	private String taskName;
-	private Date finishedOn;
+
 	public Long getUserId() {
 		return userId;
 	}

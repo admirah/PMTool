@@ -1,11 +1,10 @@
-package projectsandtasks.viewmodels;
+package reports.viewmodels;
 
 import java.util.Date;
 
 /**
- * Created by Vejsil on 15.04.2017..
- */
-public class FinishedTaskGrouped {
+ * Created by Emina on 16.04.2017..
+ */public class FinishedTaskGrouped {
 
     private String taskStatusName;
     private String name;
@@ -53,7 +52,9 @@ public class FinishedTaskGrouped {
         this.finishedOn = finishedOn;
     }
 
-   public FinishedTaskGrouped(String taskStatusName, String name, Date finishedOn, String weightName, int weightValue){
+    public FinishedTaskGrouped(){}
+
+    public FinishedTaskGrouped(String taskStatusName, String name, Date finishedOn, String weightName, int weightValue){
         this.taskStatusName = taskStatusName;
         this.name = name;
         this.weightValue =weightValue;
@@ -61,3 +62,4 @@ public class FinishedTaskGrouped {
         this.weightName=weightName;
     }
 }
+
