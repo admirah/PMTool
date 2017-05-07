@@ -13,8 +13,9 @@ import java.util.List;
  */
 @Component
 public class UserService {
+	
     @Autowired
-    private IUserRepository repository;
+    public IUserRepository repository;
 
     @Transactional
     public void Insert(User user){
@@ -29,6 +30,14 @@ public class UserService {
     @Transactional
     public User Get(Long id){
         return (User) repository.findOne(id);
+    }
+    
+    @Transactional
+    public User Get(String username){
+        for (User user : repository.findAll()) {
+			if(user.getUsername().equals(username)) return user;
+		}
+        return null;
     }
 
     @Transactional
