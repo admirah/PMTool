@@ -1,6 +1,9 @@
 package users.models;
 
+import users.database.AuthToken;
 import users.database.User;
+
+import org.apache.http.auth.AUTH;
 import org.springframework.stereotype.Component;
 
 /**
@@ -22,5 +25,15 @@ public class Factory {
     }
     public User Create(UserModel model) {
         return new User(model.getEmail(), model.getName(), model.getBio(), model.getImage());
+    }
+
+    public AuthTokenModel Create(AuthToken auth) {
+    	return new AuthTokenModel() {
+    		{
+    			setToken(auth.getToken());
+    			setExpiration(auth.getExpiration());
+    			setUsername(auth.getUser().getUsername());
+    		}
+    	};
     }
 }
