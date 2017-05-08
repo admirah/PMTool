@@ -101,3 +101,6 @@ hs_err_pid*
 banner.txt
 myvault
 /plain/
+
+PMTool-AngularJS/node_modules
+PMTool-AngularJS/app/jspm_packages
