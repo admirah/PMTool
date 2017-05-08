@@ -26,6 +26,17 @@ public class Factory {
     public User Create(UserModel model) {
         return new User(model.getEmail(), model.getName(), model.getBio(), model.getImage());
     }
+    
+    public User Create(UserRegisterModel model) {
+    	User user = new User();
+    	user.setName(model.getName());
+    	user.setUsername(model.getUsername());
+    	user.setPassword(model.getPassword());
+    	user.setBio(model.getBio());
+    	user.setEmail(model.getEmail());
+    	user.setImage(model.getImage());
+    	return user;
+    }
 
     public AuthTokenModel Create(AuthToken auth) {
     	return new AuthTokenModel() {

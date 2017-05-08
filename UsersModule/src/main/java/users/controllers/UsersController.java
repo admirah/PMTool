@@ -4,6 +4,7 @@ import users.database.User;
 import users.models.Factory;
 import users.models.ResponseModel;
 import users.models.UserModel;
+import users.models.UserRegisterModel;
 import users.models.UsersIds;
 import users.services.UserService;
 import org.apache.logging.log4j.LogManager;
@@ -57,6 +58,18 @@ public class UsersController {
             logger.error(e.getMessage());
         }
         return new ResponseEntity(new ResponseModel("Error while fetching data"), HttpStatus.BAD_REQUEST);
+    }
+    
+    @RequestMapping(value = "/register", method = RequestMethod.POST, produces = "application/json")
+    public @ResponseBody ResponseEntity<ResponseModel> Register(@RequestBody UserRegisterModel model) {
+        try {
+        	User user = factory.Create(model);
+        	service.Insert(user);
+        	return new ResponseEntity<ResponseModel>(new ResponseModel("User added"), HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        return new ResponseEntity<ResponseModel>(new ResponseModel("Error while fetching data"), HttpStatus.BAD_REQUEST);
     }
     
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
