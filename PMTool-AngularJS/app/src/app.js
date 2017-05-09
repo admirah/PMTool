@@ -7,8 +7,9 @@ import 'angular-material';
 import 'angular-ui-router';
 import AppController from 'src/AppController';
 import UsersModule from 'src/users/module';
+import UserServices from 'src/users/services/module';
 
-export default angular.module( 'app', [ 'ngMaterial', 'ui.router', UsersModule.name ] )
+export default angular.module( 'app', [ 'ngMaterial', 'ui.router', UserServices.name, UsersModule.name] )
   .config(['$mdIconProvider', '$mdThemingProvider', '$urlRouterProvider', '$stateProvider', ($mdIconProvider, $mdThemingProvider, $urlRouterProvider, $stateProvider) => {
     // Register the user `avatar` icons
     $mdIconProvider
@@ -25,6 +26,17 @@ export default angular.module( 'app', [ 'ngMaterial', 'ui.router', UsersModule.n
       .accentPalette('red');
 
     $urlRouterProvider.otherwise('/');
+
+    $stateProvider.state('login', {
+          url: '/login',
+          templateUrl: 'src/users/login/template.html',
+          controller: "loginController"
+        })
+        .state('register', {
+          url: '/register',
+          templateUrl: 'src/users/register/template.html',
+          controller: "registerController"
+    });
 
   }])
   .controller('AppController', AppController);

@@ -1,6 +1,10 @@
+import UserServices from './../services/module';
+
 class Controller {
-    constructor($routeParams, $location) {
-        console.log("REGISTER CONTROLLER")
+    constructor(UserService) {
+    	console.log("JEDA");
+        this.UserService = UserService;
+        console.log(this.UserService);
     }
     getReportFullName(path) {
         console.log(path);
@@ -8,6 +12,12 @@ class Controller {
     }
 }
 
+Controller.$inject = ['UserService'];
 
-Controller.$inject = [];
-export default [ Controller];
+export default angular.module( 'app.users.register', [ 'ngMaterial', 'ui.router', UserServices.name ])
+	  .config(['$stateProvider', ($stateProvider) => {
+		    $stateProvider.state('register', {
+		    	url: '/register',
+		    	templateUrl: 'src/users/register/template.html',
+		    	controller: Controller});
+}]).controller('RegisterController', Controller);

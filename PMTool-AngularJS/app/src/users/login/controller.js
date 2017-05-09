@@ -1,5 +1,6 @@
 class Controller {
     constructor($routeParams, $location) {
+    	console.log($routeParams);
         console.log("LOGIN CONTROLLER")
     }
     getReportFullName(path) {

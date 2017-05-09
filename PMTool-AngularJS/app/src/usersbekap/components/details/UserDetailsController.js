@@ -6,7 +6,8 @@ class UserDetailsController  {
    * @param $mdBottomSheet
    * @param $log
    */
-  constructor($mdBottomSheet, $log) {
+  constructor(UserService, $mdBottomSheet, $log) {
+    console.log("OK");
     this.$mdBottomSheet = $mdBottomSheet;
     this.$log = $log;
   }
@@ -21,7 +22,7 @@ class UserDetailsController  {
     $mdBottomSheet.show({
       parent: angular.element(document. getElementById('content')),
       templateUrl: 'src/users/components/details/ContactSheet.html',
-      controller: [ '$mdBottomSheet', UserSheetController],
+      controller: [ 'UserService', $mdBottomSheet', UserSheetController],
       controllerAs: "$ctrl",
       bindToController : true
     }).then((clickedItem) => {

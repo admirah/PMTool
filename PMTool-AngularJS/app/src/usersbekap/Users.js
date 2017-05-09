@@ -1,16 +1,22 @@
 // Load the custom app ES6 modules
+import 'ngStorage';
 
-import UsersDataService from 'src/users/services/UsersDataService';
+import UsersService from 'src/usersbekap/services/UsersService';
 
-import UsersList from 'src/users/components/list/UsersList';
-import UserDetails from 'src/users/components/details/UserDetails';
+import UsersList from 'src/usersbekap/components/list/UsersList';
+import UserDetails from 'src/usersbekap/components/details/UserDetails';
+import UserServices from 'src/users/services/user.service';
 
 // Define the Angular 'users' module
 
 export default angular
-  .module("users", ['ngMaterial'])
-
-  .component(UsersList.name, UsersList.config)
+  .module("users", ['ngMaterial', 'UserServices.name', 'ngStorage'])
+  .config(['$stateProvider', function($stateProvider) {
+  	$stateProvider.state('register1', {
+  		url: '/register1',
+  		template: '<user-details></user-details>'
+  	});
+  }])
   .component(UserDetails.name, UserDetails.config)
 
-  .service("UsersDataService", UsersDataService);
+  .service("UsersService", ['$localStorage', UsersDataService]);
