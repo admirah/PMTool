@@ -1,6 +1,6 @@
 class Controller {
     constructor($routeParams, $location) {
-        console.log("LOGIN CONTROLLER")
+        console.log("REGISTER CONTROLLER")
     }
     getReportFullName(path) {
         console.log(path);
@@ -10,4 +10,4 @@ class Controller {
 
 
 Controller.$inject = [];
-export default [Controller];
+export default [ Controller];

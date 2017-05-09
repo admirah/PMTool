@@ -54,7 +54,6 @@ System.config({
     "angular-material": "github:angular/bower-material@master",
     "angular-messages": "github:angular/bower-angular-messages@1.5.8",
     "angular-mocks": "github:angular/bower-angular-mocks@1.5.8",
-    "angular-route": "npm:angular-route@1.6.4",
     "angular-ui-router": "github:angular-ui/ui-router@0.4.2",
     "css": "github:systemjs/plugin-css@0.1.21",
     "json": "github:systemjs/plugin-json@0.1.0",

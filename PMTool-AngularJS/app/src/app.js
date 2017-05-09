@@ -4,13 +4,12 @@ import angular from 'angular';
 import 'angular-animate';
 import 'angular-aria';
 import 'angular-material';
-import 'angular-route';
-
+import 'angular-ui-router';
 import AppController from 'src/AppController';
-import Login from 'src/users/login/module';
+import UsersModule from 'src/users/module';
 
-export default angular.module( 'app', [ 'ngMaterial', 'ngRoute', Login.name ] )
-  .config(($mdIconProvider, $mdThemingProvider, $locationProvider) => {
+export default angular.module( 'app', [ 'ngMaterial', 'ui.router', UsersModule.name ] )
+  .config(['$mdIconProvider', '$mdThemingProvider', '$urlRouterProvider', '$stateProvider', ($mdIconProvider, $mdThemingProvider, $urlRouterProvider, $stateProvider) => {
     // Register the user `avatar` icons
     $mdIconProvider
       .defaultIconSet("./assets/svg/avatars.svg", 128)
@@ -25,7 +24,7 @@ export default angular.module( 'app', [ 'ngMaterial', 'ngRoute', Login.name ] )
       .primaryPalette('brown')
       .accentPalette('red');
 
-    $locationProvider.hashPrefix(''); // Angular 1.6 defaults to '!'
+    $urlRouterProvider.otherwise('/');
 
-  })
+  }])
   .controller('AppController', AppController);
