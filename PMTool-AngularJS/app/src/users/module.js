@@ -8,7 +8,17 @@ export default angular.module('app.login', ['ngStorage', UserServices.name]).con
 			//redirect to main site if login is sucessuful
 		});
 	}
-}]).factory('UserService', UserService);
+}]).controller('registerController', ['UserService', '$scope', function(UserService, $scope){
+	$scope.user = {username: "", email: "", name: "", password: "", confirmPassword: "", bio: ""};
+	$scope.errorMsg = "";
+	$scope.submitRegister = function() {
+		if($scope.user.password != $scope.user.confirmPassword) {$scope.errorMsg = "Passwords must be identical."; return;}
+		UserService.register($scope.user).then(function(res){
+			console.log(res);
+		})
+	}
+}])
+.factory('UserService', UserService);
 function UserService($http, $localStorage) {       
     return {
     	authenticate: function(username, password) {
@@ -49,17 +59,21 @@ function UserService($http, $localStorage) {
         };       // Encode the String
         console.log(username + " " + password);
         let encodedUsernameAndPass = encode(username+":"+password);
+
         $http.defaults.headers.common['Authorization'] = 'Basic ' + encodedUsernameAndPass;
+
         return $http.get('http://localhost:8082/login').then(function(resp){
-        	console.log(resp);
-        	console.log(encodedUsernameAndPass);
             $localStorage.token = resp.data.Token;
-            $localStorage.token =" DUMMY";
+            console.log(resp);
         });
     },
+    register: function(user){
+    	delete user.confirmPassword;
+    	return $http.post('http://localhost:8082/users/register', user).then(function(res){
+    		console.log(res);
+    	})
+    },
     getToken: function() {
-    	$localStorage.token = "DUMMY";
-    	console.log($localStorage);
         return $localStorage.token;
     }}
 }
