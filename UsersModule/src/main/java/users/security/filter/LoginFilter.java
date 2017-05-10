@@ -37,11 +37,11 @@ import users.services.AuthTokenService;
 import users.services.UserService;
 
 public class LoginFilter extends AbstractAuthenticationProcessingFilter {
-	
+
     private UserService userService;
     private AuthTokenService authTokenService;
-	
-	public LoginFilter(RequestMatcher requiresAuthenticationRequestMatcher, UserService userService, AuthTokenService authTokenService) {		
+
+	public LoginFilter(RequestMatcher requiresAuthenticationRequestMatcher, UserService userService, AuthTokenService authTokenService) {
 		super(requiresAuthenticationRequestMatcher);
 		
 		this.userService = userService;

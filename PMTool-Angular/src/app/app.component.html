@@ -1,0 +1,30 @@
+
+<style>
+
+    .example-icon {
+        padding: 0 14px;
+    }
+
+    .example-spacer {
+        flex: 1 1 auto;
+    }
+</style>
+<md-toolbar color="primary" style="padding:0 150px">
+
+    <span > Project Managment Tool</span>
+   <span class="example-spacer"></span>
+    <div >
+        <a md-button routerLink="/login" *ngIf="!loggedIn()">Login
+            <md-icon class="example-icon">open_in_browser</md-icon>
+        </a>
+        <a md-button routerLink="/register" *ngIf="!loggedIn()">Register
+            <md-icon class="example-icon">perm_identity</md-icon>
+        </a>
+
+        <a md-button routerLink="/logout" *ngIf="loggedIn()">Log out
+            <md-icon class="example-icon">exit_to_app</md-icon>
+        </a>
+    </div>
+
+</md-toolbar>
+<router-outlet></router-outlet>

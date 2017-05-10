@@ -1,0 +1,54 @@
+<style>
+    .example-full-width {
+        width: 100%;
+    }
+
+    .hedbot{
+        margin-bottom:2px;
+    }
+
+</style>
+<md-card style="width:25%; margin:auto; margin-top:200px">
+    <form #f="ngForm" (ngSubmit)="onRegister(f.value)" style="margin:auto">
+        <md-card-content >
+            <md-card-header class="hedbot">
+                <md-card-title><b>Register</b></md-card-title>
+                <hr>
+            </md-card-header>
+            <md-input-container class="example-full-width">
+                <input mdInput tye="text" placeholder="name" [(ngModel)]="userData.name"
+                       [ngModelOptions]="{standalone: true}"/>
+            </md-input-container>
+            <br>
+            <md-input-container class="example-full-width">
+                <input mdInput type="text" placeholder="surname" [(ngModel)]="userData.surname"
+                       [ngModelOptions]="{standalone: true}"/>
+            </md-input-container>
+            <br>
+            <md-input-container class="example-full-width">
+                <input mdInput type="email" placeholder="email" [(ngModel)]="userData.email"
+                       [ngModelOptions]="{standalone: true}"/>
+            </md-input-container>
+            <br>
+            <md-input-container class="example-full-width">
+                <input mdInput type="text" placeholder="bio" [(ngModel)]="userData.bio"
+                       [ngModelOptions]="{standalone: true}"/>
+            </md-input-container>
+            <br>
+            <md-input-container class="example-full-width">
+                <input mdInput type="username" placeholder="username" [(ngModel)]="userData.username"
+                       [ngModelOptions]="{standalone: true}"/>
+            </md-input-container>
+            <br>
+            <md-input-container class="example-full-width">
+                <input mdInput type="password" placeholder="password" [(ngModel)]="userData.password"
+                       [ngModelOptions]="{standalone: true}"/>
+            </md-input-container>
+
+        </md-card-content>
+        <md-card-actions class="example-full-width">
+            <button md-raised-button type="submit" style="float:right; margin-right:10px;">Login</button>
+        </md-card-actions>
+    </form>
+</md-card>
+    
