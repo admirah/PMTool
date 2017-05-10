@@ -5,11 +5,12 @@ import 'angular-animate';
 import 'angular-aria';
 import 'angular-material';
 import 'angular-ui-router';
+import 'ngStorage';
 import AppController from 'src/AppController';
 import UsersModule from 'src/users/module';
 import UserServices from 'src/users/services/module';
 
-export default angular.module( 'app', [ 'ngMaterial', 'ui.router', UserServices.name, UsersModule.name] )
+export default angular.module( 'app', [ 'ngMaterial', 'ui.router', 'ngStorage', UserServices.name, UsersModule.name] )
   .config(['$mdIconProvider', '$mdThemingProvider', '$urlRouterProvider', '$stateProvider', ($mdIconProvider, $mdThemingProvider, $urlRouterProvider, $stateProvider) => {
     // Register the user `avatar` icons
     $mdIconProvider
@@ -27,7 +28,12 @@ export default angular.module( 'app', [ 'ngMaterial', 'ui.router', UserServices.
 
     $urlRouterProvider.otherwise('/');
 
-    $stateProvider.state('login', {
+    $stateProvider.state('main', {
+        url: '/',
+        controller: 'AppController',
+        templateUrl: 'src/template.html'
+      })
+        .state('login', {
           url: '/login',
           templateUrl: 'src/users/login/template.html',
           controller: "loginController"
@@ -39,4 +45,11 @@ export default angular.module( 'app', [ 'ngMaterial', 'ui.router', UserServices.
     });
 
   }])
-  .controller('AppController', AppController);
+  .controller('AppController', ['$mdSidenav', '$scope', '$localStorage', function AppController($mdSidenav, $scope, $localStorage) {
+  $scope.message = $localStorage.token ? "You are logged in. CONGRATS :)" : "You are not logged in :("; 
+  $scope.logout = function() {
+    $localStorage.token = null;
+    window.location.reload(true);
+  }
+}
+]);
