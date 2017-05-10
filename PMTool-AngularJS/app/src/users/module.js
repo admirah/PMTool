@@ -1,20 +1,26 @@
 import UserServices from 'src/users/services/module';
 import 'ngStorage';
-export default angular.module('app.login', ['ngStorage', UserServices.name]).controller('loginController', ['UserService', '$scope', function(UserService, $scope){
+export default angular.module('app.login', ['ngStorage', UserServices.name]).controller('loginController', ['UserService', '$scope', '$state', function(UserService, $scope, $state){
 	$scope.user = {username: "", password: ""};
+	$scope.errorMsg = "";
 	$scope.submitLogin = function(){
 		UserService.authenticate($scope.user.username, $scope.user.password).then(function(res){
 			console.log(res);
 			//redirect to main site if login is sucessuful
+			if(res.Token) $state.go('main');
+			else $scope.errorMsg = res.Error;
 		});
 	}
-}]).controller('registerController', ['UserService', '$scope', function(UserService, $scope){
+}]).controller('registerController', ['UserService', '$scope', '$state', function(UserService, $scope, $state){
 	$scope.user = {username: "", email: "", name: "", password: "", confirmPassword: "", bio: ""};
 	$scope.errorMsg = "";
 	$scope.submitRegister = function() {
 		if($scope.user.password != $scope.user.confirmPassword) {$scope.errorMsg = "Passwords must be identical."; return;}
 		UserService.register($scope.user).then(function(res){
-			console.log(res);
+			if(res.message == 'User added') {
+				UserService.authenticate($scope.user.username, $scope.user.password);
+				$state.go('main');
+			}
 		})
 	}
 }])
@@ -57,21 +63,24 @@ function UserService($http, $localStorage) {
 
             return output;
         };       // Encode the String
-        console.log(username + " " + password);
         let encodedUsernameAndPass = encode(username+":"+password);
 
         $http.defaults.headers.common['Authorization'] = 'Basic ' + encodedUsernameAndPass;
 
         return $http.get('http://localhost:8082/login').then(function(resp){
             $localStorage.token = resp.data.Token;
-            console.log(resp);
+            return resp.data;
+        }).catch(function(err){
+        	throw err;
         });
     },
     register: function(user){
     	delete user.confirmPassword;
     	return $http.post('http://localhost:8082/users/register', user).then(function(res){
-    		console.log(res);
-    	})
+    		return res.data;
+    	}).catch(function(err){
+    		throw err;
+    	});
     },
     getToken: function() {
         return $localStorage.token;

@@ -4,7 +4,8 @@
  * @param $mdSidenav
  * @constructor
  */
-function AppController($mdSidenav) {
+function AppController($mdSidenav, $scope, $localStorage) {
+	$scope.message = $localStorage.Token ? "You are logged in. CONGRATS :)" : "You are not logged in :("; 
 }
 
-export default ['$mdSidenav', AppController ];
+export default ['$mdSidenav', '$scope', '$localStorage', AppController];
