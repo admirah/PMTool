@@ -30,7 +30,7 @@ public class Project {
     private Date endOn;
     @OneToMany(mappedBy="project")
     private List<Member> projects;
-  @OneToMany(mappedBy="project")
+    @OneToMany(mappedBy="project")
     private List<TaskStatus> taskStatuses;
 
     public Long getId() {
