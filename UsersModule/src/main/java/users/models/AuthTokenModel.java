@@ -18,6 +18,7 @@ public class AuthTokenModel implements Authentication {
 	private String token;
 	private Date expiration;
 	private String username;
+	private Long userId;
 	private boolean isAuthenticated;
 	
 	public String getToken() {
@@ -73,5 +74,11 @@ public class AuthTokenModel implements Authentication {
 	@Override
 	public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
 		this.isAuthenticated = isAuthenticated;
+	}
+	public Long getUserId() {
+		return userId;
+	}
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 }

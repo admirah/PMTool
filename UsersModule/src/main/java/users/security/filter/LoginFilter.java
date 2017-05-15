@@ -84,7 +84,7 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 						auth.setAuthenticated(true);
 						auth.setUsername(username);
 						auth.setToken(tmpToken);
-											
+						auth.setUserId(user.getId());
 						auth.setExpiration(tmpExpiration);
 						
 						AuthToken token = new AuthToken();
@@ -118,9 +118,10 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 		AuthTokenModel result = (AuthTokenModel) authResult;
 		
 		HashMap<String, Object> information = new HashMap<>();
-		information.put("Token", result.getToken());
-		information.put("Expiration", result.getExpiration());
-		information.put("User", result.getUsername());
+		information.put("token", result.getToken());
+		information.put("expiration", result.getExpiration());
+		information.put("username", result.getUsername());
+		information.put("id", result.getUserId());
 		
 		ObjectMapper mapper = new ObjectMapper();
 		response.setCharacterEncoding("UTF-8");
