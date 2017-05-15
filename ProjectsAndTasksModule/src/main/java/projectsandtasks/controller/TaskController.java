@@ -28,16 +28,16 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/task", produces = "application/json")
 public class TaskController {
-	
+
     @Autowired
     private TaskRepository repository;
-    @Autowired 
+    @Autowired
     private UsersRepository uRepository;
 
     @RequestMapping(value = "/finished", method = RequestMethod.GET, produces = "application/json")
 	public ResponseEntity<List<projectsandtasks.viewmodels.FinishedTask>> finishedTasks(@RequestParam(value="projectId") Long projectId) {
 		List<projectsandtasks.models.Task> tasks = new ArrayList<>();
-		repository.findAll().stream().filter(x -> {return (x.getProject().getId() == projectId && x.getFinishedOn() != null);}).map(x -> new projectsandtasks.models.Task(x))
+		repository.findAll().stream().filter(x -> {return (x.getTaskStatus().getProject().getId() == projectId && x.getFinishedOn() != null);}).map(x -> new projectsandtasks.models.Task(x))
 				.forEach(x -> tasks.add(x));
     	ArrayList<FinishedTask> finishedTasks = new ArrayList<FinishedTask>();
     	ArrayList<Long> idovi = new ArrayList<Long>();

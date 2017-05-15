@@ -1,5 +1,8 @@
 package projectsandtasks.models;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -8,6 +11,7 @@ import java.util.List;
  * Created by bake on 3/20/17.
  */
 @Entity
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Project {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -26,11 +30,8 @@ public class Project {
     private Date endOn;
     @OneToMany(mappedBy="project")
     private List<Member> projects;
-    @OneToMany(mappedBy="project")
+  @OneToMany(mappedBy="project")
     private List<TaskStatus> taskStatuses;
-    @OneToMany(mappedBy="project")
-    private List<Task> tasks;
-
 
     public Long getId() {
         return id;
@@ -112,17 +113,9 @@ public class Project {
         this.taskStatuses = taskStatuses;
     }
 
-    public List<Task> getTasks() {
-        return tasks;
-    }
-
-    public void setTasks(List<Task> tasks) {
-        this.tasks = tasks;
-    }
-
     protected Project () {    }
 
-    public Project(String name, Date createdOn, Date finishedOn, String description, int owner, Date startedOn, Date endOn, List<Member> projects, List<TaskStatus> taskStatuses, List<Task> tasks) {
+    public Project(String name, Date createdOn, Date finishedOn, String description, int owner, Date startedOn, Date endOn, List<Member> projects, List<TaskStatus> taskStatuses) {
         this.name = name;
         this.createdOn = createdOn;
         this.finishedOn = finishedOn;
@@ -132,7 +125,6 @@ public class Project {
         this.endOn = endOn;
         this.projects = projects;
         this.taskStatuses = taskStatuses;
-        this.tasks = tasks;
     }
 
 }

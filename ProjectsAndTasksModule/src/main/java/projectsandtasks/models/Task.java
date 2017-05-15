@@ -1,5 +1,8 @@
 package projectsandtasks.models;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -8,7 +11,7 @@ import java.util.List;
  * Created by bake on 3/20/17.
  */
 @Entity
-
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Task {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -21,9 +24,6 @@ public class Task {
     @Temporal(TemporalType.TIMESTAMP)
     private Date finishedOn;
     private Long owner;
-    @ManyToOne
-    @JoinColumn(name = "projectId")
-    private Project project;
     @ManyToOne
     @JoinColumn(name = "taskStatusId")
     private TaskStatus taskStatus;
@@ -114,14 +114,6 @@ public class Task {
         this.owner = owner;
     }
 
-    public Project getProject() {
-        return project;
-    }
-
-    public void setProject(Project project) {
-        this.project = project;
-    }
-
     public Weight getWeight() {
         return weight;
     }
@@ -154,13 +146,13 @@ public class Task {
         this.endOn = endOn;
     }
 
-    public Task(String name, String description, Date createdOn, Date finishedOn, Long owner, Project project, TaskStatus taskStatus, Weight weight, int order, Date startedOn, Date endOn, List<Comment> comments) {
+    //treba nam i ovaj konstruktor, ne  brisati!
+    public Task(String name, String description, Date createdOn, Date finishedOn, Long owner, TaskStatus taskStatus, Weight weight, int order, Date startedOn, Date endOn, List<Comment> comments) {
         this.name = name;
         this.description = description;
         this.createdOn = createdOn;
         this.finishedOn = finishedOn;
         this.owner = owner;
-        this.project = project;
         this.taskStatus = taskStatus;
         this.weight = weight;
         this.orderNo = order;

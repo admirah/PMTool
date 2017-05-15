@@ -1,11 +1,15 @@
 package projectsandtasks.models;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
 
 /**
  * Created by bake on 3/20/17.
  */
 @Entity
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Member {
     public Long getId() {
         return id;
@@ -23,7 +27,7 @@ public class Member {
         this.userId = userId;
     }
 
-    public Project getProject() {
+  public Project getProject() {
         return project;
     }
 
