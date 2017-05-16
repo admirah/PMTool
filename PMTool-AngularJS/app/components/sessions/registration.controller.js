@@ -8,7 +8,8 @@
                 username: 'admin',
                 name: 'emina',
                 bio: 'blablabla',
-                image: ''
+                image: '',
+                password: 'password'
             };
             $scope.register = function () {
                 DataFactory.insert("users/users/register", $scope.user, function() {
