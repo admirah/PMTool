@@ -27,7 +27,7 @@
                 controller: "LogoutController"
             })
             .when("/registration", {
-                template: "app/components/sessions/templates/registration.html",
+                templateUrl: "app/components/sessions/templates/registration.html",
                 controller: "RegistrationController"
             })
             .when("/projects", {
@@ -39,12 +39,12 @@
         $rootScope.$on("$routeChangeStart", function (event, next, current) {
             if (!authenticated()) {
                 var restrictedPage = $.inArray($location.path(), ['/login', '/registration']) === -1;
-                 if (restrictedPage){
-                if ( next.templateUrl != "app/components/sessions/templates/login.html") {
-                    redirectTo = $location.path();
-                    $location.path("/login");
+                if (restrictedPage) {
+                    if (next.templateUrl != "app/components/sessions/templates/login.html") {
+                        redirectTo = $location.path();
+                        $location.path("/login");
+                    }
                 }
-                 }
             }
         });
         $rootScope.authenticated = authenticated;

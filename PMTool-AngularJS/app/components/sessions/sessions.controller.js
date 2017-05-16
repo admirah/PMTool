@@ -40,10 +40,5 @@
         .controller("LogoutController", function() {
             credentials = null;
             window.location.reload();
-        })
-        .controller("RegistrationController", function(){
-            $window.location.href = 'app/components/sessions/templates/registration.html';
-               window.location.reload();
-        });
-        
+        })        
 }());
