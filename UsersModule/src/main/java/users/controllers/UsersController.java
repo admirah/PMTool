@@ -130,42 +130,53 @@ public class UsersController {
     @RequestMapping(value="/authenticate", method = RequestMethod.POST, produces = "application/json")
     public AuthTokenModel authenticate(@RequestParam Map<String,String> credentials) {
     
-    	logger.info("Authentication...");
-    	
     	AuthTokenModel auth = new AuthTokenModel();
     	
-    	String username = credentials.get("username");
-    	String password = credentials.get("password");
-    	
-    	User user = service.Get(username);
-		
-		if(user != null) {
-			/* No hashing password */
-			if(user.getPassword().equals(password)) {
+    	try {
+    		
+	    	logger.info("Authentication...");
+	    	
+	    	
+	    	String username = credentials.get("username");
+	    	String password = credentials.get("password");
+	    	
+	    	logger.info("USER: " + credentials.get("username"));
+	    	
+	    	User user = service.Get(username);
+	    	
+			if(user != null) {
 				
-				/* Delete all previous tokens */
+				logger.info("USER EXISTS");
 				
-				authTokenService.DeleteTokensForUser(user.getId());
-				
-				String tmpToken = username + new Date().getTime(); 
-				Date tmpExpiration = new Date();
-				
-				auth.setAuthenticated(true);
-				auth.setUsername(username);
-				auth.setToken(tmpToken);
-				auth.setUserId(user.getId());
-				auth.setExpiration(tmpExpiration);
-				
-				AuthToken token = new AuthToken();
-				
-				token.setToken(tmpToken);
-				token.setExpiration(tmpExpiration);
-				token.setUser(user);
-				
-				authTokenService.Insert(token);
-				
-				return auth;
+				/* No hashing password */
+				if(user.getPassword().equals(password)) {
+					
+					/* Delete all previous tokens */
+					
+					authTokenService.DeleteTokensForUser(user.getId());
+					
+					String tmpToken = username + new Date().getTime(); 
+					Date tmpExpiration = new Date();
+					
+					auth.setAuthenticated(true);
+					auth.setUsername(username);
+					auth.setToken(tmpToken);
+					auth.setUserId(user.getId());
+					auth.setExpiration(tmpExpiration);
+					
+					AuthToken token = new AuthToken();
+					
+					token.setToken(tmpToken);
+					token.setExpiration(tmpExpiration);
+					token.setUser(user);
+					
+					authTokenService.Insert(token);
+					
+					return auth;
+				}
 			}
+    	} catch (Exception e) {
+			logger.error(e.getMessage());
 		}
 		
 		auth.setAuthenticated(false);

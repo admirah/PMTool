@@ -1,7 +1,7 @@
 (function () {
     angular
         .module("NWT")
-        .controller("RegistrationController", ['$scope', '$http', 'SessionService', 'ToasterService', '$rootScope', '$location', function ($scope, $http, SessionService, ToasterService, $rootScope, $location) {
+        .controller("RegistrationController", ['$scope', 'ToasterService', '$location', 'DataFactory', function ($scope, ToasterService, $location, DataFactory) {
 
             $scope.user = {
                 email: 'huskic@gmail.com',
@@ -9,29 +9,14 @@
                 password: 'admin',
                 name: 'emina',
                 bio: 'blablabla',
-                image: 'http://slika.jpg'
+                image: 'http://slika.jpg',
+                password: 'password'
             };
             $scope.register = function () {
-                var dataObj = {
-                    email: $scope.user.email,
-                    username: $scope.user.username,
-                    password: $scope.user.password,
-                    name: $scope.user.name,
-                    bio: $scope.user.bio,
-                    image: $scope.user.image
-                };
-                $http({
-                    url:  NWTConfig.source + "register",
-                    method: "POST",
-                    data: { 'model': dataObj }
-                })
-                    .then(function (response) {
-                         redirectTo = (redirectTo == "/login") ? NWTConfig.DefaultRoute : redirectTo;
-                    $location.path(redirectTo);
-                    },
-                    function (response) { 
-                        alert( "failure message: " + JSON.stringify({data: data}));
-                    });
+                DataFactory.insert("users/users/register", $scope.user, function() {
+                    ToasterService.pop('success', "Success", "Please login");
+                    $location.path("/login");
+                });
             }
         }])
 }());
