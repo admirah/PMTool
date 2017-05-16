@@ -1,10 +1,11 @@
-package users.security.filter;
+package com.proxy.ZuulProxy.security.filters;
 
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
@@ -26,27 +27,18 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.proxy.ZuulProxy.security.exceptions.UserAuthenticationException;
+import com.proxy.ZuulProxy.security.models.AuthTokenModel;
+import com.proxy.ZuulProxy.security.services.UserService;
 
-import users.ApplicationContextProvider;
-import users.database.AuthToken;
-import users.database.User;
-import users.exceptions.UserAuthenticationException;
-import users.models.AuthTokenModel;
-import users.repository.IUserRepository;
-import users.services.AuthTokenService;
-import users.services.UserService;
 
 public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 
     private UserService userService;
-    private AuthTokenService authTokenService;
 
-	public LoginFilter(RequestMatcher requiresAuthenticationRequestMatcher, UserService userService, AuthTokenService authTokenService) {
+	public LoginFilter(RequestMatcher requiresAuthenticationRequestMatcher, UserService userService) {
 		super(requiresAuthenticationRequestMatcher);
-		
 		this.userService = userService;
-		this.authTokenService = authTokenService;
-
 	}
 
 	private Logger logger = LogManager.getLogger(LoginFilter.class);
@@ -68,38 +60,14 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 				String username = valueDecoded.split(":")[0];
 				String password = valueDecoded.split(":")[1];
 				
-				User user = userService.Get(username);
+				Map<String, String> cr = new HashMap<>();
+				cr.put("username", username);
+				cr.put("password", password);
+					
+				auth = userService.authenticate(cr);
 				
-				if(user != null) {
-					/* No hashing password */
-					if(user.getPassword().equals(password)) {
-						
-						/* Delete all previous tokens */
-						
-						authTokenService.DeleteTokensForUser(user.getId());
-						
-						String tmpToken = username + new Date().getTime(); 
-						Date tmpExpiration = new Date();
-						
-						auth.setAuthenticated(true);
-						auth.setUsername(username);
-						auth.setToken(tmpToken);
-						auth.setUserId(user.getId());
-						auth.setExpiration(tmpExpiration);
-						
-						AuthToken token = new AuthToken();
-						
-						token.setToken(tmpToken);
-						token.setExpiration(tmpExpiration);
-						token.setUser(user);
-						
-						authTokenService.Insert(token);
-						
-						return auth;
-					}
-				}
+				if(auth.isAuthenticated()) return auth;
 				
-				auth.setAuthenticated(false);
 				throw new UserAuthenticationException("Error");
 			}
 		} catch (Exception e) {

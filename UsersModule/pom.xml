@@ -81,11 +81,6 @@
 		    <version>4.2.2.RELEASE</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-config -->
-		<dependency>
-		    <groupId>org.springframework.security</groupId>
-		    <artifactId>spring-security-config</artifactId>
-		    <version>4.2.2.RELEASE</version>
-		</dependency>
 		
 		<dependency>
 			<groupId>junit</groupId>

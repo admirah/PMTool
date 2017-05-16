@@ -1,4 +1,4 @@
-package users.exceptions;
+package com.proxy.ZuulProxy.security.exceptions;
 
 import org.springframework.security.core.AuthenticationException;
 

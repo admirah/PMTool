@@ -1,4 +1,4 @@
-package users.security;
+package com.proxy.ZuulProxy.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,10 +11,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import users.security.filter.AuthFilter;
-import users.security.filter.LoginFilter;
-import users.services.AuthTokenService;
-import users.services.UserService;
+
+import com.proxy.ZuulProxy.security.filters.AuthFilter;
+import com.proxy.ZuulProxy.security.filters.LoginFilter;
+import com.proxy.ZuulProxy.security.services.UserService;
 
 @Configuration
 @EnableWebSecurity
@@ -23,19 +23,22 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UserService userService;
 	
-	@Autowired
-	private AuthTokenService authTokenService;
-
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable()
+        .authorizeRequests()
+        .antMatchers("/users/authenticate").permitAll()
+        .and()
+        .authorizeRequests()
+        .antMatchers("/users/authorize").permitAll()
+        .and()
         .authorizeRequests()
         .anyRequest().authenticated()
         .and().httpBasic()
         .authenticationEntryPoint(getBasicAuthEntryPoint())
         .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        .and().addFilterBefore(new LoginFilter(new AntPathRequestMatcher("/login"), userService, authTokenService), UsernamePasswordAuthenticationFilter.class)
-        .addFilterBefore(new AuthFilter(userService, authTokenService), UsernamePasswordAuthenticationFilter.class);
+        .and().addFilterBefore(new LoginFilter(new AntPathRequestMatcher("/login"), userService), UsernamePasswordAuthenticationFilter.class)
+        .addFilterBefore(new AuthFilter(userService), UsernamePasswordAuthenticationFilter.class);
 		
 	}
 	

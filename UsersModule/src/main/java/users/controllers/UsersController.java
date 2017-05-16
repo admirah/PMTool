@@ -1,11 +1,14 @@
 package users.controllers;
 
+import users.database.AuthToken;
 import users.database.User;
+import users.models.AuthTokenModel;
 import users.models.Factory;
 import users.models.ResponseModel;
 import users.models.UserModel;
 import users.models.UserRegisterModel;
 import users.models.UsersIds;
+import users.services.AuthTokenService;
 import users.services.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,7 +19,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by abasic on 20.03.2017..
@@ -27,6 +32,8 @@ public class UsersController {
 
     @Autowired
     private UserService service;
+    @Autowired
+    private AuthTokenService authTokenService;
     @Autowired
     private Factory factory;
 
@@ -119,4 +126,70 @@ public class UsersController {
         }
         return new ResponseEntity(new ResponseModel("User not found"), HttpStatus.NOT_FOUND);
     }
+    
+    @RequestMapping(value="/authenticate", method = RequestMethod.POST, produces = "application/json")
+    public AuthTokenModel authenticate(@RequestParam Map<String,String> credentials) {
+    
+    	logger.info("Authentication...");
+    	
+    	AuthTokenModel auth = new AuthTokenModel();
+    	
+    	String username = credentials.get("username");
+    	String password = credentials.get("password");
+    	
+    	User user = service.Get(username);
+		
+		if(user != null) {
+			/* No hashing password */
+			if(user.getPassword().equals(password)) {
+				
+				/* Delete all previous tokens */
+				
+				authTokenService.DeleteTokensForUser(user.getId());
+				
+				String tmpToken = username + new Date().getTime(); 
+				Date tmpExpiration = new Date();
+				
+				auth.setAuthenticated(true);
+				auth.setUsername(username);
+				auth.setToken(tmpToken);
+				auth.setUserId(user.getId());
+				auth.setExpiration(tmpExpiration);
+				
+				AuthToken token = new AuthToken();
+				
+				token.setToken(tmpToken);
+				token.setExpiration(tmpExpiration);
+				token.setUser(user);
+				
+				authTokenService.Insert(token);
+				
+				return auth;
+			}
+		}
+		
+		auth.setAuthenticated(false);
+		return auth;
+    }
+    
+    @RequestMapping(value = "/authorize", method = RequestMethod.POST, produces = "application/json")
+	public AuthTokenModel authorize(@RequestParam Map<String,String> tkn) {
+    	
+    	String token = tkn.get("token");
+    	
+    	if(token == null) return null;
+    	
+    	AuthTokenModel result = new AuthTokenModel();
+    	
+    	AuthToken authToken = authTokenService.GetByToken(token);
+    	
+    	if(authToken == null) return null;
+    	
+	    result.setAuthenticated(true);
+		result.setExpiration(authToken.getExpiration());
+		result.setToken(authToken.getToken());
+		result.setUsername(authToken.getUser().getUsername());
+		
+		return result;
+	}
 }
