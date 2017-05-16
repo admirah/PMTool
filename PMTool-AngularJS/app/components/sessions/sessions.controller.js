@@ -20,7 +20,7 @@
                 $http.defaults.headers.common.Authorization = "Basic " + SessionService.encode($scope.user.username + ":" + $scope.user.password);
                 $http({
                     method: "GET",
-                    url: NWTConfig.source + "users/login",
+                    url: NWTConfig.source + "login",
                 }).then(function (response) {
                     credentials = response.data;
                     $rootScope.currentUser = {
