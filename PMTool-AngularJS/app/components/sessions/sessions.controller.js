@@ -15,7 +15,10 @@
                 username: 'admin',
                 password: 'admin'
             };
-
+            $scope.registration = function(){
+                  $window.location.href = 'app/components/sessions/templates/registration.html';
+               window.location.reload();
+            }
             $scope.login = function () {
                 $http.defaults.headers.common.Authorization = "Basic " + SessionService.encode($scope.user.username + ":" + $scope.user.password);
                 $http({
@@ -37,5 +40,5 @@
         .controller("LogoutController", function() {
             credentials = null;
             window.location.reload();
-        });
+        })        
 }());

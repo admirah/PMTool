@@ -26,6 +26,10 @@
                 template: "",
                 controller: "LogoutController"
             })
+            .when("/registration", {
+                templateUrl: "app/components/sessions/templates/registration.html",
+                controller: "RegistrationController"
+            })
             .when("/projects", {
                 templateUrl: "app/components/projects/templates/projects.html",
                 controller: "ProjectsController"
@@ -34,9 +38,12 @@
     }).run(function ($rootScope, $location) {
         $rootScope.$on("$routeChangeStart", function (event, next, current) {
             if (!authenticated()) {
-                if (next.templateUrl != "app/components/sessions/templates/login.html") {
-                    redirectTo = $location.path();
-                    $location.path("/login");
+                var restrictedPage = $.inArray($location.path(), ['/login', '/registration']) === -1;
+                if (restrictedPage) {
+                    if (next.templateUrl != "app/components/sessions/templates/login.html") {
+                        redirectTo = $location.path();
+                        $location.path("/login");
+                    }
                 }
             }
         });
