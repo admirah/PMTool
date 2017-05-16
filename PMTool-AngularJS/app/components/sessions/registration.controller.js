@@ -6,10 +6,9 @@
             $scope.user = {
                 email: 'huskic@gmail.com',
                 username: 'admin',
-                password: 'admin',
                 name: 'emina',
                 bio: 'blablabla',
-                image: 'http://slika.jpg',
+                image: '',
                 password: 'password'
             };
             $scope.register = function () {
