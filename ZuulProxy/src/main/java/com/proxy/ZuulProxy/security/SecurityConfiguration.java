@@ -30,17 +30,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		.and()
 		.csrf().disable()
         .authorizeRequests()
-        .antMatchers("/users/authenticate").permitAll()
-        .and()
-        .authorizeRequests()
-        .antMatchers("/users/authorize").permitAll()
+        .antMatchers("/users/authenticate", "/users/authorize").permitAll()
         .and()
         .authorizeRequests()
         .anyRequest().authenticated()
-        .and().httpBasic()
+        .and()
+        .httpBasic()
         .authenticationEntryPoint(getBasicAuthEntryPoint())
-        .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        .and().addFilterBefore(new LoginFilter(new AntPathRequestMatcher("/login"), userService), UsernamePasswordAuthenticationFilter.class)
+        .and()
+        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and()
+        .addFilterBefore(new LoginFilter(new AntPathRequestMatcher("/login"), userService), UsernamePasswordAuthenticationFilter.class)
         .addFilterBefore(new AuthFilter(userService), UsernamePasswordAuthenticationFilter.class);
 		
 	}
@@ -52,7 +52,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
      
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers(HttpMethod.POST, "/users/register");
+        web.ignoring().antMatchers(HttpMethod.POST, "/users/users/register");
     }
     
 }
