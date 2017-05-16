@@ -1,22 +1,19 @@
 package projectsandtasks.controller;
 
-import org.hibernate.sql.Insert;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.netflix.feign.EnableFeignClients;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import projectsandtasks.Application;
 import projectsandtasks.helpers.ResponseModel;
+import projectsandtasks.models.Member;
 import projectsandtasks.models.Project;
 import projectsandtasks.models.UserModel;
+import projectsandtasks.repository.MemberRepository;
 import projectsandtasks.repository.ProjectRepository;
 import projectsandtasks.repository.UsersRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,11 +27,28 @@ public class ProjectController {
     private ProjectRepository repository;
     @Autowired 
 	private UsersRepository users;
+    @Autowired
+    private MemberRepository members;
     
     @RequestMapping(value = "/users", method = RequestMethod.GET)
 	public ResponseEntity<List<UserModel>> GetUsers() {
     	return users.Get();
 	}
+
+    @RequestMapping(value = "/project", method = RequestMethod.GET)
+    public List<Project> GetProjectsByOwner(@RequestParam("userid") int userid) {
+        return  repository.getByUser(userid);
+    }
+
+    @RequestMapping(value = "/projectMember", method = RequestMethod.GET)
+    public List<Project> GetProjectsByMember(@RequestParam("userid") int userid) {
+        List<Member> membersList=members.findAll();
+        ArrayList<Project> projectsList=new ArrayList<Project>();
+        for(Member m:membersList){
+            if (userid == m.getUserId()) projectsList.add((Project) repository.findById(m.getProject().getId()));
+        }
+        return  projectsList;
+    }
         
     @RequestMapping(value = "", method = RequestMethod.PATCH)
     public ResponseEntity<Project> Update(@RequestBody Project project) {
