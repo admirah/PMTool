@@ -31,7 +31,8 @@
                 modalInstance.result.then(function (project) {
                     DataFactory.insert("projects/project", project, function (response) {
                         ToasterService.pop('success', "Success", "Project added");
-                        ListProjects();
+                        //ListProjects();
+                        $scope.projects.push(response);
                     });
                 }, function () {
                     ToasterService.pop('info', "Info", "Modal closed");

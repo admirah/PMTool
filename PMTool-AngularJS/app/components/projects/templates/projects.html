@@ -2,12 +2,12 @@
     <h3><i class="fa fa-tasks" aria-hidden="true"></i> Personal boards</h3>
     <hr>
     <ul class="boards">
-        <li class="board gray">
-            <a href="#" ng-click="new()">
+        <li class="board gray" ng-click="new()">
+            <a href="">
                 <i class="fa fa-plus-square fa-3x" aria-hidden="true"></i>
             </a>
         </li>
-        <li class="board" ng-repeat="item in projects track by item.id">
+        <li class="board" ng-repeat="item in projects track by $index">
             <a href="#">{{ item.name }}</a>
         </li>
     </ul>
