@@ -35,11 +35,12 @@ var RegisterComponent = (function () {
     }
     RegisterComponent.prototype.ngOnInit = function () {
         if (this.auth.loggedIn()) {
-            this.router.navigate(['home']);
+            this.router.navigate(['projects']);
         }
     };
     RegisterComponent.prototype.onRegister = function () {
-        this.auth.register(this.userData);
+        var _this = this;
+        this.auth.register(this.userData).subscribe(function (res) { return _this.router.navigate(['login']); });
     };
     return RegisterComponent;
 }());
@@ -47,6 +48,7 @@ RegisterComponent = __decorate([
     core_1.Component({
         selector: 'register',
         templateUrl: "./register.component.html",
+        styleUrls: ['./register.css'],
         providers: [auth_service_1.AuthService]
     }),
     __metadata("design:paramtypes", [auth_service_1.AuthService, router_1.Router])

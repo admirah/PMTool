@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Http, Headers} from '@angular/http';
 import 'rxjs/add/operator/map';
+import {Observable} from 'rxjs/Observable';
+import {User} from '../user/user.component';
 
 @Injectable()
 export class AuthService {
@@ -10,49 +12,76 @@ export class AuthService {
     constructor(private http: Http) {
         this.headers = new Headers();
     }
+
     login(credentials: any) {
         this.headers = new Headers();
         let cred: string = 'Basic ' + btoa(credentials.username + ':' + credentials.password);
-        console.log(cred);
         this.headers.append('Authorization', cred);
         this.headers.append('Content-Type', 'application/json');
-        console.log(this.headers);
-
         return new Promise((resolve, reject) => {
-            this.http.get('http://192.168.1.8:8082/login', {headers: this.headers})
-                .map(res => {return res.json(); } )
+            this.http.get('http://localhost:7010/login', {headers: this.headers})
+                .map(res => {
+                    {
+                        console.log(res);
+                        return res.json();
+                    }
+                })
                 .subscribe(
                     data => {
-                        console.log(data);
-                        if (!data.Error) {localStorage.setItem('token', data.Token);
-                        localStorage.setItem('user',data.User)
-                        resolve(data); }},
-                    error => {console.log(error); reject(error); }
+                        if (!data.Error) {
+                            console.log(data);
+                            localStorage.setItem('token', data.token);
+                            localStorage.setItem('id', data.id);
+                            localStorage.setItem('user', data.username);
+                            resolve(data);
+                        }
+                    },
+                    error => {
+                        reject(error);
+                    }
                 );
         });
     }
+
     getToken(): string {
         return localStorage.getItem('token');
     }
+
+    getId(): string {
+        return localStorage.getItem('id');
+    }
+
     loggedIn(): boolean {
         return localStorage.getItem('token') != null;
     }
-    getUser():string{
-        return localStorage.getItem('user');
-    }
-    register(userData: any) {
+
+    getUser(): Observable<User> {
         this.headers = new Headers();
         this.headers.append('Content-Type', 'application/json');
-         this.http.post('http://192.168.1.8:8082/users/register', userData, {headers: this.headers})
-         .map(res => res.json())
-         .subscribe(
-         data => console.log(data),
-         error => console.log(error)
-         );
-        console.log(userData);
+        this.headers.append('Token', this.getToken())
+        return this.http.get('http://localhost:7010/users/users/' + this.getId(), {headers: this.headers})
+            .map(res => res.json());
     }
+
+    getUserData(): any {
+        return localStorage.getItem('user');
+    }
+
+    register(userData: any): Observable<Response> {
+        this.headers = new Headers();
+        this.headers.append('Content-Type', 'application/json');
+
+        return this.http.post('http://localhost:7010/users/users/register', userData, {headers: this.headers})
+            .map(res => res.json());
+    }
+
     logout() {
         localStorage.removeItem('token');
+        localStorage.removeItem('id');
         localStorage.removeItem('user');
+    }
+
+    editUserStorage(user: any) {
+        localStorage.setItem('user', JSON.stringify(user));
     }
 }

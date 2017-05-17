@@ -13,10 +13,11 @@ class Credentials {
 @Component({
     selector: 'login',
     templateUrl: `./login.component.html`,
+    styleUrls: ['./login.css'],
     providers: [AuthService]
 })
 
-export class LoginComponent implements OnInit{
+export class LoginComponent implements OnInit {
     credentials: Credentials;
 
     constructor(private auth: AuthService, private router: Router) {
@@ -25,7 +26,7 @@ export class LoginComponent implements OnInit{
 
     ngOnInit() {
         if (this.auth.loggedIn()) {
-            this.router.navigate(['home']);
+            this.router.navigate(['projects']);
         }
     }
 
@@ -33,6 +34,10 @@ export class LoginComponent implements OnInit{
 
         console.log(this.credentials);
         this.auth.login(this.credentials);
-        this.auth.login(this.credentials).then(response => {if (!response['Error']) {  this.router.navigate(['home']); }});
-        }
+        this.auth.login(this.credentials).then(response => {
+            if (!response['Error']) {
+                this.router.navigate(['projects']);
+            }
+        });
+    }
 }

@@ -1,19 +1,11 @@
-
-<style>
-
-    .example-icon {
-        padding: 0 14px;
-    }
-
-    .example-spacer {
-        flex: 1 1 auto;
-    }
-</style>
-<md-toolbar color="primary" style="padding:0 150px">
+<md-toolbar color="primary" class="toolbar">
 
     <span > Project Managment Tool</span>
    <span class="example-spacer"></span>
     <div >
+        <a md-button routerLink="/projects" *ngIf="loggedIn()">Your profile
+            <md-icon class="example-icon">folder_shared</md-icon>
+        </a>
         <a md-button routerLink="/login" *ngIf="!loggedIn()">Login
             <md-icon class="example-icon">open_in_browser</md-icon>
         </a>
