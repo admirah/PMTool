@@ -17,6 +17,7 @@ class UserData {
 @Component({
     selector: 'register',
     templateUrl: `./register.component.html`,
+    styleUrls: ['./register.css'],
     providers: [AuthService]
 })
 
@@ -24,7 +25,7 @@ export class RegisterComponent implements OnInit {
 
     userData: UserData;
 
-    constructor(private auth: AuthService,  private router: Router ) {
+    constructor(private auth: AuthService, private router: Router) {
         this.userData = {
             name: '',
             surname: '',
@@ -37,11 +38,11 @@ export class RegisterComponent implements OnInit {
 
     ngOnInit() {
         if (this.auth.loggedIn()) {
-            this.router.navigate(['home']);
+            this.router.navigate(['projects']);
         }
     }
 
     onRegister() {
-        this.auth.register(this.userData);
+        this.auth.register(this.userData).subscribe(res => this.router.navigate(['login']));
     }
 }

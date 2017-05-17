@@ -28,16 +28,18 @@ var LoginComponent = (function () {
     }
     LoginComponent.prototype.ngOnInit = function () {
         if (this.auth.loggedIn()) {
-            this.router.navigate(['home']);
+            this.router.navigate(['projects']);
         }
     };
     LoginComponent.prototype.onLogin = function () {
         var _this = this;
         console.log(this.credentials);
         this.auth.login(this.credentials);
-        this.auth.login(this.credentials).then(function (response) { if (!response['Error']) {
-            _this.router.navigate(['home']);
-        } });
+        this.auth.login(this.credentials).then(function (response) {
+            if (!response['Error']) {
+                _this.router.navigate(['projects']);
+            }
+        });
     };
     return LoginComponent;
 }());
@@ -45,6 +47,7 @@ LoginComponent = __decorate([
     core_1.Component({
         selector: 'login',
         templateUrl: "./login.component.html",
+        styleUrls: ['./login.css'],
         providers: [auth_service_1.AuthService]
     }),
     __metadata("design:paramtypes", [auth_service_1.AuthService, router_1.Router])

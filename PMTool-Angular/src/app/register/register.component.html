@@ -1,19 +1,8 @@
-<style>
-    .example-full-width {
-        width: 100%;
-    }
-
-    .hedbot{
-        margin-bottom:2px;
-    }
-
-</style>
-<md-card style="width:25%; margin:auto; margin-top:200px">
-    <form #f="ngForm" (ngSubmit)="onRegister(f.value)" style="margin:auto">
+<md-card class="card">
+    <form #f="ngForm" (ngSubmit)="onRegister(f.value)" class="form">
         <md-card-content >
             <md-card-header class="hedbot">
                 <md-card-title><b>Register</b></md-card-title>
-                <hr>
             </md-card-header>
             <md-input-container class="example-full-width">
                 <input mdInput tye="text" placeholder="name" [(ngModel)]="userData.name"
@@ -44,10 +33,10 @@
                 <input mdInput type="password" placeholder="password" [(ngModel)]="userData.password"
                        [ngModelOptions]="{standalone: true}"/>
             </md-input-container>
-
         </md-card-content>
         <md-card-actions class="example-full-width">
-            <button md-raised-button type="submit" style="float:right; margin-right:10px;">Login</button>
+            <span class="example-spacer"></span>
+            <button md-raised-button type="submit" class="register-button">Register</button>
         </md-card-actions>
     </form>
 </md-card>

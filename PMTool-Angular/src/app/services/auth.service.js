@@ -21,43 +21,61 @@ var AuthService = (function () {
         var _this = this;
         this.headers = new http_1.Headers();
         var cred = 'Basic ' + btoa(credentials.username + ':' + credentials.password);
-        console.log(cred);
         this.headers.append('Authorization', cred);
         this.headers.append('Content-Type', 'application/json');
-        console.log(this.headers);
         return new Promise(function (resolve, reject) {
-            _this.http.get('http://192.168.1.8:8082/login', { headers: _this.headers })
-                .map(function (res) { return res.json(); })
+            _this.http.get('http://localhost:7010/login', { headers: _this.headers })
+                .map(function (res) {
+                {
+                    console.log(res);
+                    return res.json();
+                }
+            })
                 .subscribe(function (data) {
-                console.log(data);
                 if (!data.Error) {
-                    localStorage.setItem('token', data.Token);
-                    localStorage.setItem('user', data.User);
+                    console.log(data);
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('id', data.id);
+                    localStorage.setItem('user', data.username);
                     resolve(data);
                 }
-            }, function (error) { console.log(error); reject(error); });
+            }, function (error) {
+                reject(error);
+            });
         });
     };
     AuthService.prototype.getToken = function () {
         return localStorage.getItem('token');
     };
+    AuthService.prototype.getId = function () {
+        return localStorage.getItem('id');
+    };
     AuthService.prototype.loggedIn = function () {
         return localStorage.getItem('token') != null;
     };
     AuthService.prototype.getUser = function () {
+        this.headers = new http_1.Headers();
+        this.headers.append('Content-Type', 'application/json');
+        this.headers.append('Token', this.getToken());
+        return this.http.get('http://localhost:7010/users/users/' + this.getId(), { headers: this.headers })
+            .map(function (res) { return res.json(); });
+    };
+    AuthService.prototype.getUserData = function () {
         return localStorage.getItem('user');
     };
     AuthService.prototype.register = function (userData) {
         this.headers = new http_1.Headers();
         this.headers.append('Content-Type', 'application/json');
-        this.http.post('http://192.168.1.8:8082/users/register', userData, { headers: this.headers })
-            .map(function (res) { return res.json(); })
-            .subscribe(function (data) { return console.log(data); }, function (error) { return console.log(error); });
-        console.log(userData);
+        return this.http.post('http://localhost:7010/users/users/register', userData, { headers: this.headers })
+            .map(function (res) { return res.json(); });
     };
     AuthService.prototype.logout = function () {
         localStorage.removeItem('token');
+        localStorage.removeItem('id');
         localStorage.removeItem('user');
+    };
+    AuthService.prototype.editUserStorage = function (user) {
+        localStorage.setItem('user', JSON.stringify(user));
     };
     return AuthService;
 }());
