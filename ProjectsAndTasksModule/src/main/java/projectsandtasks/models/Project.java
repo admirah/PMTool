@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
-import projectsandtasks.helpers.TaskStatus;
 
 /**
  * Created by bake on 3/20/17.

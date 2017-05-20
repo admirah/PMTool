@@ -27,7 +27,7 @@ public class Task {
     private Long owner;
 
     @Enumerated(EnumType.ORDINAL)
-    private TaskStatus taskStatus;
+    private TaskStatusEnum taskStatus;
 
 
     @ManyToOne
@@ -120,11 +120,11 @@ public class Task {
         this.weight = weight;
     }
 
-    public TaskStatus getTaskStatus() {
+    public TaskStatusEnum getTaskStatus() {
         return taskStatus;
     }
 
-    public void setTaskStatus(TaskStatus taskStatus) {
+    public void setTaskStatus(TaskStatusEnum taskStatus) {
         this.taskStatus = taskStatus;
     }
 

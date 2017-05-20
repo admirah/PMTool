@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import projectsandtasks.models.UserModel;
+import projectsandtasks.models.TaskStatusEnum;
 import projectsandtasks.repository.TaskRepository;
 import projectsandtasks.repository.UsersRepository;
 import projectsandtasks.viewmodels.FinishedTask;
