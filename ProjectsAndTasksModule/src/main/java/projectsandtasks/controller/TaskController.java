@@ -37,7 +37,7 @@ public class TaskController {
     @RequestMapping(value = "/finished", method = RequestMethod.GET, produces = "application/json")
 	public ResponseEntity<List<projectsandtasks.viewmodels.FinishedTask>> finishedTasks(@RequestParam(value="projectId") Long projectId) {
 		List<projectsandtasks.models.Task> tasks = new ArrayList<>();
-		repository.findAll().stream().filter(x -> {return (x.getTaskStatus().getProject().getId() == projectId && x.getFinishedOn() != null);}).map(x -> new projectsandtasks.models.Task(x))
+		repository.findAll().stream().filter(x -> {return (x.getProject().getId() == projectId && x.getFinishedOn() != null);}).map(x -> new projectsandtasks.models.Task(x))
 				.forEach(x -> tasks.add(x));
     	ArrayList<FinishedTask> finishedTasks = new ArrayList<FinishedTask>();
     	ArrayList<Long> idovi = new ArrayList<Long>();
@@ -56,7 +56,7 @@ public class TaskController {
 	public ResponseEntity<FinishedTaskGroupedTotal> finishedTasksGroupedBy (@RequestParam(value="taskStatus") Long taskStatus){
 		Date dateBefore30Days = DateUtils.addDays(new Date(),-30); //day 30 days ago
 		ArrayList<FinishedTaskGrouped> finishedTasksGroupedList = new ArrayList<FinishedTaskGrouped>();
-    	repository.findAll().stream().filter(x -> {return (x.getTaskStatus().getId() == taskStatus && x.getFinishedOn() != null && x.getFinishedOn().compareTo(dateBefore30Days) > 0);}).map(x -> new FinishedTaskGrouped(x.getTaskStatus().getName(),x.getName(),x.getFinishedOn(),x.getWeight().getName(),x.getWeight().getValue())).forEach((x -> finishedTasksGroupedList.add(x)));
+    	repository.findAll().stream().filter(x -> {return (x.getTaskStatus().getValue() == taskStatus && x.getFinishedOn() != null && x.getFinishedOn().compareTo(dateBefore30Days) > 0);}).map(x -> new FinishedTaskGrouped(x.getTaskStatus().getValue(),x.getName(),x.getFinishedOn(),x.getWeight().getName(),x.getWeight().getValue())).forEach((x -> finishedTasksGroupedList.add(x)));
     	int totalWeight = 0;
     	for(FinishedTaskGrouped ftG: finishedTasksGroupedList){
     		totalWeight += ftG.getWeightValue();
@@ -64,7 +64,6 @@ public class TaskController {
 		FinishedTaskGroupedTotal finishedTaskGroupedTotal = new FinishedTaskGroupedTotal(finishedTasksGroupedList, totalWeight);
     	return new ResponseEntity<FinishedTaskGroupedTotal>(finishedTaskGroupedTotal, HttpStatus.OK);
 	}
-
 
 	private String getUserName(List<UserModel> sviUseri, Long id){
     	for(UserModel user: sviUseri){

@@ -72,4 +72,12 @@ public class ProjectController {
         return new ResponseEntity<Project>(project, HttpStatus.OK);
     }
 
+
+    @RequestMapping(value = "/numberoftasks", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<String>  finishedTasksGroupedBy(@RequestParam(value = "projectId") Long projectId, @RequestParam(value="userId") Long userId) {
+        int total = repository.findAll().stream().filter(x -> {return x.getOwner() == userId && x.getId() == projectId;}).toArray().length;
+        return new ResponseEntity<String>(Integer.toString(total),HttpStatus.OK);
+    }
+
+
 }

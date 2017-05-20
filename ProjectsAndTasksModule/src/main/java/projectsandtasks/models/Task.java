@@ -3,6 +3,7 @@ package projectsandtasks.models;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import projectsandtasks.helpers.TaskStatus;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
 /**
  * Created by bake on 3/20/17.
  */
+
 @Entity
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Task {
@@ -24,20 +26,24 @@ public class Task {
     @Temporal(TemporalType.TIMESTAMP)
     private Date finishedOn;
     private Long owner;
+
+    @Enumerated(EnumType.INTEGER)
+    private projectsandtasks.helpers.TaskStatus taskStatus;
+
+
     @ManyToOne
-    @JoinColumn(name = "taskStatusId")
-    private TaskStatus taskStatus;
+    @JoinColumn(name = "projectId")
+    private Project project;
+
     @ManyToOne
     @JoinColumn(name = "weightId")
     private Weight weight;
-    private int orderNo;
     private Date startedOn;
     private Date endOn;
 
     public Task(Task x) {
         this.endOn = x.endOn;
         this.startedOn = x.startedOn;
-        this.orderNo = x.orderNo;
         this.weight = x.weight;
         this.owner = x.owner;
         this.finishedOn = x.finishedOn;
@@ -45,14 +51,7 @@ public class Task {
         this.description = x.description;
         this.name = x.name;
         this.id = x.id;
-    }
-
-    public TaskStatus getTaskStatus() {
-        return taskStatus;
-    }
-
-    public void setTaskStatus(TaskStatus taskStatus) {
-        this.taskStatus = taskStatus;
+        this.project = x.project;
     }
 
     public List<Comment> getComments() {
@@ -122,12 +121,12 @@ public class Task {
         this.weight = weight;
     }
 
-    public int getOrder() {
-        return orderNo;
+    public TaskStatus getTaskStatus() {
+        return taskStatus;
     }
 
-    public void setOrder(int order) {
-        this.orderNo = order;
+    public void setTaskStatus(TaskStatus taskStatus) {
+        this.taskStatus = taskStatus;
     }
 
     public Date getStartedOn() {
@@ -146,19 +145,27 @@ public class Task {
         this.endOn = endOn;
     }
 
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
+
     //treba nam i ovaj konstruktor, ne  brisati!
-    public Task(String name, String description, Date createdOn, Date finishedOn, Long owner, TaskStatus taskStatus, Weight weight, int order, Date startedOn, Date endOn, List<Comment> comments) {
+    public Task(String name, String description, Date createdOn, Date finishedOn, Long owner,  Weight weight, Date startedOn, Date endOn, List<Comment> comments, Project project) {
         this.name = name;
         this.description = description;
         this.createdOn = createdOn;
         this.finishedOn = finishedOn;
         this.owner = owner;
-        this.taskStatus = taskStatus;
         this.weight = weight;
-        this.orderNo = order;
         this.startedOn = startedOn;
         this.endOn = endOn;
         this.comments = comments;
+        this.project = project;
     }
 
     protected Task() {
