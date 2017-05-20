@@ -27,7 +27,7 @@ public class Task {
     private Date finishedOn;
     private Long owner;
 
-    @Enumerated(EnumType.INTEGER)
+    @Enumerated(EnumType.ORDINAL)
     private projectsandtasks.helpers.TaskStatus taskStatus;
 
 
