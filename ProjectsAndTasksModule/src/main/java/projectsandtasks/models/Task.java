@@ -3,7 +3,6 @@ package projectsandtasks.models;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-import projectsandtasks.helpers.TaskStatus;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -28,7 +27,7 @@ public class Task {
     private Long owner;
 
     @Enumerated(EnumType.ORDINAL)
-    private projectsandtasks.helpers.TaskStatus taskStatus;
+    private TaskStatus taskStatus;
 
 
     @ManyToOne
