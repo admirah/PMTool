@@ -5,17 +5,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import projectsandtasks.models.UserModel;
+import projectsandtasks.helpers.ResponseModel;
+import projectsandtasks.models.Project;
+import projectsandtasks.models.Task;
 import projectsandtasks.models.TaskStatusEnum;
 import projectsandtasks.repository.TaskRepository;
 import projectsandtasks.repository.UsersRepository;
 import projectsandtasks.viewmodels.FinishedTask;
 import projectsandtasks.viewmodels.FinishedTaskGrouped;
 import projectsandtasks.viewmodels.FinishedTaskGroupedTotal;
+import projectsandtasks.viewmodels.TaskModel;
 import projectsandtasks.viewmodels.UsersIds;
 
 import java.util.ArrayList;
@@ -34,6 +40,48 @@ public class TaskController {
     private TaskRepository repository;
     @Autowired
     private UsersRepository uRepository;
+    
+    @RequestMapping(value = "", method = RequestMethod.POST)
+    public ResponseEntity<Task> Insert(@RequestBody Task task) {
+        if (task == null) return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        try {
+            repository.save(task);
+        } catch (Exception e) {
+            return new ResponseEntity(new ResponseModel(e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<Task>(task, HttpStatus.OK);
+    }
+    
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Task> Update(@PathVariable Long id,@RequestBody TaskModel model) {
+    	Task task = repository.findById(id).get(0);
+        if (task == null) return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        try {
+        	task.setName(model.getName());
+        	task.setDescription(model.getDescription());
+        	task.setStartedOn(model.getStartedOn());
+        	task.setEndOn(model.getEndOn());
+        	task.setTaskStatus(model.getTaskStatus());
+        	if(model.getTaskStatus() == TaskStatusEnum.DONE) task.setFinishedOn(new Date());
+        	else task.setFinishedOn(null);
+            repository.save(task);
+        } catch (Exception e) {
+            return new ResponseEntity(new ResponseModel(e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<Task>(task, HttpStatus.OK);
+    }
+    
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<ResponseModel> Update(@PathVariable Long id) {
+    	Task task = repository.findById(id).get(0);
+        if (task == null) return new ResponseEntity<ResponseModel>(new ResponseModel("Something went wrong"), HttpStatus.BAD_REQUEST);
+        try {
+            repository.delete(id);
+        } catch (Exception e) {
+            return new ResponseEntity<ResponseModel>(new ResponseModel(e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<ResponseModel>(new ResponseModel("OK"), HttpStatus.OK);
+    }
 
     @RequestMapping(value = "/finished", method = RequestMethod.GET, produces = "application/json")
 	public ResponseEntity<List<projectsandtasks.viewmodels.FinishedTask>> finishedTasks(@RequestParam(value="projectId") Long projectId) {

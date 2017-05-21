@@ -1,18 +1,20 @@
-<div class="row">
-    <div id="login">
-        <h1>Login</h1>
-        <hr>
-        <form name="login_form" ng-submit="login()">
-            <div class="form-group" ng-class="{ 'has-error': login_form.username.$dirty && login_form.username.$error.required }">
-                <input name="username" type="name" ng-model="user.username" placeholder="Username" class="form-control" required>
-                <span ng-show="login_form.username.$dirty && login_form.username.$error.required" class="help-block">Username is required</span>
-            </div>
-            <div class="form-group" ng-class="{ 'has-error': login_form.password.$dirty && login_form.password.$error.required }">
-                <input type="password" name="password" ng-model="user.password" placeholder="Password" class="form-control" required>
-                <span ng-show="login_form.password.$dirty && login_form.password.$error.required" class="help-block">Password is required</span>
-            </div>
-            <input type="submit" class="btn btn-primary" value="LOGIN">
-            <a href="#/registration" class="btn btn-link">Register</a>
-       </form>
+<div class="container">
+    <div class="row">
+        <div id="login">
+            <h1>Login</h1>
+            <hr>
+            <form name="login_form" ng-submit="login()">
+                <div class="form-group" ng-class="{ 'has-error': login_form.username.$dirty && login_form.username.$error.required }">
+                    <input name="username" type="name" ng-model="user.username" placeholder="Username" class="form-control" required>
+                    <span ng-show="login_form.username.$dirty && login_form.username.$error.required" class="help-block">Username is required</span>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error': login_form.password.$dirty && login_form.password.$error.required }">
+                    <input type="password" name="password" ng-model="user.password" placeholder="Password" class="form-control" required>
+                    <span ng-show="login_form.password.$dirty && login_form.password.$error.required" class="help-block">Password is required</span>
+                </div>
+                <input type="submit" class="btn btn-primary" value="LOGIN">
+                <a href="#/registration" class="btn btn-link">Register</a>
+            </form>
+        </div>
     </div>
 </div>

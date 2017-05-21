@@ -29,7 +29,7 @@ public class Project {
     @Temporal(TemporalType.TIMESTAMP)
     private Date endOn;
     @OneToMany(mappedBy="project")
-    private List<Member> projects;
+    private List<Member> members;
     @OneToMany(mappedBy="project")
     private List<Task> tasks;
 
@@ -98,11 +98,11 @@ public class Project {
     }
 
     public List<Member> getProjects() {
-        return projects;
+        return members;
     }
 
     public void setProjects(List<Member> projects) {
-        this.projects = projects;
+        this.members = projects;
     }
 
     public List<Task> getTasks() {
@@ -115,7 +115,7 @@ public class Project {
 
     protected Project () {    }
 
-    public Project(String name, Date createdOn, Date finishedOn, String description, int owner, Date startedOn, Date endOn, List<Member> projects, List<Task> tasks) {
+    public Project(String name, Date createdOn, Date finishedOn, String description, int owner, Date startedOn, Date endOn, List<Member> members, List<Task> tasks) {
         this.name = name;
         this.createdOn = createdOn;
         this.finishedOn = finishedOn;
@@ -123,7 +123,7 @@ public class Project {
         this.owner = owner;
         this.startedOn = startedOn;
         this.endOn = endOn;
-        this.projects = projects;
+        this.members = members;
         this.tasks = tasks;
     }
 
