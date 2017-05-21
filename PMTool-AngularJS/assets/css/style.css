@@ -398,3 +398,82 @@ form input[type=submit] {
 .boards .board.gray a i {
      margin-top: 10px;
 }
+
+/* Fifth column */
+
+.col-xs-5ths,
+.col-sm-5ths,
+.col-md-5ths,
+.col-lg-5ths {
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.col-xs-5ths {
+    width: 20%;
+    float: left;
+}
+
+@media (min-width: 768px) {
+    .col-sm-5ths {
+        width: 20%;
+        float: left;
+    }
+}
+
+@media (min-width: 992px) {
+    .col-md-5ths {
+        width: 20%;
+        float: left;
+    }
+}
+
+@media (min-width: 1200px) {
+    .col-lg-5ths {
+        width: 20%;
+        float: left;
+    }
+}
+
+.col-md-5ths h4 {
+    text-align: center;
+}
+
+
+
+
+
+ul[dnd-list] {
+  min-height: 42px;
+  padding: 0;
+}
+
+ul[dnd-list] > li {
+  border-bottom: 1px solid #ddd;
+  display: block;
+  padding: 20px 15px;
+}
+
+ul[dnd-list] > li > span {
+    cursor: pointer;
+}
+
+ul[dnd-list] > li.dndDraggingSource {
+  display: none;
+}
+
+ul[dnd-list] > li.dndPlaceholder {
+  background-color: #ddd;
+  min-height: 80px;
+}
+
+.panel .panel-body {
+  padding: 0;
+}
+
+.panel-heading-color {
+    background-color: #d6d6d6;
+    color: #2d2d2d;
+}

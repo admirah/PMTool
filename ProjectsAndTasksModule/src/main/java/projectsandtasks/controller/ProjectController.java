@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import projectsandtasks.helpers.ResponseModel;
 import projectsandtasks.models.Member;
 import projectsandtasks.models.Project;
+import projectsandtasks.models.Task;
 import projectsandtasks.models.UserModel;
 import projectsandtasks.repository.MemberRepository;
 import projectsandtasks.repository.ProjectRepository;
@@ -77,6 +78,11 @@ public class ProjectController {
     public ResponseEntity<String>  finishedTasksGroupedBy(@RequestParam(value = "projectId") Long projectId, @RequestParam(value="userId") Long userId) {
         int total = repository.findAll().stream().filter(x -> {return x.getOwner() == userId && x.getId() == projectId;}).toArray().length;
         return new ResponseEntity<String>(Integer.toString(total),HttpStatus.OK);
+    }
+    
+    @RequestMapping(value="/{id}", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<Project> GetProjec(@PathVariable("id")Long id) {
+    	return new ResponseEntity<Project>(repository.findById(id), HttpStatus.OK);
     }
 
 
