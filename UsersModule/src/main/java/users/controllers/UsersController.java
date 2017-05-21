@@ -79,6 +79,7 @@ public class UsersController {
         return new ResponseEntity<ResponseModel>(new ResponseModel("Error while fetching data"), HttpStatus.BAD_REQUEST);
     }
     
+
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<UserModel> Get(@PathVariable("id") Long id) {
         try {
@@ -89,7 +90,6 @@ public class UsersController {
         }
         return new ResponseEntity(new ResponseModel("User not found"), HttpStatus.NOT_FOUND);
     }
-
     @RequestMapping(value = "", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<UserModel> Insert(@RequestBody UserModel model) {
         if(model == null) return new ResponseEntity(HttpStatus.BAD_REQUEST);

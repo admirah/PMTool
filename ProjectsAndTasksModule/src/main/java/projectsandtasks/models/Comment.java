@@ -72,6 +72,6 @@ public class Comment {
         this.task = task;
     }
 
-    protected Comment() {
+    public Comment() {
     }
 }

@@ -167,6 +167,6 @@ public class Task {
         this.project = project;
     }
 
-    protected Task() {
+    public Task() {
     }
 }

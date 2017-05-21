@@ -22,34 +22,46 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/project", produces = "application/json")
 public class ProjectController {
-	
+
     @Autowired
     private ProjectRepository repository;
-    @Autowired 
-	private UsersRepository users;
+    @Autowired
+    private UsersRepository users;
     @Autowired
     private MemberRepository members;
-    
+
     @RequestMapping(value = "/users", method = RequestMethod.GET)
-	public ResponseEntity<List<UserModel>> GetUsers() {
-    	return users.Get();
-	}
+    public ResponseEntity<List<UserModel>> GetUsers() {
+        return users.Get();
+    }
 
     @RequestMapping(value = "/project", method = RequestMethod.GET)
     public List<Project> GetProjectsByOwner(@RequestParam("userid") int userid) {
-        return  repository.getByUser(userid);
+        return repository.getByUser(userid);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<Project> Get(@PathVariable("id") Long id) {
+        try {
+            Project project = repository.findById(id);
+            if (project != null) return new ResponseEntity<Project>(project, HttpStatus.OK);
+        } catch (Exception e) {
+
+        }
+        return new ResponseEntity(new ResponseModel("User not found"), HttpStatus.NOT_FOUND);
+
     }
 
     @RequestMapping(value = "/projectMember", method = RequestMethod.GET)
     public List<Project> GetProjectsByMember(@RequestParam("userid") int userid) {
-        List<Member> membersList=members.findAll();
-        ArrayList<Project> projectsList=new ArrayList<Project>();
-        for(Member m:membersList){
+        List<Member> membersList = members.findAll();
+        ArrayList<Project> projectsList = new ArrayList<Project>();
+        for (Member m : membersList) {
             if (userid == m.getUserId()) projectsList.add((Project) repository.findById(m.getProject().getId()));
         }
-        return  projectsList;
+        return projectsList;
     }
-        
+
     @RequestMapping(value = "", method = RequestMethod.PATCH)
     public ResponseEntity<Project> Update(@RequestBody Project project) {
         if (project == null) return new ResponseEntity(HttpStatus.BAD_REQUEST);
@@ -74,9 +86,11 @@ public class ProjectController {
 
 
     @RequestMapping(value = "/numberoftasks", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<String>  finishedTasksGroupedBy(@RequestParam(value = "projectId") Long projectId, @RequestParam(value="userId") Long userId) {
-        int total = repository.findAll().stream().filter(x -> {return x.getOwner() == userId && x.getId() == projectId;}).toArray().length;
-        return new ResponseEntity<String>(Integer.toString(total),HttpStatus.OK);
+    public ResponseEntity<String> finishedTasksGroupedBy(@RequestParam(value = "projectId") Long projectId, @RequestParam(value = "userId") Long userId) {
+        int total = repository.findAll().stream().filter(x -> {
+            return x.getOwner() == userId && x.getId() == projectId;
+        }).toArray().length;
+        return new ResponseEntity<String>(Integer.toString(total), HttpStatus.OK);
     }
 
 
