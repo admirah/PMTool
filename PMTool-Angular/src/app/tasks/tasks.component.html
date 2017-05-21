@@ -1,0 +1,62 @@
+<style>
+
+    #wrap:after {
+        display: block;
+        height: 0px;
+        clear: both;
+        float: none;
+    }
+
+    #wrap div {
+        float: left;
+        word-break: break-all;
+    }
+
+    .container {
+        min-height:100px;
+        width: 16%;
+        margin: 2%;
+    }
+
+    .cards {
+        width: 80%;
+        padding: 3% 10%;
+    }
+
+    h3 {
+        margin: 8px 3px 5px 0;
+        width: 100%;
+        border-bottom: 1px solid black;
+
+    }
+    .titles{
+        width: 16%;
+        margin: 2%;
+        display: inline-block;
+    }
+
+</style>
+
+
+<div class='wrapper' style="width:100%">
+    <div class=" titles" *ngFor='let group of groups'><h3>{{group.name}}  <button (click)="addTask(group)">+</button></h3>
+
+   </div>
+</div>
+
+
+<div class='wrapper' id="wrap" style="width:100%">
+    <div class='container' *ngFor='let group of groups' id="{{group.name}}" [dragula]='"nested-bag"' [dragulaModel]='group.items'>
+
+        <div *ngFor='let item of group.items' class="cards"  (mousedown)="onClick(item)">
+            <md-card>
+                <md-card-content>{{item.name}}</md-card-content>
+                <md-card-actions>
+
+                    <button md-button (click)="seeDetails(item,group)">See details</button>
+
+                </md-card-actions>
+            </md-card>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,65 @@
+<style>
+    .example-full-width {
+        width: 100%;
+    }
+
+   .input-comment{
+       width:100%;
+       margin:2px auto;
+   }
+    .example-spacer {
+        flex: 1 1 auto;
+    }
+
+
+
+    .reg-button {
+        float: right;
+        margin-right: 10px;
+    }
+
+    .comments{
+        border:1px solid lightgray;
+        margin:5%;
+        padding:5%;
+        width:80%;
+    }
+    .content{
+        margin: 15px auto;
+        width:90%;
+
+    }
+    .wrap{
+        width:500px;
+    }
+</style>
+
+<div class="wrap">
+    <h1 md-dialog-title>Add new project</h1>
+    <div md-dialog-content class="content">
+        <md-input-container class="example-full-width">
+            <input mdInput tye="text" placeholder="Project name" [(ngModel)]="item.name"
+                   [ngModelOptions]="{standalone: true}">
+        </md-input-container>
+        <br>
+        <md-input-container class="example-full-width">
+            <input mdInput type="text" placeholder="Description" [(ngModel)]="item.description"
+                   [ngModelOptions]="{standalone: true}">
+        </md-input-container>
+        <br>
+    </div>
+    <div class="comments">
+
+        <div *ngFor="let comment of comments">
+            <p>{{comment.content}}</p>
+
+        </div>
+        <input type="text" [(ngModel)]="comment.content" (keypress)="showButton()" class="input-comment">
+        <span class="example-spacer"></span> <button *ngIf="showButtonVar" class="reg-button" md-button (click)="addComment()">Add comment</button>
+    </div>
+    <div md-dialog-actions class="example-full-width">
+        <span class="example-spacer"></span>
+        <button md-button (click)="dialogRef.close('Cancel')" class="reg-button">Cancel</button>
+        <button md-button (click)="dialogRef.close(comments)" class="reg-button">Save</button>
+    </div>
+</div>

@@ -94,6 +94,9 @@ var ProjectsComponent = (function () {
             });
         }
     };
+    ProjectsComponent.prototype.goToProject = function (id) {
+        this.router.navigate(['/project', id]);
+    };
     return ProjectsComponent;
 }());
 ProjectsComponent = __decorate([

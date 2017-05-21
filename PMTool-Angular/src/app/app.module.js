@@ -6,6 +6,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+///<reference path="../../node_modules/ng2-dragula/components/dragular.module.d.ts"/>
 var core_1 = require("@angular/core");
 var platform_browser_1 = require("@angular/platform-browser");
 var forms_1 = require("@angular/forms"); // <-- NgModel lives here
@@ -26,6 +27,12 @@ var user_service_1 = require("./services/user.service");
 var edit_dialog_component_1 = require("./user/edit-dialog/edit-dialog.component");
 var add_project_dialog_component_1 = require("./projects/add-project-dialog/add-project-dialog.component");
 var delete_dialog_component_1 = require("./delete-dialog/delete-dialog.component");
+var tasks_component_1 = require("./tasks/tasks.component");
+var ng2_dragula_1 = require("ng2-dragula");
+var task_details_dialog_component_1 = require("./tasks/task-details-dialog/task-details-dialog.component");
+var task_services_1 = require("./services/task.services");
+var add_task_dialog_component_1 = require("./tasks/add-task-dialog/add-task-dialog.component");
+var project_details_component_1 = require("./project-details/project-details.component");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -38,6 +45,7 @@ AppModule = __decorate([
             material_1.MaterialModule,
             animations_1.BrowserAnimationsModule,
             ng2_select_1.SelectModule,
+            ng2_dragula_1.DragulaModule,
             forms_1.FormsModule,
             router_1.RouterModule.forRoot([
                 {
@@ -61,6 +69,10 @@ AppModule = __decorate([
                 {
                     path: 'logout',
                     component: logout_component_1.LogoutComponent
+                },
+                {
+                    path: 'project/:id',
+                    component: project_details_component_1.ProjectDetailsComponent
                 }
             ])
         ],
@@ -73,10 +85,14 @@ AppModule = __decorate([
             add_project_dialog_component_1.AddProjectDialog,
             user_component_1.UserComponent,
             delete_dialog_component_1.DeleteDialog,
-            edit_dialog_component_1.EditUserDialog
+            edit_dialog_component_1.EditUserDialog,
+            tasks_component_1.TasksComponent,
+            task_details_dialog_component_1.TaskDetailsDialog,
+            add_task_dialog_component_1.AddTaskDialog,
+            project_details_component_1.ProjectDetailsComponent
         ],
-        entryComponents: [add_project_dialog_component_1.AddProjectDialog, edit_dialog_component_1.EditUserDialog, delete_dialog_component_1.DeleteDialog],
-        providers: [auth_service_1.AuthService, auth_guard_service_1.AuthGuard, project_service_1.ProjectService, user_service_1.UserService],
+        entryComponents: [add_project_dialog_component_1.AddProjectDialog, edit_dialog_component_1.EditUserDialog, delete_dialog_component_1.DeleteDialog, task_details_dialog_component_1.TaskDetailsDialog, add_task_dialog_component_1.AddTaskDialog],
+        providers: [auth_service_1.AuthService, auth_guard_service_1.AuthGuard, project_service_1.ProjectService, user_service_1.UserService, task_services_1.TaskService],
         bootstrap: [app_component_1.AppComponent]
     })
 ], AppModule);

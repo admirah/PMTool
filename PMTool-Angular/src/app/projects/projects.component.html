@@ -12,7 +12,7 @@
                             <md-card-title>
                                 <table>
                                     <tr>
-                                        <td><h4>{{project.name}} </h4></td>
+                                        <td><h4 (click)="goToProject(project.id)">{{project.name}} </h4></td>
                                         <td>
                                             <button (click)="deleteProject(project)">
                                                 <md-icon>delete</md-icon>
@@ -53,7 +53,7 @@
                             <md-card-title>
                                 <table>
                                     <tr>
-                                        <td><h4>{{project.name}} </h4></td>
+                                        <td><h4 (click)="goToProject(project.id)">{{project.name}} </h4></td>
                                         <td>
                                             <button (click)="leaveProject(project)">
                                                 <md-icon>delete</md-icon>

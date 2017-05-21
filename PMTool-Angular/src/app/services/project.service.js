@@ -27,6 +27,14 @@ var ProjectService = (function () {
         return this.http.get('http://localhost:7010/projects/project/project?userid=' + id, { headers: this.headers })
             .map(function (res) { return res.json(); });
     };
+    ProjectService.prototype.getProjectById = function (id) {
+        console.log(id);
+        this.headers = new http_1.Headers();
+        this.headers.append('Content-Type', 'application/json');
+        this.headers.append('Token', this.auth.getToken());
+        return this.http.get('http://localhost:7010/projects/project/' + id, { headers: this.headers })
+            .map(function (res) { return res.json(); });
+    };
     ProjectService.prototype.getAllButMyProjects = function (id) {
         this.headers = new http_1.Headers();
         this.headers.append('Content-Type', 'x-www-form-urlencoded');

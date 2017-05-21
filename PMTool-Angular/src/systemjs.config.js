@@ -33,6 +33,7 @@
             , // other libraries
             'rxjs': 'npm:rxjs'
             , 'ng2-select': 'npm:ng2-select/bundles/ng2-select.umd.js'
+            , 'ng2-dragula': 'npm:ng2-dragula/bundles/ng2-dragula.umd.js'
 
         }
         , // packages tells the System loader how to load when no filename and/or no extension

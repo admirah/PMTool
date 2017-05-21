@@ -1,0 +1,50 @@
+import {Injectable} from '@angular/core';
+import {Http, Headers} from '@angular/http';
+import 'rxjs/add/operator/map';
+import {Observable} from 'rxjs';
+import {AuthService} from './auth.service';
+
+@Injectable()
+export class TaskService {
+
+    headers: Headers;
+
+    constructor(private http: Http, private auth: AuthService) {
+        this.headers = new Headers();
+    }
+
+    addNewTask(task: any): Observable<Response> {
+        task.owner = this.auth.getId();
+        this.headers = new Headers();
+        this.headers.append('Token', this.auth.getToken())
+        this.headers.append('Content-Type', 'application/json');
+        return this.http.post('http://localhost:7010/projects/tasks', task, {headers: this.headers})
+            .map(res => res.json());
+    }
+
+    addComment(comment: any): Observable<Response> {
+
+        comment.user = this.auth.getId();
+        //////console.log(comment);
+        this.headers = new Headers();
+        this.headers.append('Token', this.auth.getToken())
+        this.headers.append('Content-Type', 'application/json');
+        return this.http.post('http://localhost:7010/projects/tasks/comment', comment, {headers: this.headers})
+            .map(res => res.json());
+    }
+
+    changeTaskStatus(taskId: number, ind: number): Observable<Response> {
+        let task = {
+            taskStatus: ind
+        }
+        console.log(task);
+        this.headers = new Headers();
+        this.headers.append('Token', this.auth.getToken())
+        this.headers.append('Content-Type', 'application/json');
+        return this.http.patch('http://localhost:7010/projects/task/' + taskId, task, {headers: this.headers})
+            .map(res => res.json());
+    }
+}
+/**
+ * Created by Admira on 20.05.2017..
+ */

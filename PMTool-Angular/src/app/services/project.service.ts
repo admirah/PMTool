@@ -24,6 +24,16 @@ export class ProjectService {
 
     }
 
+    getProjectById(id: any) {
+        console.log(id);
+
+        this.headers = new Headers();
+        this.headers.append('Content-Type', 'application/json');
+        this.headers.append('Token', this.auth.getToken())
+        return this.http.get('http://localhost:7010/projects/project/'+id, {headers: this.headers})
+            .map(res => res.json());
+    }
+
     getAllButMyProjects(id: any): Observable<Response> {
 
         this.headers = new Headers();
