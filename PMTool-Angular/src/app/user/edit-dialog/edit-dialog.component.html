@@ -1,0 +1,31 @@
+<h1 md-dialog-title>Add new project</h1>
+
+<div md-dialog-content class="form">
+
+    <md-input-container class="example-full-width">
+        <input mdInput tye="text" placeholder="name" [(ngModel)]="userData.name"
+               [ngModelOptions]="{standalone: true}"/>
+    </md-input-container>
+    <br>
+    <md-input-container class="example-full-width">
+        <input mdInput type="email" placeholder="email" [(ngModel)]="userData.email"
+               [ngModelOptions]="{standalone: true}"/>
+    </md-input-container>
+    <br>
+    <md-input-container class="example-full-width">
+        <input mdInput type="text" placeholder="bio" [(ngModel)]="userData.bio"
+               [ngModelOptions]="{standalone: true}"/>
+    </md-input-container>
+    <br>
+    <div class="example-full-width">
+        <input type="file" placeholder="email" (change)="onChange($event)"/>
+    </div>
+    <br>
+
+</div>
+<div md-dialog-actions  class="example-full-width">
+    <span class="example-spacer"></span>
+    <button md-button (click)="dialogRef.close('Cancel')">Cancel</button>
+    <button md-button (click)="dialogRef.close(userData)">Save</button>
+</div>
+    

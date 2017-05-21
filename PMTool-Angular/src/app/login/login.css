@@ -1,0 +1,26 @@
+.example-full-width {
+    width: 100%;
+}
+
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+.hedbot {
+    margin-bottom: 2px;
+}
+
+.card {
+    width: 25%;
+    margin: auto;
+    margin-top: 200px
+}
+
+.form {
+    margin: auto;
+}
+
+.login-button {
+    float: right;
+    margin-right: 10px;
+}

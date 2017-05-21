@@ -1,0 +1,39 @@
+.wrap {
+    background-color: white;
+    width: 70%;
+    margin: 20px auto 5px auto;
+}
+
+.horScrollContainer {
+
+    background-color: #F2EFF5;
+    overflow-x: hidden;
+    white-space: nowrap;
+    padding: 10px 10px 0 10px;
+    height:250px;
+
+}
+
+.imageBlock {
+
+    height: 190px;
+    margin: 5px 15px;
+    width: 190px;
+    border: 1px solid black;
+    border-radius:3px;
+    display: inline-block;
+}
+
+.dataBlock {
+
+    height: 190px;
+    margin: 5px 15px 0px 15px;
+    width: 750px;
+    display: inline-block;
+}
+
+h2 {
+    margin: 8px 0 8px 0;
+    border-bottom: 1px groove;
+
+}

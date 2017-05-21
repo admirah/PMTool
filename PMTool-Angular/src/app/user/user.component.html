@@ -1,0 +1,35 @@
+<div class="wrap">
+
+    <div class="horScrollContainer">
+        <table>
+            <tr>
+                <td>
+                    <div class="imageBlock">
+                        pikcr
+                    </div>
+                </td>
+                <td>
+                    <div class="dataBlock">
+                        <h2>Hello {{user.username}}</h2>
+                        <div>
+                            <p>Name: {{user.name}}</p>
+                        </div>
+                        <div>
+                            <p>Bio: {{user.bio}}</p>
+                        </div>
+                        <div>
+                            <p>Email: {{user.email}}</p>
+                        </div>
+                        <h2></h2>
+                        <div>
+                            <br>
+                            <button md-raised-button (click)="editUser()">Edit your account</button>
+                            <button md-raised-button (click)="deleteUser()">Delete your account</button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</div>
