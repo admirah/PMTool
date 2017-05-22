@@ -13,9 +13,12 @@
     }
 
     .container {
-        min-height:100px;
+        min-height: 70vh;
         width: 16%;
-        margin: 2%;
+        margin: 0 2% 2% 2%;
+        background-color: #F2EFF5;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
     }
 
     .cards {
@@ -24,31 +27,45 @@
     }
 
     h3 {
-        margin: 8px 3px 5px 0;
+        margin: 8px 0px 0px 0;
         width: 100%;
         border-bottom: 1px solid black;
+        padding-bottom: 10px;
 
     }
-    .titles{
-        width: 16%;
-        margin: 2%;
+
+    .titles {
+        width: 14%;
+        margin: 2% 2% 0 2%;
         display: inline-block;
+        background-color: #F2EFF5;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        padding: 5px 1%;
     }
 
+    .add-task-button {
+        float: right;
+        background-color: #95B5D6;
+    }
 </style>
 
 
 <div class='wrapper' style="width:100%">
-    <div class=" titles" *ngFor='let group of groups'><h3>{{group.name}}  <button (click)="addTask(group)">+</button></h3>
+    <div class=" titles" *ngFor='let group of groups'>
+        <h3>{{group.name}}
+            <button class="add-task-button" (click)="addTask(group)">+</button>
+        </h3>
 
-   </div>
+    </div>
 </div>
 
 
 <div class='wrapper' id="wrap" style="width:100%">
-    <div class='container' *ngFor='let group of groups' id="{{group.name}}" [dragula]='"nested-bag"' [dragulaModel]='group.items'>
+    <div class='container' *ngFor='let group of groups' id="{{group.name}}" [dragula]='"nested-bag"'
+         [dragulaModel]='group.items'>
 
-        <div *ngFor='let item of group.items' class="cards"  (mousedown)="onClick(item)">
+        <div *ngFor='let item of group.items' class="cards" (mousedown)="onClick(item)">
             <md-card>
                 <md-card-content>{{item.name}}</md-card-content>
                 <md-card-actions>

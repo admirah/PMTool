@@ -62,7 +62,12 @@
 h4 {
     margin: 8px 0 5px 0;
     width: 130px;
+   color:black;
+    transition:color 400ms;
+}
 
+h4:hover{
+    color: slategray;
 }
 
 h3 {

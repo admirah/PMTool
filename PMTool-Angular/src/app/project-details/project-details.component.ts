@@ -6,8 +6,6 @@ import {AuthService} from './../services/auth.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MdDialog} from '@angular/material';
 import {ProjectService} from '../services/project.service';
-import {AddProjectDialog} from './add-project-dialog/add-project-dialog.component';
-import {DeleteDialog} from '../delete-dialog/delete-dialog.component';
 
 @Component({
     selector: 'project-details',

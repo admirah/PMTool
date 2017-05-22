@@ -27,7 +27,6 @@ var TasksComponent = (function () {
         this.router = router;
         this.dragulaService = dragulaService;
         this.dialog = dialog;
-        //console.log(this.projectId);
         this.groups = [
             {
                 name: 'Backlog',
@@ -51,23 +50,16 @@ var TasksComponent = (function () {
         ];
         this.task = {};
         dragulaService.dropModel.subscribe(function (value) { return _this.onDropModel(value, value.slice(1)); });
-        dragulaService.removeModel.subscribe(function (value) { return _this.onRemoveModel(value.slice(1)); });
     }
     TasksComponent.prototype.onDropModel = function (val, args) {
         var el = args[0], target = args[1], source = args[2];
-        //console.log(this.groups);
-        //console.log(args);
-        //console.log(val);
-        //console.log(this.task);
+        el = null;
         if (target.id !== source.id) {
             var ind = this.groups.findIndex(function (item) { return item.name === target.id; });
             this.taskService.changeTaskStatus(this.task.id, ind).subscribe(function (result) {
                 return console.log(result);
             });
         }
-    };
-    TasksComponent.prototype.onRemoveModel = function (args) {
-        var el = args[0], source = args[1];
     };
     TasksComponent.prototype.onClick = function (item) {
         console.log(item);
@@ -77,7 +69,6 @@ var TasksComponent = (function () {
         var _this = this;
         this.projectService.getProjectById(this.projectId).subscribe(function (result) {
             _this.project = result;
-            //console.log(result);
             result.tasks.forEach(function (task) {
                 if (task.taskStatus === 'BACKLOG') {
                     _this.groups[0].items.push(task);
@@ -103,7 +94,6 @@ var TasksComponent = (function () {
         var ind = this.groups.indexOf(group);
         var ind1 = this.groups[ind].items.indexOf(item);
         config.data = item;
-        //console.log('admira');
         var dialogRef = this.dialog.open(task_details_dialog_component_1.TaskDetailsDialog, config);
         dialogRef.afterClosed().subscribe(function (result) {
             _this.groups[ind].items[ind1].comments = result;
@@ -118,19 +108,19 @@ var TasksComponent = (function () {
         dialogRef.afterClosed().subscribe(function (result) {
             result.projectId = _this.projectId;
             _this.taskService.addNewTask(result).subscribe(function (res) {
-                if (res.taskStatus === 'BACKLOG') {
+                if (res['taskStatus'] === 'BACKLOG') {
                     _this.groups[0].items.push(res);
                 }
-                else if (res.taskStatus === 'SPRINT') {
+                else if (res['taskStatus'] === 'SPRINT') {
                     _this.groups[1].items.push(res);
                 }
-                else if (res.taskStatus === 'INPROGRESS') {
+                else if (res['taskStatus'] === 'INPROGRESS') {
                     _this.groups[2].items.push(res);
                 }
-                else if (res.taskStatus === 'QA') {
+                else if (res['taskStatus'] === 'QA') {
                     _this.groups[3].items.push(res);
                 }
-                else if (res.taskStatus === 'DONE') {
+                else if (res['taskStatus'] === 'DONE') {
                     _this.groups[4].items.push(res);
                 }
             });
