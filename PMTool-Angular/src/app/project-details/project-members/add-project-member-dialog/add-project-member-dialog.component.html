@@ -1,0 +1,12 @@
+<h1 md-dialog-title>Add new member</h1>
+<div md-dialog-content>
+  <md-input-container class="example-full-width">
+    <input mdInput tye="text" placeholder="User's username" [(ngModel)]="username"
+           [ngModelOptions]="{standalone: true}"/>
+  </md-input-container>
+  <br>
+</div>
+<div md-dialog-actions>
+  <button md-button (click)="dialogRef.close('Cancel')">Cancel</button>
+  <button md-button (click)="dialogRef.close(username)">Add</button>
+</div>

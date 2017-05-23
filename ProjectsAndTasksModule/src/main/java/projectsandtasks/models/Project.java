@@ -127,4 +127,8 @@ public class Project {
         this.tasks = tasks;
     }
 
+  @Override
+  public boolean equals(Object obj) {
+    return (obj instanceof Project && ((Project)(obj)).getId().equals(this.getId()));
+  }
 }

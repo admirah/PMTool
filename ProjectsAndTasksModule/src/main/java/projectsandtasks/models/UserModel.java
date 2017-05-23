@@ -2,51 +2,63 @@ package projectsandtasks.models;
 
 public class UserModel {
 
-    public UserModel(){}
+  public UserModel() {
+  }
 
-    private Long id;
-    private String email;
-    private String name;
-    private String bio;
-    private String image;
+  private Long id;
+  private String email;
+  private String name;
+  private String bio;
+  private String image;
 
-    public Long getId() {
-        return id;
-    }
+  private String username;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public String getEmail() {
-        return email;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+  public String getEmail() {
+    return email;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public String getName() {
+    return this.  name;
+  }
 
-    public String getBio() {
-        return bio;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public void setBio(String bio) {
-        this.bio = bio;
-    }
+  public String getBio() {
+    return bio;
+  }
 
-    public String getImage() {
-        return image;
-    }
+  public void setBio(String bio) {
+    this.bio = bio;
+  }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
+  public String getImage() {
+    return image;
+  }
+
+  public void setImage(String image) {
+    this.image = image;
+  }
+
+  public String getUsername() {
+    return username;
+  }
+
+  public void setUsername(String username) {
+    this.username = username;
+  }
+
 }

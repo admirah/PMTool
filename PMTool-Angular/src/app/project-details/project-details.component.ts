@@ -9,7 +9,7 @@ import {ProjectService} from '../services/project.service';
 
 @Component({
     selector: 'project-details',
-    template: `<tasks  [projectId]="projectId"></tasks>`,
+    template: `<project-members [projectId]="projectId"></project-members> <tasks  [projectId]="projectId"></tasks>`,
     //  styleUrls: ['./projects.css'],
     providers: [AuthService, ProjectService]
 })

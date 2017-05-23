@@ -1,0 +1,16 @@
+<div class="row">
+  <md-card class="row">
+    Project members:<hr>
+    <button *ngFor="let item of members;"><strong>{{item.name}}</strong></button>
+    <button (click)="openDialog()"><strong>+</strong></button>
+  </md-card>
+</div>
+
+<style>
+  div.row {
+    margin: 10px 30px 0px 30px;
+  }
+  button {
+    margin-right: 20px;
+  }
+</style>

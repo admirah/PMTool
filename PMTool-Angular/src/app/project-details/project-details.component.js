@@ -41,7 +41,7 @@ var ProjectDetailsComponent = (function () {
 ProjectDetailsComponent = __decorate([
     core_1.Component({
         selector: 'project-details',
-        template: "<tasks  [projectId]=\"projectId\"></tasks>",
+        template: "<project-members [projectId]=\"projectId\"></project-members> <tasks  [projectId]=\"projectId\"></tasks>",
         //  styleUrls: ['./projects.css'],
         providers: [auth_service_1.AuthService, project_service_1.ProjectService]
     }),

@@ -33,6 +33,10 @@ var task_details_dialog_component_1 = require("./tasks/task-details-dialog/task-
 var task_services_1 = require("./services/task.services");
 var add_task_dialog_component_1 = require("./tasks/add-task-dialog/add-task-dialog.component");
 var project_details_component_1 = require("./project-details/project-details.component");
+var project_members_component_1 = require("./project-details/project-members/project-members.component");
+var http_1 = require("@angular/http");
+var add_project_member_dialog_component_1 = require("./project-details/project-members/add-project-member-dialog/add-project-member-dialog.component");
+var member_service_1 = require("./services/member.service");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -46,6 +50,7 @@ AppModule = __decorate([
             animations_1.BrowserAnimationsModule,
             ng2_select_1.SelectModule,
             ng2_dragula_1.DragulaModule,
+            http_1.HttpModule,
             forms_1.FormsModule,
             router_1.RouterModule.forRoot([
                 {
@@ -89,10 +94,12 @@ AppModule = __decorate([
             tasks_component_1.TasksComponent,
             task_details_dialog_component_1.TaskDetailsDialog,
             add_task_dialog_component_1.AddTaskDialog,
-            project_details_component_1.ProjectDetailsComponent
+            project_details_component_1.ProjectDetailsComponent,
+            project_members_component_1.ProjectMembersComponent,
+            add_project_member_dialog_component_1.AddProjectMemberDialog
         ],
-        entryComponents: [add_project_dialog_component_1.AddProjectDialog, edit_dialog_component_1.EditUserDialog, delete_dialog_component_1.DeleteDialog, task_details_dialog_component_1.TaskDetailsDialog, add_task_dialog_component_1.AddTaskDialog],
-        providers: [auth_service_1.AuthService, auth_guard_service_1.AuthGuard, project_service_1.ProjectService, user_service_1.UserService, task_services_1.TaskService],
+        entryComponents: [add_project_dialog_component_1.AddProjectDialog, edit_dialog_component_1.EditUserDialog, delete_dialog_component_1.DeleteDialog, task_details_dialog_component_1.TaskDetailsDialog, add_task_dialog_component_1.AddTaskDialog, add_project_member_dialog_component_1.AddProjectMemberDialog],
+        providers: [auth_service_1.AuthService, auth_guard_service_1.AuthGuard, project_service_1.ProjectService, user_service_1.UserService, task_services_1.TaskService, member_service_1.MemberService],
         bootstrap: [app_component_1.AppComponent]
     })
 ], AppModule);
