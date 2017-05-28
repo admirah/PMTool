@@ -29,6 +29,7 @@
         margin: 0 0 3% 0;
 
     }
+
     .comments:hover {
         overflow-y: auto;
     }
@@ -41,13 +42,14 @@
         height: 230px;
 
     }
-    .list-item{
-        border-bottom:1px solid lightgray;
+
+    .list-item {
+        border-bottom: 1px solid lightgray;
     }
 
     .content {
         margin: 15px auto;
-        padding:10px;
+        padding: 10px;
         width: 90%;
     }
 
@@ -67,10 +69,14 @@
             <p>Description: {{item.description}}</p>
         </div>
     </div>
-    <div class="comments-section">
+    <div class="comments-section" *ngIf="isDataAvailable">
         <md-list class="comments">
             <md-list-item class="list-item" *ngFor="let comment of comments">
-                <p>{{comment.content}}</p>
+                <img md-list-avatar src="../../images/admira.jpg">
+                <table style="overflow-y: auto;">
+                    <tr><td>{{comment.member.name}}</td></tr>
+                    <tr><td>{{comment.content}}</td></tr>
+                </table>
             </md-list-item>
         </md-list>
         <md-input-container class="input-comment">

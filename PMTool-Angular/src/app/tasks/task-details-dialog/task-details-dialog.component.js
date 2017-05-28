@@ -12,15 +12,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var material_1 = require("@angular/material");
 var task_services_1 = require("../../services/task.services");
+var member_service_1 = require("../../services/member.service");
 var TaskDetailsDialog = (function () {
-    function TaskDetailsDialog(dialogRef, taskService) {
+    function TaskDetailsDialog(dialogRef, taskService, memberService) {
         this.dialogRef = dialogRef;
         this.taskService = taskService;
+        this.memberService = memberService;
         this.item = this.dialogRef._containerInstance.dialogConfig.data;
-        console.log(this.item);
         this.comments = (this.item.comments) ? this.item.comments : [];
         this.comment = { content: '' };
         this.showButtonVar = false;
+        this.isDataAvailable = false;
     }
     TaskDetailsDialog.prototype.showButton = function () {
         if (this.comment.length !== 0) {
@@ -36,11 +38,34 @@ var TaskDetailsDialog = (function () {
         console.log(this.comment);
         this.taskService.addComment(this.comment).subscribe(function (res) {
             console.log(res);
+            var ind = _this.members.findIndex(function (member) {
+                return member.id == res['user'];
+            });
+            console.log(ind);
+            console.log(_this.members[ind]);
+            res['member'] = _this.members[ind];
             _this.comments.push(res);
             console.log(_this.comment);
             console.log(_this.comments);
             _this.comment.content = '';
             _this.showButtonVar = false;
+        });
+    };
+    TaskDetailsDialog.prototype.ngOnInit = function () {
+        var _this = this;
+        this.memberService.get(this.item.project).subscribe(function (response) {
+            _this.members = response;
+            console.log(_this.members);
+            _this.comments.forEach(function (comment) {
+                var ind = _this.members.findIndex(function (member) {
+                    return member.id == comment.user;
+                });
+                console.log(ind);
+                console.log(_this.members[ind]);
+                comment['member'] = _this.members[ind];
+                console.log(comment);
+            });
+            _this.isDataAvailable = true;
         });
     };
     return TaskDetailsDialog;
@@ -50,7 +75,7 @@ TaskDetailsDialog = __decorate([
         selector: 'task-details-dialog',
         templateUrl: "./task-details-dialog.component.html"
     }),
-    __metadata("design:paramtypes", [material_1.MdDialogRef, task_services_1.TaskService])
+    __metadata("design:paramtypes", [material_1.MdDialogRef, task_services_1.TaskService, member_service_1.MemberService])
 ], TaskDetailsDialog);
 exports.TaskDetailsDialog = TaskDetailsDialog;
 //# sourceMappingURL=task-details-dialog.component.js.map

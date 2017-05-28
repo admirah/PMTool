@@ -21,6 +21,7 @@ import {AddProjectDialog} from './projects/add-project-dialog/add-project-dialog
 import {DeleteDialog} from './delete-dialog/delete-dialog.component';
 import {TasksComponent} from './tasks/tasks.component';
 import {DragulaModule} from 'ng2-dragula';
+import {nvD3} from 'ng2-nvd3';
 import {TaskDetailsDialog} from './tasks/task-details-dialog/task-details-dialog.component';
 import {TaskService} from "./services/task.services";
 import {AddTaskDialog} from "./tasks/add-task-dialog/add-task-dialog.component";
@@ -29,66 +30,73 @@ import {ProjectMembersComponent} from "./project-details/project-members/project
 import {HttpModule} from "@angular/http";
 import {AddProjectMemberDialog} from "./project-details/project-members/add-project-member-dialog/add-project-member-dialog.component";
 import {MemberService} from "./services/member.service";
+import {ReportsComponent} from "./reports/reports.component";
 
 @NgModule({
-  imports: [
-    BrowserModule,
-    MaterialModule,
-    BrowserAnimationsModule,
-    SelectModule,
-    DragulaModule,
-    HttpModule,
-    FormsModule, // <-- import the FormsModule before binding with [(ngModel)]
-    RouterModule.forRoot([
-      {
-        path: '',
-        redirectTo: '/projects',
-        pathMatch: 'full'
-      },
-      {
-        path: 'projects',
-        component: ProjectsComponent,
-        canActivate: [AuthGuard]
-      },
-      {
-        path: 'login',
-        component: LoginComponent
-      },
-      {
-        path: 'register',
-        component: RegisterComponent
-      },
-      {
-        path: 'logout',
-        component: LogoutComponent
-      }
-      ,
-      {
-        path: 'project/:id',
-        component: ProjectDetailsComponent
-      }
-    ])
-  ],
-  declarations: [
-    AppComponent,
-    LoginComponent,
-    RegisterComponent,
-    LogoutComponent,
-    ProjectsComponent,
-    AddProjectDialog,
-    UserComponent,
-    DeleteDialog,
-    EditUserDialog,
-    TasksComponent,
-    TaskDetailsDialog,
-    AddTaskDialog,
-    ProjectDetailsComponent,
-    ProjectMembersComponent,
-    AddProjectMemberDialog
-  ],
-  entryComponents: [AddProjectDialog, EditUserDialog, DeleteDialog, TaskDetailsDialog, AddTaskDialog, AddProjectMemberDialog],
-  providers: [AuthService, AuthGuard, ProjectService, UserService, TaskService, MemberService],
-  bootstrap: [AppComponent]
+    imports: [
+        BrowserModule,
+        MaterialModule,
+        BrowserAnimationsModule,
+        SelectModule,
+        DragulaModule,
+        HttpModule,
+        FormsModule, // <-- import the FormsModule before binding with [(ngModel)]
+        RouterModule.forRoot([
+            {
+                path: '',
+                redirectTo: '/projects',
+                pathMatch: 'full'
+            },
+            {
+                path: 'projects',
+                component: ProjectsComponent,
+                canActivate: [AuthGuard]
+            },
+            {
+                path: 'login',
+                component: LoginComponent
+            },
+            {
+                path: 'register',
+                component: RegisterComponent
+            },
+            {
+                path: 'logout',
+                component: LogoutComponent
+            }
+            ,
+            {
+                path: 'project/:id',
+                component: ProjectDetailsComponent
+            }
+            ,
+            {
+                path: 'reports/:id',
+                component: ReportsComponent
+            }
+        ])
+    ],
+    declarations: [
+        AppComponent,
+        LoginComponent,
+        RegisterComponent,
+        LogoutComponent,
+        ProjectsComponent,
+        AddProjectDialog,
+        UserComponent,
+        DeleteDialog,
+        EditUserDialog,
+        TasksComponent,
+        TaskDetailsDialog,
+        AddTaskDialog,
+        ProjectDetailsComponent,
+        ProjectMembersComponent,
+        AddProjectMemberDialog,
+        ReportsComponent,nvD3
+    ],
+    entryComponents: [AddProjectDialog, EditUserDialog, DeleteDialog, TaskDetailsDialog, AddTaskDialog, AddProjectMemberDialog],
+    providers: [AuthService, AuthGuard, ProjectService, UserService, TaskService, MemberService],
+    bootstrap: [AppComponent]
 })
 export class AppModule {
 }

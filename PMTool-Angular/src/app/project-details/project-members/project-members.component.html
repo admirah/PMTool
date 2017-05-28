@@ -1,16 +1,54 @@
 <div class="row">
-  <md-card class="row">
-    Project members:<hr>
-    <button *ngFor="let item of members;"><strong>{{item.name}}</strong></button>
-    <button (click)="openDialog()"><strong>+</strong></button>
-  </md-card>
+    <table>
+        <tr>
+            <td>
+                <div *ngIf="dataAvailable" style="width:30%">
+                    <h2>{{project.name}}
+                        <button (click)="showReports()">Show reports</button></h2>
+
+                </div>
+            </td>
+            <td>
+                <md-list class="comments">
+                    <md-list-item class="list-item" >
+                        Project members:
+                        <button class="but" (click)="openDialog()"><strong>+</strong></button>
+                        <hr>
+                    </md-list-item>
+                    <md-list-item class="list-item" *ngFor="let member of members">
+                        <img md-list-avatar src="../../images/admira.jpg">
+                        <table style="overflow-y: auto;">
+                            <tr>
+                                <td>{{member.name}}</td>
+                            </tr>
+                        </table>
+                    </md-list-item>
+                </md-list>
+
+            </td>
+        </tr>
+    </table>
 </div>
 
 <style>
-  div.row {
-    margin: 10px 30px 0px 30px;
-  }
-  button {
-    margin-right: 20px;
-  }
+    table {
+        width: 100%;
+    }
+
+    div.row {
+        margin: 10px 30px 0px 30px;
+    }
+
+    button.but {
+        margin-right: 20px;
+        right: 2px;
+        position: absolute;
+    }
+
+    .comments {
+        height:200px;
+        width: 70%;
+        overflow-y: auto;
+        overflow-x:hidden;
+    }
 </style>
