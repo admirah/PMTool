@@ -6,7 +6,6 @@
             function ListProjects() {
                 DataFactory.list("projects/project/project?userid=" + credentials.id, function (response) {
                     $scope.projects = response;
-                    console.log(response);
                 });
             }
 
@@ -31,8 +30,7 @@
                 modalInstance.result.then(function (project) {
                     DataFactory.insert("projects/project", project, function (response) {
                         ToasterService.pop('success', "Success", "Project added");
-                        //ListProjects();
-                        $scope.projects.push(response);
+                        ListProjects();
                     });
                 }, function () {
                     ToasterService.pop('info', "Info", "Modal closed");

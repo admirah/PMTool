@@ -1,0 +1,37 @@
+<div class="container-fluid">
+    <div class="row" style="padding-left: 20px;">
+        <div class="col-md-3">
+            <button class="btn btn-success" ng-click="new()">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            New task
+        </button>
+        </div>
+        <div class="col-md-3 pull-right">
+            <button class="btn btn-info pull-right" ng-click="info()">
+                <i class="fa fa-info" aria-hidden="true"></i>
+                {{ project.name }}
+            </button>
+        </div>
+
+    </div>
+    <hr>
+    <div class="row">
+        <div ng-repeat="list in model" class="col-md-5ths">
+            <div class="panel">
+                <div class="panel-heading panel-heading-color">
+                    <h4 class="panel-title">{{ list.label }}</h4>
+                </div>
+                <div class="panel-body">
+                    <ul dnd-list dnd-drop="callback({targetList: list, targetIndex: index})">
+                        <li ng-repeat="item in list.data" dnd-draggable="null" dnd-callback="onDrop(list.data, $index, targetList.data, targetIndex, targetList.label, item)">
+                            <span ng-click="taskDetails(item);">{{ item.name }}</span>
+                            <span style="float:right" ng-click="show(item);">
+                                <i class="fa fa-eye" aria-hidden="true"></i>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

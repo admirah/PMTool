@@ -1,0 +1,72 @@
+<div class="modal-header">
+    <h3 class="modal-title" id="modal-title">Task</h3>
+</div>
+<div class="modal-body" id="modal-body">
+    <form name="new_task" class="form-horizontal">
+        <div class="form-group" ng-class="{ 'has-error' : new_task.name.$invalid && !new_task.name.$pristine && new_task.name.$error }">
+            <label class="control-label col-sm-2" for="document">Name:</label>
+            <div class="col-sm-6">
+                <input type="text" name="name" class="form-control" ng-model="$modal.data.name" placeholder="Name" required>
+            </div>
+            <div class="col-sm-4">
+                <p ng-show="new_task.name.$dirty && new_task.name.$error.required" class="help-block">Name is required.</p>
+            </div>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error' : new_task.description.$invalid && !new_task.description.$pristine && new_task.description.$error }">
+            <label class="control-label col-sm-2" for="document">Description:</label>
+            <div class="col-sm-6">
+                <textarea name="description" class="form-control" ng-model="$modal.data.description" placeholder="Description" required></textarea>
+            </div>
+            <div class="col-sm-4">
+                <p ng-show="new_task.description.$dirty && new_task.description.$error.required" class="help-block">Description is required.</p>
+            </div>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error' : new_task.weight.$invalid && !new_task.weight.$pristine && new_task.weight.$error }">
+            <label class="control-label col-sm-2" for="document">Weight:</label>
+            <div class="col-sm-6">
+                <select name="weight" ng-model="$modal.data.weight" class="form-control">
+                    <option value="LOW">Low</option>
+                    <option value="MEDIUM">Medium</option>
+                    <option value="HIGH">High</option>
+                </select>
+            </div>
+            <div class="col-sm-4">
+                <p ng-show="new_task.weight.$dirty && new_task.weight.$error.required" class="help-block">Weight is required.</p>
+            </div>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error' : new_task.startedOn.$invalid && !new_task.startedOn.$pristine && new_task.startedOn.$error }">
+            <label class="control-label col-sm-2" for="startedOn">Started on:</label>
+            <div class="col-sm-6">
+                <div class="input-group">
+                    <input type="text" name="startedOn" class="form-control" uib-datepicker-popup ng-model="$modal.data.startedOn" is-open="open.datepicker" show-button-bar="false"
+                        ng-required="true" close-text="Close" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="open.datepicker = true"><i class="fa fa-calendar" aria-hidden="true"></i></button>
+                    </span>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <p ng-show="new_task.startedOn.$dirty && new_task.startedOn.$error.required" class="help-block">Start time is required.</p>
+            </div>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error' : new_task.endOn.$invalid && !new_task.endOn.$pristine && new_task.endOn.$error }">
+            <label class="control-label col-sm-2" for="endOn">End on:</label>
+            <div class="col-sm-6">
+                <div class="input-group">
+                    <input type="text" name="endOn" class="form-control" uib-datepicker-popup ng-model="$modal.data.endOn" is-open="open.datepicker2" show-button-bar="false"
+                        ng-required="true" close-text="Close" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="open.datepicker2 = true"><i class="fa fa-calendar" aria-hidden="true"></i></button>
+                    </span>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <p ng-show="new_task.endOn.$dirty && new_task.endOn.$error.required" class="help-block">End time is required.</p>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="$modal.ok()">Create</button>
+    <button class="btn btn-warning" type="button" ng-click="$modal.cancel()">Cancel</button>
+</div>
