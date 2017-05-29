@@ -2,32 +2,43 @@
     <h3 class="modal-title" id="modal-title">Task</h3>
 </div>
 <div class="modal-body" id="modal-body">
-    <dl class="dl-horizontal">
-        <div style="padding:5px">
-            <dt>Name:</dt>
-            <dd>{{ $modal.data.name }}</dd>
-        </div>
-        <div style="padding:5px">
-            <dt>Description:</dt>
-            <dd>{{ $modal.data.description }}</dd>
-        </div>
-        <div style="padding:5px">
-            <dt>Status:</dt>
-            <dd>{{ $modal.data.taskStatus }}</dd>
-        </div>
-        <div style="padding:5px">
-            <dt>Started:</dt>
-            <dd>{{ $modal.data.startedOn | date:'yyyy-MM-dd HH:mm:ss' }}</dd>
-        </div>
-        <div style="padding:5px">
-            <dt>End date:</dt>
-            <dd>{{ $modal.data.endOn | date:'yyyy-MM-dd HH:mm:ss' }}</dd>
-        </div>
-        <div style="padding:5px">
-            <dt>Finished:</dt>
-            <dd>{{ $modal.data.finishedOn ? ($modal.data.finishedOn | date:'yyyy-MM-dd HH:mm:ss') : "/" }}</dd>
-        </div>
-    </dl>
+    <div class="row">
+        <dl class="dl-horizontal">
+            <div style="padding:5px">
+                <dt>Name:</dt>
+                <dd>{{ $modal.data.name }}</dd>
+            </div>
+            <div style="padding:5px">
+                <dt>Description:</dt>
+                <dd>{{ $modal.data.description }}</dd>
+            </div>
+            <div style="padding:5px">
+                <dt>Weight:</dt>
+                <dd>{{ $modal.data.weight }}</dd>
+            </div>
+            <div style="padding:5px">
+                <dt>Status:</dt>
+                <dd>{{ $modal.data.taskStatus }}</dd>
+            </div>
+            <div style="padding:5px">
+                <dt>Started:</dt>
+                <dd>{{ $modal.data.startedOn | date:'yyyy-MM-dd HH:mm:ss' }}</dd>
+            </div>
+            <div style="padding:5px">
+                <dt>End date:</dt>
+                <dd>{{ $modal.data.endOn | date:'yyyy-MM-dd HH:mm:ss' }}</dd>
+            </div>
+            <div style="padding:5px">
+                <dt>Finished:</dt>
+                <dd>{{ $modal.data.finishedOn ? ($modal.data.finishedOn | date:'yyyy-MM-dd HH:mm:ss') : "/" }}</dd>
+            </div>
+        </dl>
+    </div>
+    <div class="row" style="padding-left: 15px;">
+        <h3>Comments</h3>
+        <hr>
+
+    </div>
 </div>
 <div class="modal-footer">
     <button class="btn btn-danger" type="button" ng-click="$modal.ok()">Delete</button>

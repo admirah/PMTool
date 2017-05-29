@@ -10,7 +10,13 @@
                 "In progress": 2,
                 "QA": 3,
                 "Done": 4,
-            }
+            };
+
+            var weights = {
+                "LOW": 0,
+                "MEDIUM": 1,
+                "HIGH": 2
+            };
 
             function ListTasks() {
 
@@ -23,7 +29,6 @@
                 ];
 
                 DataFactory.list("projects/project/" + projectId, function (response) {
-                    console.log(response);
                     $scope.project = response;
                     response.tasks.forEach(function (element) {
                         switch (element.taskStatus) {
@@ -49,6 +54,32 @@
 
             ListTasks();
 
+            $scope.info = function () {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    ariaLabelledBy: 'modal-title',
+                    ariaDescribedBy: 'modal-body',
+                    templateUrl: 'app/components/projects/templates/show_project.html',
+                    controller: 'ModalInstanceController',
+                    controllerAs: '$modal',
+                    size: "lg",
+                    resolve: {
+                        data: function () {
+                            return $scope.project
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function (project) {
+                    DataFactory.insert("projects/project", project, function (response) {
+                        ToasterService.pop('success', "Success", "Project edited");
+                        ListProjects();
+                    });
+                }, function () {
+                    ToasterService.pop('info', "Info", "Modal closed");
+                });
+            }
+
             $scope.new = function () {
                 var modalInstance = $uibModal.open({
                     animation: true,
@@ -66,6 +97,8 @@
                 });
 
                 modalInstance.result.then(function (task) {
+                    task.weight = weights[task.weight];
+                    console.log(task);
                     DataFactory.insert("projects/task", task, function (response) {
                         ToasterService.pop('success', "Success", "Task added to backlog");
                         ListTasks();
@@ -103,6 +136,7 @@
             }
 
             $scope.show = function (task) {
+                console.log(task);
                 var modalInstance = $uibModal.open({
                     animation: true,
                     ariaLabelledBy: 'modal-title',

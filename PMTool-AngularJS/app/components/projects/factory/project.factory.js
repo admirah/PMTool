@@ -28,7 +28,7 @@
                         endOn: new Date(),
                         finishedOn: null,
                         taskStatus: 0,
-                        weight: null
+                        weight: "LOW"
                     }
                 }
             };

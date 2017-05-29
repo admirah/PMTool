@@ -6,6 +6,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
 import projectsandtasks.models.TaskStatusEnum;
+import projectsandtasks.models.WeightEnum;
 
 public class TaskModel {
 	private String name;
@@ -42,6 +43,14 @@ public class TaskModel {
 	private String description;
 	@Enumerated(EnumType.ORDINAL)
 	private TaskStatusEnum taskStatus;
+	@Enumerated(EnumType.ORDINAL)
+	private WeightEnum weight;
+	public WeightEnum getWeight() {
+		return weight;
+	}
+	public void setWeight(WeightEnum weight) {
+		this.weight = weight;
+	}
 	private Date startedOn;
     private Date endOn;
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import projectsandtasks.models.UserModel;
+import projectsandtasks.models.WeightEnum;
 import projectsandtasks.helpers.ResponseModel;
 import projectsandtasks.models.Project;
 import projectsandtasks.models.Task;
@@ -62,6 +63,7 @@ public class TaskController {
         	task.setStartedOn(model.getStartedOn());
         	task.setEndOn(model.getEndOn());
         	task.setTaskStatus(model.getTaskStatus());
+        	task.setWeight(model.getWeight());
         	if(model.getTaskStatus() == TaskStatusEnum.DONE) task.setFinishedOn(new Date());
         	else task.setFinishedOn(null);
             repository.save(task);
@@ -105,7 +107,7 @@ public class TaskController {
 	public ResponseEntity<FinishedTaskGroupedTotal> finishedTasksGroupedBy (@RequestParam(value="taskStatus") Long taskStatus){
 		Date dateBefore30Days = DateUtils.addDays(new Date(),-30); //day 30 days ago
 		ArrayList<FinishedTaskGrouped> finishedTasksGroupedList = new ArrayList<FinishedTaskGrouped>();
-    	repository.findAll().stream().filter(x -> {return (x.getTaskStatus().getValue() == taskStatus && x.getFinishedOn() != null && x.getFinishedOn().compareTo(dateBefore30Days) > 0);}).map(x -> new FinishedTaskGrouped(x.getTaskStatus().getValue(),x.getName(),x.getFinishedOn(),x.getWeight().getName(),x.getWeight().getValue())).forEach((x -> finishedTasksGroupedList.add(x)));
+    	repository.findAll().stream().filter(x -> {return (x.getTaskStatus().getValue() == taskStatus && x.getFinishedOn() != null && x.getFinishedOn().compareTo(dateBefore30Days) > 0);}).map(x -> new FinishedTaskGrouped(x.getTaskStatus().getValue(),x.getName(),x.getFinishedOn(),x.getWeight().toString(),x.getWeight().getValue())).forEach((x -> finishedTasksGroupedList.add(x)));
     	int totalWeight = 0;
     	for(FinishedTaskGrouped ftG: finishedTasksGroupedList){
     		totalWeight += ftG.getWeightValue();

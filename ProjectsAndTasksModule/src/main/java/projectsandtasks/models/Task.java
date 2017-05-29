@@ -28,15 +28,14 @@ public class Task {
 
     @Enumerated(EnumType.ORDINAL)
     private TaskStatusEnum taskStatus;
-
+    
+    @Enumerated(EnumType.ORDINAL)
+    private WeightEnum weight;
 
     @ManyToOne
     @JoinColumn(name = "projectId")
     private Project project;
-
-    @ManyToOne
-    @JoinColumn(name = "weightId")
-    private Weight weight;
+    
     private Date startedOn;
     private Date endOn;
 
@@ -112,11 +111,11 @@ public class Task {
         this.owner = owner;
     }
 
-    public Weight getWeight() {
+    public WeightEnum getWeight() {
         return weight;
     }
 
-    public void setWeight(Weight weight) {
+    public void setWeight(WeightEnum weight) {
         this.weight = weight;
     }
 
@@ -154,7 +153,7 @@ public class Task {
 
 
     //treba nam i ovaj konstruktor, ne  brisati!
-    public Task(String name, String description, Date createdOn, Date finishedOn, Long owner,  Weight weight, Date startedOn, Date endOn, List<Comment> comments, Project project) {
+    public Task(String name, String description, Date createdOn, Date finishedOn, Long owner,  WeightEnum weight, Date startedOn, Date endOn, List<Comment> comments, Project project) {
         this.name = name;
         this.description = description;
         this.createdOn = createdOn;
