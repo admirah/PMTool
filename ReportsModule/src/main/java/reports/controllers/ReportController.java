@@ -60,8 +60,8 @@ public class ReportController {
     }
 
     @RequestMapping(value = "task/numberoftasks", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<String> tasksById(@RequestParam(value="projectId") long projectId,@RequestParam(value="userId") long userId){
-        return repository.finishedTasksGroupedBy(projectId,userId);
+    public ResponseEntity<String> tasksById(@RequestParam(value="projectId") Long projectId,@RequestParam(value="userId") Long userId){
+        return repository.finishedTasksGrouped(projectId,userId);
 
 
     }
@@ -72,7 +72,7 @@ public class ReportController {
     }
 
     @RequestMapping(value = "/task/finished/grouped", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<FinishedTaskGroupedTotal> finishedTasksGroupedBy(@RequestParam(value="taskStatus") long status)
+    public ResponseEntity<FinishedTaskGroupedTotal> finishedTasksGroupedBy(@RequestParam(value="taskStatus") Long status)
     {
         return repository.finishedTasksGroupedBy(status);
     }

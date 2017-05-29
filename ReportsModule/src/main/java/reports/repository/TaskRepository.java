@@ -20,8 +20,8 @@ public interface TaskRepository {
     @RequestMapping("/tasks")
     public ResponseEntity<List<FinishedTask>> getFinishedTasks();
 
-    @RequestMapping(value = "/task/numberoftasks", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<String> finishedTasksGroupedBy(@RequestParam(value = "projectId") Long projectId, @RequestParam(value = "userId") Long userId);
+    @RequestMapping(value = "/project/numberoftasks", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<String> finishedTasksGrouped(@RequestParam(value = "projectId") Long projectId, @RequestParam(value = "userId") Long userId);
 
     @RequestMapping(value = "/task/finished", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<List<FinishedTask>> finishedTasks(@RequestParam(value = "projectId") Long projectId);

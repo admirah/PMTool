@@ -85,7 +85,7 @@ public class TaskController {
         return new ResponseEntity<ResponseModel>(new ResponseModel("OK"), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/finished", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/finished", method = RequestMethod.GET, produces = "application/json")
 	public ResponseEntity<List<projectsandtasks.viewmodels.FinishedTask>> finishedTasks(@RequestParam(value="projectId") Long projectId) {
 		List<projectsandtasks.models.Task> tasks = new ArrayList<>();
 		repository.findAll().stream().filter(x -> {return (x.getProject().getId() == projectId && x.getFinishedOn() != null);}).map(x -> new projectsandtasks.models.Task(x))
