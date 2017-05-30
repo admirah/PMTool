@@ -1,10 +1,6 @@
 package reports.viewmodels;
-
 import java.util.Date;
 
-/**
- * Created by Emina on 16.04.2017..
- */
 public class FinishedTask {
     private Long userId;
     private String name;
@@ -16,6 +12,7 @@ public class FinishedTask {
     public void setName(String name) {
         this.name = name;
     }
+
     public Long getUserId() {
         return userId;
     }
@@ -34,11 +31,6 @@ public class FinishedTask {
     public void setFinishedOn(Date finishedOn) {
         this.finishedOn = finishedOn;
     }
-    public int weightValue;
-    public int getWeightValue() {return weightValue;}
-    public void setWeightValue(int val) {this.weightValue=val;}
-
-    public FinishedTask(){}
     public FinishedTask(Long userId, String name, String taskName, Date date) {
         super();
         this.userId = userId;
@@ -46,13 +38,4 @@ public class FinishedTask {
         this.taskName = taskName;
         this.finishedOn = date;
     }
-    public FinishedTask(FinishedTask t)
-    {
-        this.finishedOn=t.getFinishedOn();
-        this.name=t.getName();
-        this.taskName=t.getTaskName();
-        this.userId=t.getUserId();
-    }
-
 }
-

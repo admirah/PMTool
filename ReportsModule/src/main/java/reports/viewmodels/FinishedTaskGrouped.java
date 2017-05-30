@@ -2,21 +2,19 @@ package reports.viewmodels;
 
 import java.util.Date;
 
-/**
- * Created by Emina on 16.04.2017..
- */public class FinishedTaskGrouped {
+public class FinishedTaskGrouped {
 
-    private String taskStatusName;
+    private int taskStatusName;
     private String name;
     private String weightName;
     private int weightValue;
     private Date finishedOn;
 
-    public String getTaskStatus() {
+    public int getTaskStatus() {
         return taskStatusName;
     }
 
-    public void setTaskStatus(String taskStatus) {
+    public void setTaskStatus(int taskStatus) {
         this.taskStatusName = taskStatus;
     }
 
@@ -52,9 +50,7 @@ import java.util.Date;
         this.finishedOn = finishedOn;
     }
 
-    public FinishedTaskGrouped(){}
-
-    public FinishedTaskGrouped(String taskStatusName, String name, Date finishedOn, String weightName, int weightValue){
+    public FinishedTaskGrouped(int taskStatusName, String name, Date finishedOn, String weightName, int weightValue){
         this.taskStatusName = taskStatusName;
         this.name = name;
         this.weightValue =weightValue;
@@ -62,4 +58,3 @@ import java.util.Date;
         this.weightName=weightName;
     }
 }
-

@@ -23,11 +23,10 @@ public interface TaskRepository {
     @RequestMapping(value = "/project/numberoftasks", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<String> finishedTasksGrouped(@RequestParam(value = "projectId") Long projectId, @RequestParam(value = "userId") Long userId);
 
-    @RequestMapping(value = "/task/finished", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/tasks/finished", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<List<FinishedTask>> finishedTasks(@RequestParam(value = "projectId") Long projectId);
 
-    @RequestMapping(value = "/task/finished/grouped", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/tasks/finished/grouped", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<FinishedTaskGroupedTotal> finishedTasksGroupedBy (@RequestParam(value="taskStatus") Long taskStatus);
-
 
     }

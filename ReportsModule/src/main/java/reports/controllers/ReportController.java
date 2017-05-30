@@ -72,9 +72,9 @@ public class ReportController {
     }
 
     @RequestMapping(value = "/task/finished/grouped", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<FinishedTaskGroupedTotal> finishedTasksGroupedBy(@RequestParam(value="taskStatus") Long status)
+    public ResponseEntity<FinishedTaskGroupedTotal> finishedTasksGroupedBy(@RequestParam(value="taskStatus") Long taskStatus)
     {
-        return repository.finishedTasksGroupedBy(status);
+        return repository.finishedTasksGroupedBy(taskStatus);
     }
     public ResponseEntity<List<reports.viewmodels.FinishedTask>> tasksByDateAndMembers(int id, Date date){
         List<FinishedTask> tasks =(List<FinishedTask>) repository.getFinishedTasks();
@@ -87,7 +87,7 @@ public class ReportController {
         return new ResponseEntity<List<FinishedTask>>(taskoviZaUsera,HttpStatus.OK);
 
     }
-    public ResponseEntity<List<reports.viewmodels.FinishedTask>> tasksByDateWeight(int weight, Date date){
+    /*public ResponseEntity<List<reports.viewmodels.FinishedTask>> tasksByDateWeight(int weight, Date date){
         List<FinishedTask> tasks =(List<FinishedTask>) repository.getFinishedTasks();
         ArrayList<FinishedTask> taskovi = new ArrayList<>();
 
@@ -98,7 +98,7 @@ public class ReportController {
             }
         return new ResponseEntity<List<FinishedTask>>(taskovi,HttpStatus.OK);
 
-    }
+    }*/
 
 
     @RequestMapping(value = "", method = RequestMethod.PATCH, produces = "application/json")
