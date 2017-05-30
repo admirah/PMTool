@@ -11,11 +11,29 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var material_1 = require("@angular/material");
+require("rxjs/add/operator/startWith");
+require("rxjs/add/operator/map");
+var forms_1 = require("@angular/forms");
 var AddProjectMemberDialog = (function () {
     function AddProjectMemberDialog(dialogRef) {
+        var _this = this;
         this.dialogRef = dialogRef;
         this.username = "";
+        this.states = new Array();
+        this.notMembers = this.dialogRef._containerInstance.dialogConfig.data;
+        this.notMembers.forEach(function (x) {
+            return _this.states.push(x.username);
+        });
+        console.log(this.notMembers);
+        this.stateCtrl = new forms_1.FormControl();
+        this.filteredStates = this.stateCtrl.valueChanges
+            .startWith(null)
+            .map(function (name) { return _this.filterStates(name); });
     }
+    AddProjectMemberDialog.prototype.filterStates = function (val) {
+        this.username = val;
+        return this.states;
+    };
     return AddProjectMemberDialog;
 }());
 AddProjectMemberDialog = __decorate([

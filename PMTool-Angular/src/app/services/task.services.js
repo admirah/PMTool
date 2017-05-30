@@ -20,6 +20,7 @@ var TaskService = (function () {
         this.headers = new http_1.Headers();
     }
     TaskService.prototype.addNewTask = function (task) {
+        console.log(task);
         task.owner = this.auth.getId();
         this.headers = new http_1.Headers();
         this.headers.append('Token', this.auth.getToken());

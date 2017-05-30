@@ -20,11 +20,12 @@ public class Factory {
                 setName(user.getName());
                 setBio(user.getBio());
                 setImage(user.getImage());
+                setUsername(user.getUsername());
             }
         };
     }
     public User Create(UserModel model) {
-        return new User(model.getEmail(), model.getName(), model.getBio(), model.getImage());
+        return new User(model.getEmail(), model.getName(), model.getBio(), model.getImage(), model.getUsername());
     }
     
     public User Create(UserRegisterModel model) {

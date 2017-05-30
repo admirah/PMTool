@@ -1,22 +1,63 @@
-<h1 md-dialog-title>Add new task</h1>
-<div md-dialog-content>
-    <md-input-container class="example-full-width">
-        <input mdInput tye="text" placeholder="Task name" [(ngModel)]="task.name"
-               [ngModelOptions]="{standalone: true}"/>
-    </md-input-container>
-    <br>
-    <md-input-container class="example-full-width">
-        <input mdInput type="text" placeholder="Description" [(ngModel)]="task.description"
-               [ngModelOptions]="{standalone: true}"/>
-    </md-input-container>
-    <br>
-    <!--md-input-container class="example-full-width">
-        <input mdInput type="text" placeholder="Wight" [(ngModel)]="task.weight"
-               [ngModelOptions]="{standalone: true}"/>
-    </md-input-container>
-    <br-->
+<div class="card">
+    <h1 md-dialog-title class="hedbot">Add new task</h1>
+    <div md-dialog-content>
+        <md-input-container class="example-full-width">
+            <input mdInput tye="text" placeholder="Task name" [(ngModel)]="task.name"
+                   [ngModelOptions]="{standalone: true}"/>
+        </md-input-container>
+        <br>
+        <md-input-container class="example-full-width">
+            <input mdInput type="text" placeholder="Description" [(ngModel)]="task.description"
+                   [ngModelOptions]="{standalone: true}"/>
+        </md-input-container>
+        <br>
+        <md-select class="example-full-width" [(ngModel)]="task.weight" [ngModelOptions]="{standalone: true}"
+                   placeholder="Select task weight">
+            <md-option *ngFor="let weight of weights" [value]="weight.value">
+                {{weight.viewValue}}
+            </md-option>
+        </md-select>
+
+        <br>
+        <!--md-input-container class="example-full-width">
+            <input mdInput type="text" placeholder="Wight" [(ngModel)]="task.weight"
+                   [ngModelOptions]="{standalone: true}"/>
+        </md-input-container>
+        <br-->
+    </div>
+    <div md-dialog-actions>
+        <span class="example-spacer"></span>
+        <button md-button (click)="dialogRef.close('Cancel')" class="register-button">Cancel</button>
+        <button md-button (click)="dialogRef.close(task)" class="register-button">Save</button>
+    </div>
+
 </div>
-<div md-dialog-actions>
-    <button md-button (click)="dialogRef.close('Cancel')">Cancel</button>
-    <button md-button (click)="dialogRef.close(task)">Save</button>
-</div>
+
+<style>
+    .example-full-width {
+        width: 100%;
+    }
+
+    .hedbot {
+        margin-bottom: 10px;
+
+    }
+
+    .example-spacer {
+        flex: 1 1 auto;
+    }
+
+    .card {
+        width: 400px;
+        margin: 5px 30px 30px 30px;
+    }
+
+    .form {
+        margin: auto
+    }
+
+    .register-button {
+        float: right;
+        margin-right: 10px;
+    }
+</style>

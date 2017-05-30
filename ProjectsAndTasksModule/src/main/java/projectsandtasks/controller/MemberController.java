@@ -38,7 +38,7 @@ public class MemberController {
     if (addNewMemberReq == null) return new ResponseEntity(HttpStatus.BAD_REQUEST);
     UserModel userToAdd = null;
     try {
-      List<UserModel> filteredUsers = users.Get().getBody().stream().filter(item -> item.getName().equals(addNewMemberReq.username)).collect(Collectors.toList());
+      List<UserModel> filteredUsers = users.Get().getBody().stream().filter(item -> item.getUsername().equals(addNewMemberReq.username)).collect(Collectors.toList());
       List<Project> filteredProjects = projects.findAll().stream().filter(item -> item.getId() == addNewMemberReq.projectId).collect(Collectors.toList());
       Project project = filteredProjects.iterator().next();
       userToAdd = filteredUsers.iterator().next();
@@ -59,6 +59,20 @@ public class MemberController {
       List<Project> filteredProjects = projects.findAll().stream().filter(item -> item.getId() == projectId).collect(Collectors.toList());
       Project project = filteredProjects.iterator().next();
       filteredUsers = users.Get().getBody().stream().filter(item -> isMember(project.getProjects(), item.getId())).collect(Collectors.toList());
+    } catch (Exception e) {
+      return new ResponseEntity(new ResponseModel(e.getMessage()), HttpStatus.BAD_REQUEST);
+    }
+    return new ResponseEntity<List<UserModel>>(filteredUsers, HttpStatus.OK);
+  }
+
+  @RequestMapping(value = "/notonproject", method = RequestMethod.GET)
+  public ResponseEntity<List<UserModel>> GetMembersNotOnProject(@RequestParam(value = "projectId") Long projectId) {
+    if (projectId == null) return new ResponseEntity(HttpStatus.BAD_REQUEST);
+    List<UserModel> filteredUsers = null;
+    try {
+      List<Project> filteredProjects = projects.findAll().stream().filter(item -> item.getId() == projectId).collect(Collectors.toList());
+      Project project = filteredProjects.iterator().next();
+      filteredUsers = users.Get().getBody().stream().filter(item -> !isMember(project.getProjects(), item.getId())).collect(Collectors.toList());
     } catch (Exception e) {
       return new ResponseEntity(new ResponseModel(e.getMessage()), HttpStatus.BAD_REQUEST);
     }

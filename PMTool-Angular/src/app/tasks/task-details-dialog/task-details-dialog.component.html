@@ -7,6 +7,9 @@
         width: 90%;
         margin: 2px 5%;
     }
+    img{
+        margin:auto 20px auto 5px;
+    }
 
     .example-spacer {
         flex: 1 1 auto;
@@ -68,11 +71,14 @@
         <div>
             <p>Description: {{item.description}}</p>
         </div>
+        <div>
+            <p>Weight: {{item.weight}}</p>
+        </div>
     </div>
     <div class="comments-section" *ngIf="isDataAvailable">
         <md-list class="comments">
             <md-list-item class="list-item" *ngFor="let comment of comments">
-                <img md-list-avatar src="../../images/admira.jpg">
+                <img md-list-avatar src="http://firstbagorganizer.com/image/m/user.png">
                 <table style="overflow-y: auto;">
                     <tr><td>{{comment.member.name}}</td></tr>
                     <tr><td>{{comment.content}}</td></tr>

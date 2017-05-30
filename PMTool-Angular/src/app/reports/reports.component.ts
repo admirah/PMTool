@@ -2,8 +2,11 @@
  * Created by Admira on 09-May-17.
  */
 import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {nvD3} from 'ng2-nvd3'
+import {MemberService} from "../services/member.service";
+import {AuthService} from "../services/auth.service";
+import {ReportsService} from "../services/reports.service";
 declare let d3: any;
 declare let nv: any;
 @Component({
@@ -16,80 +19,84 @@ export class ReportsComponent implements OnInit {
 
     options: any;
     data: any;
+    projectId: number;
+    members: any;
+    dataAvailable: boolean;
 
-    constructor(private router: Router) {
-    }
-
-    ngOnInit() {
-        this.options = {
-            chart: {
-                type: 'discreteBarChart',
-                height: 450,
-                margin: {
-                    top: 20,
-                    right: 20,
-                    bottom: 50,
-                    left: 55
-                },
-                x: function (d) {
-                    return d.label;
-                },
-                y: function (d) {
-                    return d.value;
-                },
-                showValues: true,
-                valueFormat: function (d) {
-                    return d3.format(',.4f')(d);
-                },
-                duration: 500,
-                xAxis: {
-                    axisLabel: 'X Axis'
-                },
-                yAxis: {
-                    axisLabel: 'Y Axis',
-                    axisLabelDistance: -10
-                }
-            }
-        }
+    constructor(private router: Router, private reportsService: ReportsService, private route: ActivatedRoute, private memberService: MemberService, private auth: AuthService) {
         this.data = [
             {
                 key: "Cumulative Return",
-                values: [
-                    {
-                        "label": "A",
-                        "value": -29.765957771107
-                    },
-                    {
-                        "label": "B",
-                        "value": 0
-                    },
-                    {
-                        "label": "C",
-                        "value": 32.807804682612
-                    },
-                    {
-                        "label": "D",
-                        "value": 196.45946739256
-                    },
-                    {
-                        "label": "E",
-                        "value": 0.19434030906893
-                    },
-                    {
-                        "label": "F",
-                        "value": -98.079782601442
-                    },
-                    {
-                        "label": "G",
-                        "value": -13.925743130903
-                    },
-                    {
-                        "label": "H",
-                        "value": -5.1387322875705
-                    }
-                ]
+                values: []
             }
         ];
+
+    }
+
+    ngOnInit() {
+
+
+        if (!this.auth.loggedIn()) {
+            this.router.navigate(['login']);
+        } else {
+
+
+            this.route.params.subscribe(params => {
+                this.projectId = +params['id'];
+                this.reportsService.getFinished(this.projectId).subscribe(res=>
+                console.log(res));
+
+                this.memberService.get(this.projectId).subscribe(members => {
+                    this.members = members;
+                    this.members.forEach((member: any) => {
+                        this.reportsService.getFinishedByUser(this.projectId, member.id).subscribe(res => {
+                                let x = {'label': member.name, 'value': 150}
+                                 this.data[0]['values'].push(x);
+                                if (this.data[0].values.length === this.members.length ) {
+                                    this.dataAvailable = true;
+                                }
+                            }
+                        )
+
+
+                    })
+
+
+                });
+
+                this.options = {
+                    chart: {
+                        type: 'discreteBarChart',
+                        height: 450,
+                        margin: {
+                            top: 20,
+                            right: 20,
+                            bottom: 50,
+                            left: 55
+                        },
+                        x: function (d: any) {
+                            return d.label;
+                        },
+                        y: function (d: any) {
+                            return d.value;
+                        },
+                        showValues: true,
+                        valueFormat: function (d: any) {
+                            return d3.format(',.4f')(d);
+                        },
+                        duration: 500,
+                        xAxis: {
+                            axisLabel: 'X Axis'
+                        },
+                        yAxis: {
+                            axisLabel: 'Y Axis',
+                            axisLabelDistance: -10
+                        }
+                    }
+                }
+
+            });
+        }
     }
 }
 /**

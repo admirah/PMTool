@@ -26,7 +26,15 @@ var MemberService = (function () {
         return this.http.get('http://localhost:7010/projects/member/onproject?projectId=' + projectId, { headers: this.headers })
             .map(function (res) { return res.json(); });
     };
+    MemberService.prototype.getNotOnProject = function (projectId) {
+        this.headers = new http_1.Headers();
+        this.headers.append('Content-Type', 'application/json');
+        this.headers.append('Token', this.auth.getToken());
+        return this.http.get('http://localhost:7010/projects/member/notonproject?projectId=' + projectId, { headers: this.headers })
+            .map(function (res) { return res.json(); });
+    };
     MemberService.prototype.addMember = function (addMemberReq) {
+        console.log(addMemberReq);
         this.headers = new http_1.Headers();
         this.headers.append('Token', this.auth.getToken());
         this.headers.append('Content-Type', 'application/json');

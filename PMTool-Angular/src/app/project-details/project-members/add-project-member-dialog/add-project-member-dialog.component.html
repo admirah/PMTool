@@ -1,9 +1,15 @@
 <h1 md-dialog-title>Add new member</h1>
 <div md-dialog-content>
-  <md-input-container class="example-full-width">
-    <input mdInput tye="text" placeholder="User's username" [(ngModel)]="username"
-           [ngModelOptions]="{standalone: true}"/>
+
+  <md-input-container>
+    <input mdInput placeholder="Username" [mdAutocomplete]="auto" [formControl]="stateCtrl">
   </md-input-container>
+
+  <md-autocomplete #auto="mdAutocomplete">
+    <md-option *ngFor="let state of filteredStates | async" [value]="state">
+      {{ state }}
+    </md-option>
+  </md-autocomplete>
   <br>
 </div>
 <div md-dialog-actions>

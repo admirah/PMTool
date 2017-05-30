@@ -1,7 +1,7 @@
 <md-tab-group>
     <md-tab label="Izvjestaj 1">
 
-        <div>
+        <div *ngIf="dataAvailable">
             <nvd3 [options]="options" [data]="data"></nvd3>
         </div>
 

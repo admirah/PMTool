@@ -2,21 +2,23 @@
     <table>
         <tr>
             <td>
-                <div *ngIf="dataAvailable" style="width:30%">
-                    <h2>{{project.name}}
-                        <button (click)="showReports()">Show reports</button></h2>
+                <div *ngIf="dataAvailable" style="width:500px; text-align:center">
+                    <h1>{{project.name}}</h1>
+                    <h2> by</h2>
+                    <h2><img style="margin-bottom:0px !important" md-list-avatar src="http://static.bleacherreport.net/images/redesign/avatars/default-user-icon-comment.png"> {{owner.username}}</h2>
+                    <button (click)="showReports()"><h2>Show reports</h2></button>
 
                 </div>
             </td>
             <td>
                 <md-list class="comments">
-                    <md-list-item class="list-item" >
-                        Project members:
-                        <button class="but" (click)="openDialog()"><strong>+</strong></button>
-                        <hr>
+                    <md-list-item class="list-item" style="border-bottom:none !important">
+                        <h3> Project members:
+                            <button class="add-task-button" (click)="addMember()">+</button>
+                        </h3>
                     </md-list-item>
                     <md-list-item class="list-item" *ngFor="let member of members">
-                        <img md-list-avatar src="../../images/admira.jpg">
+                        <img md-list-avatar src="http://static.bleacherreport.net/images/redesign/avatars/default-user-icon-comment.png">
                         <table style="overflow-y: auto;">
                             <tr>
                                 <td>{{member.name}}</td>
@@ -36,7 +38,11 @@
     }
 
     div.row {
-        margin: 10px 30px 0px 30px;
+        width: 72%;
+        margin: 10px auto 0 auto;
+        background-color: #F2EFF5;
+        border-radius: 3px;
+
     }
 
     button.but {
@@ -46,9 +52,29 @@
     }
 
     .comments {
-        height:200px;
-        width: 70%;
+        width: 500px;
         overflow-y: auto;
-        overflow-x:hidden;
+        overflow-x: hidden;
+       min-height:280px;
+    }
+
+    .add-task-button {
+        float: right;
+        background-color: #95B5D6;
+    }
+
+    img{
+        margin: auto 20px;
+    }
+
+    h3 {
+        margin: 8px 0px 0px 0;
+        width: 100%;
+        border-bottom: 1px solid black;
+        padding-bottom: 10px;
+
+    }
+    .list-item{
+        border-bottom:1px solid lightgray;
     }
 </style>

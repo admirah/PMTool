@@ -31,7 +31,9 @@ import {HttpModule} from "@angular/http";
 import {AddProjectMemberDialog} from "./project-details/project-members/add-project-member-dialog/add-project-member-dialog.component";
 import {MemberService} from "./services/member.service";
 import {ReportsComponent} from "./reports/reports.component";
+import {ReportsService} from "./services/reports.service";
 
+import {ReactiveFormsModule} from '@angular/forms';
 @NgModule({
     imports: [
         BrowserModule,
@@ -40,6 +42,7 @@ import {ReportsComponent} from "./reports/reports.component";
         SelectModule,
         DragulaModule,
         HttpModule,
+        ReactiveFormsModule,
         FormsModule, // <-- import the FormsModule before binding with [(ngModel)]
         RouterModule.forRoot([
             {
@@ -92,10 +95,14 @@ import {ReportsComponent} from "./reports/reports.component";
         ProjectDetailsComponent,
         ProjectMembersComponent,
         AddProjectMemberDialog,
-        ReportsComponent,nvD3
+        ReportsComponent, nvD3
+    ],
+    exports: [
+        FormsModule,
+        ReactiveFormsModule
     ],
     entryComponents: [AddProjectDialog, EditUserDialog, DeleteDialog, TaskDetailsDialog, AddTaskDialog, AddProjectMemberDialog],
-    providers: [AuthService, AuthGuard, ProjectService, UserService, TaskService, MemberService],
+    providers: [AuthService, ReportsService, AuthGuard, ProjectService, UserService, TaskService, MemberService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

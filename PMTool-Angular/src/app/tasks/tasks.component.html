@@ -11,6 +11,9 @@
         float: left;
         word-break: break-all;
     }
+    img{
+        margin:auto 20px;
+    }
 
     .container {
         min-height: 70vh;
@@ -51,7 +54,7 @@
 </style>
 
 
-<div class='wrapper' style="width:100%">
+<div class='wrapper' style="width:75%; margin:auto;">
     <div class=" titles" *ngFor='let group of groups'>
         <h3>{{group.name}}
             <button class="add-task-button" (click)="addTask(group)">+</button>
@@ -61,7 +64,7 @@
 </div>
 
 
-<div class='wrapper' id="wrap" style="width:100%">
+<div class='wrapper' id="wrap" style="width:75%; margin:auto">
     <div class='container' *ngFor='let group of groups' id="{{group.name}}" [dragula]='"nested-bag"'
          [dragulaModel]='group.items'>
 

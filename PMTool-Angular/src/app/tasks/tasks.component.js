@@ -106,24 +106,26 @@ var TasksComponent = (function () {
         config.data = ind;
         var dialogRef = this.dialog.open(add_task_dialog_component_1.AddTaskDialog, config);
         dialogRef.afterClosed().subscribe(function (result) {
-            result.projectId = _this.projectId;
-            _this.taskService.addNewTask(result).subscribe(function (res) {
-                if (res['taskStatus'] === 'BACKLOG') {
-                    _this.groups[0].items.push(res);
-                }
-                else if (res['taskStatus'] === 'SPRINT') {
-                    _this.groups[1].items.push(res);
-                }
-                else if (res['taskStatus'] === 'INPROGRESS') {
-                    _this.groups[2].items.push(res);
-                }
-                else if (res['taskStatus'] === 'QA') {
-                    _this.groups[3].items.push(res);
-                }
-                else if (res['taskStatus'] === 'DONE') {
-                    _this.groups[4].items.push(res);
-                }
-            });
+            if (result != 'Cancel') {
+                result.projectId = _this.projectId;
+                _this.taskService.addNewTask(result).subscribe(function (res) {
+                    if (res['taskStatus'] === 'BACKLOG') {
+                        _this.groups[0].items.push(res);
+                    }
+                    else if (res['taskStatus'] === 'SPRINT') {
+                        _this.groups[1].items.push(res);
+                    }
+                    else if (res['taskStatus'] === 'INPROGRESS') {
+                        _this.groups[2].items.push(res);
+                    }
+                    else if (res['taskStatus'] === 'QA') {
+                        _this.groups[3].items.push(res);
+                    }
+                    else if (res['taskStatus'] === 'DONE') {
+                        _this.groups[4].items.push(res);
+                    }
+                });
+            }
         });
     };
     return TasksComponent;

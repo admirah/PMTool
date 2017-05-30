@@ -151,6 +151,7 @@ public class TaskController {
             task.setCreatedOn(new Date());
             task.setDescription(taskModel.getDescription());
             task.setProject(project);
+            task.setWeight(taskModel.getWeight());
             task.setOwner(taskModel.getOwner());
             task.setTaskStatus(taskModel.getTaskStatus());
             repository.save(task);
@@ -209,7 +210,7 @@ class TaskMModel {
     private Long owner;
     private Long projectId;
     private TaskStatusEnum taskStatus;
-
+private WeightEnum weight;
     public String getDescription() {
         return description;
     }
@@ -248,6 +249,14 @@ class TaskMModel {
 
     public void setTaskStatus(TaskStatusEnum taskStatus) {
         this.taskStatus = taskStatus;
+    }
+
+    public WeightEnum getWeight() {
+        return weight;
+    }
+
+    public void setWeight(WeightEnum weight) {
+        this.weight = weight;
     }
 }
 

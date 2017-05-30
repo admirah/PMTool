@@ -19,10 +19,7 @@ var TaskDetailsDialog = (function () {
         this.taskService = taskService;
         this.memberService = memberService;
         this.item = this.dialogRef._containerInstance.dialogConfig.data;
-        this.comments = (this.item.comments) ? this.item.comments : [];
-        this.comment = { content: '' };
-        this.showButtonVar = false;
-        this.isDataAvailable = false;
+        console.log(this.item);
     }
     TaskDetailsDialog.prototype.showButton = function () {
         if (this.comment.length !== 0) {
@@ -42,8 +39,11 @@ var TaskDetailsDialog = (function () {
                 return member.id == res['user'];
             });
             console.log(ind);
-            console.log(_this.members[ind]);
-            res['member'] = _this.members[ind];
+            if (ind === -1)
+                res['member'] = _this.owner;
+            else
+                res['member'] = _this.members[ind];
+            console.log(res);
             _this.comments.push(res);
             console.log(_this.comment);
             console.log(_this.comments);
@@ -53,19 +53,39 @@ var TaskDetailsDialog = (function () {
     };
     TaskDetailsDialog.prototype.ngOnInit = function () {
         var _this = this;
-        this.memberService.get(this.item.project).subscribe(function (response) {
-            _this.members = response;
-            console.log(_this.members);
-            _this.comments.forEach(function (comment) {
-                var ind = _this.members.findIndex(function (member) {
-                    return member.id == comment.user;
+        this.item = this.dialogRef._containerInstance.dialogConfig.data;
+        this.comments = (this.item.comments) ? this.item.comments : [];
+        this.comment = { content: '' };
+        this.showButtonVar = false;
+        this.isDataAvailable = false;
+        var prId;
+        if (!this.item.project.id)
+            prId = this.item.project;
+        else
+            prId = this.item.project.id;
+        this.memberService.getNotOnProject(prId).subscribe(function (members) {
+            _this.notMembers = members;
+            var ind = _this.notMembers.findIndex(function (o) { return o.id == _this.item.owner; });
+            _this.owner = _this.notMembers[ind];
+            console.log(_this.owner);
+            _this.memberService.get(prId).subscribe(function (response) {
+                _this.members = response;
+                console.log(_this.members);
+                _this.comments.forEach(function (comment) {
+                    var ind = _this.members.findIndex(function (member) {
+                        return member.id == comment.user;
+                    });
+                    console.log(ind);
+                    console.log(_this.members[ind]);
+                    console.log(_this.owner);
+                    if (ind === -1)
+                        comment['member'] = _this.owner;
+                    else
+                        comment['member'] = _this.members[ind];
+                    console.log(comment);
                 });
-                console.log(ind);
-                console.log(_this.members[ind]);
-                comment['member'] = _this.members[ind];
-                console.log(comment);
+                _this.isDataAvailable = true;
             });
-            _this.isDataAvailable = true;
         });
     };
     return TaskDetailsDialog;

@@ -14,6 +14,7 @@ export class TaskService {
     }
 
     addNewTask(task: any): Observable<Response> {
+        console.log(task);
         task.owner = this.auth.getId();
         this.headers = new Headers();
         this.headers.append('Token', this.auth.getToken())

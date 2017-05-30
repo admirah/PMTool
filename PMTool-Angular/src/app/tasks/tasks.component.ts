@@ -103,7 +103,7 @@ export class TasksComponent implements OnInit {
         config.data = ind;
         let dialogRef = this.dialog.open(AddTaskDialog, config);
         dialogRef.afterClosed().subscribe(result => {
-            result.projectId = this.projectId;
+           if(result!='Cancel') {result.projectId = this.projectId;
             this.taskService.addNewTask(result).subscribe(res => {
                 if (res['taskStatus'] === 'BACKLOG') {
                     this.groups[0].items.push(res);
@@ -116,7 +116,7 @@ export class TasksComponent implements OnInit {
                 } else if (res['taskStatus'] === 'DONE') {
                     this.groups[4].items.push(res);
                 }
-            });
+            });}
         });
     }
 

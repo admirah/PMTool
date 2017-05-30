@@ -25,37 +25,49 @@ var ProjectMembersComponent = (function () {
         this.memberService = memberService;
         this.projectService = projectService;
     }
-    ProjectMembersComponent.prototype.addMember = function (result) {
+    ProjectMembersComponent.prototype.addMember = function () {
         var _this = this;
-        var config = new material_1.MdDialogConfig();
-        if (result != 'Cancel') {
-            this.memberService.addMember({ username: result, projectId: this.projectId }).subscribe(function (res) {
-                if (!res.ok) {
-                    _this.members.push(res);
+        if (this.notMembers) {
+            var config = new material_1.MdDialogConfig();
+            config.data = this.notMembers;
+            console.log(this.notMembers);
+            var dialogRef = this.dialog.open(add_project_member_dialog_component_1.AddProjectMemberDialog, config);
+            dialogRef.afterClosed().subscribe(function (result) {
+                if (result != 'Cancel') {
+                    console.log(result);
+                    _this.memberService.addMember({
+                        username: result,
+                        projectId: _this.projectId
+                    }).subscribe(function (res) {
+                        if (!res.ok) {
+                            _this.members.push(res);
+                            var ind = _this.notMembers.findIndex(function (n) { return n.username == result; });
+                            _this.notMembers.splice(ind, 1);
+                        }
+                        else
+                            return;
+                    });
                 }
-                else
-                    return;
             });
         }
-    };
-    ProjectMembersComponent.prototype.openDialog = function () {
-        var _this = this;
-        var dialogRef = this.dialog.open(add_project_member_dialog_component_1.AddProjectMemberDialog);
-        dialogRef.afterClosed().subscribe(function (result) {
-            if (result != 'Cancel') {
-                _this.addMember(result);
-            }
-        });
     };
     ProjectMembersComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.memberService.get(this.projectId).subscribe(function (members) {
             _this.members = members;
         });
-        this.projectService.getProjectById(this.projectId).subscribe(function (res) {
-            _this.project = res;
-            console.log(_this.project);
-            _this.dataAvailable = true;
+        this.memberService.getNotOnProject(this.projectId).subscribe(function (members) {
+            _this.notMembers = members;
+            _this.projectService.getProjectById(_this.projectId).subscribe(function (res) {
+                _this.project = res;
+                console.log(_this.project);
+                _this.dataAvailable = true;
+                var ind = _this.notMembers.findIndex(function (o) { return o.id == res.owner; });
+                _this.owner = _this.notMembers[ind];
+                _this.notMembers.splice(ind, 1);
+                console.log(_this.owner);
+                console.log(_this.notMembers);
+            });
         });
     };
     ProjectMembersComponent.prototype.showReports = function () {

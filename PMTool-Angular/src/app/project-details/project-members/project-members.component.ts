@@ -19,41 +19,61 @@ export class ProjectMembersComponent implements OnInit {
     members: Array<User>;
     project: any;
     dataAvailable: boolean;
+    notMembers: Array<User>
+    owner: User;
 
     constructor(public dialog: MdDialog, private router: Router, private memberService: MemberService, private projectService: ProjectService) {
     }
 
-    private addMember(result: string) {
-        const config = new MdDialogConfig();
-        if (result != 'Cancel') {
-            this.memberService.addMember({username: result, projectId: this.projectId}).subscribe((res: any) => {
-                if (!res.ok) {
-                    this.members.push(res);
+    addMember() {
+        if (this.notMembers) {
+            const config = new MdDialogConfig();
+            config.data = this.notMembers;
+            console.log(this.notMembers);
+
+            let dialogRef = this.dialog.open(AddProjectMemberDialog, config);
+            dialogRef.afterClosed().subscribe(result => {
+                if (result != 'Cancel') {
+                    console.log(result);
+
+                    this.memberService.addMember({
+                        username: result,
+                        projectId: this.projectId
+                    }).subscribe((res: any) => {
+                        if (!res.ok) {
+                            this.members.push(res);
+                            let ind = this.notMembers.findIndex(n => n.username == result);
+                            this.notMembers.splice(ind, 1);
+                        }
+                        else return;
+                    });
                 }
-                else return;
             });
         }
     }
 
-    openDialog() {
-        let dialogRef = this.dialog.open(AddProjectMemberDialog);
-        dialogRef.afterClosed().subscribe(result => {
-            if (result != 'Cancel') {
-                this.addMember(result);
-            }
-        });
-    }
 
     ngOnInit() {
         this.memberService.get(this.projectId).subscribe((members: any) => {
             this.members = members;
+
+
+        });
+        this.memberService.getNotOnProject(this.projectId).subscribe((members: any) => {
+            this.notMembers = members;
+            this.projectService.getProjectById(this.projectId).subscribe(res => {
+                this.project = res;
+                console.log(this.project)
+                this.dataAvailable = true;
+                let ind = this.notMembers.findIndex(o => o.id == res.owner);
+                this.owner = this.notMembers[ind];
+                this.notMembers.splice(ind, 1);
+                console.log(this.owner);
+                console.log(this.notMembers);
+            })
         });
 
-        this.projectService.getProjectById(this.projectId).subscribe(res => {
-            this.project = res;
-            console.log(this.project)
-            this.dataAvailable = true;
-        })
+
     }
 
     showReports() {

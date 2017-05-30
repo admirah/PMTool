@@ -15,13 +15,13 @@ export class TaskDetailsDialog implements OnInit {
     showButtonVar: boolean;
     members: Array<User>;
     isDataAvailable: boolean;
+    notMembers: Array<User>;
+    owner: User;
 
     constructor(public dialogRef: MdDialogRef<TaskDetailsDialog>, private taskService: TaskService, private memberService: MemberService) {
         this.item = this.dialogRef._containerInstance.dialogConfig.data;
-        this.comments = (this.item.comments) ? this.item.comments : [];
-        this.comment = {content: ''};
-        this.showButtonVar = false;
-        this.isDataAvailable = false;
+        console.log(this.item);
+
 
 
     }
@@ -43,9 +43,9 @@ export class TaskDetailsDialog implements OnInit {
                     member.id == res['user']
                 );
                 console.log(ind);
-                console.log(this.members[ind]);
-                res['member'] = this.members[ind];
-
+                if (ind === -1) res['member'] = this.owner;
+                else res['member'] = this.members[ind];
+                console.log(res);
                 this.comments.push(res);
                 console.log(this.comment);
                 console.log(this.comments);
@@ -56,20 +56,40 @@ export class TaskDetailsDialog implements OnInit {
     }
 
     ngOnInit() {
-        this.memberService.get(this.item.project).subscribe((response: any) => {
-            this.members = response;
-            console.log(this.members);
-            this.comments.forEach((comment: any) => {
-                let ind = this.members.findIndex((member: User) =>
-                    member.id == comment.user
-                );
-                console.log(ind);
-                console.log(this.members[ind]);
-                comment['member'] = this.members[ind];
-                console.log(comment);
+        this.item = this.dialogRef._containerInstance.dialogConfig.data;
+
+        this.comments = (this.item.comments) ? this.item.comments : [];
+        this.comment = {content: ''};
+        this.showButtonVar = false;
+        this.isDataAvailable = false;
+        let prId:any;
+        if(!this.item.project.id) prId=this.item.project;
+        else prId=this.item.project.id;
+        this.memberService.getNotOnProject(prId).subscribe((members: any) => {
+            this.notMembers = members;
+            let ind = this.notMembers.findIndex(o => o.id == this.item.owner);
+            this.owner = this.notMembers[ind];
+            console.log(this.owner);
+            this.memberService.get(prId).subscribe((response: any) => {
+                this.members = response;
+                console.log(this.members);
+                this.comments.forEach((comment: any) => {
+                    let ind = this.members.findIndex((member: User) =>
+                        member.id == comment.user
+                    );
+                    console.log(ind);
+                    console.log(this.members[ind]);
+                    console.log(this.owner);
+                    if (ind === -1) comment['member'] = this.owner;
+                    else comment['member'] = this.members[ind];
+                    console.log(comment);
+                });
+                this.isDataAvailable = true;
             });
-            this.isDataAvailable = true;
         });
+
+
+
     }
 }
 

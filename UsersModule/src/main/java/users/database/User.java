@@ -15,12 +15,13 @@ public class User extends Base{
 
     public User() {super();}
 
-    public User(String email, String name, String bio, String image){
+    public User(String email, String name, String bio, String imagem, String username){
         super();
         this.email = email;
         this.name = name;
         this.bio = bio;
         this.image = image;
+        this.username=username;
     }
 
     @Id

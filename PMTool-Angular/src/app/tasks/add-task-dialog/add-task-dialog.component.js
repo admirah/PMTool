@@ -15,6 +15,11 @@ var AddTaskDialog = (function () {
     function AddTaskDialog(dialogRef) {
         this.dialogRef = dialogRef;
         this.task = {};
+        this.weights = [
+            { value: 0, viewValue: "LOW" },
+            { value: 1, viewValue: "MEDIUM" },
+            { value: 2, viewValue: "HIGH" }
+        ];
         this.task.taskStatus = this.dialogRef._containerInstance.dialogConfig.data;
     }
     return AddTaskDialog;

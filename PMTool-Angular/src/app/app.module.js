@@ -39,6 +39,8 @@ var http_1 = require("@angular/http");
 var add_project_member_dialog_component_1 = require("./project-details/project-members/add-project-member-dialog/add-project-member-dialog.component");
 var member_service_1 = require("./services/member.service");
 var reports_component_1 = require("./reports/reports.component");
+var reports_service_1 = require("./services/reports.service");
+var forms_2 = require("@angular/forms");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -53,6 +55,7 @@ AppModule = __decorate([
             ng2_select_1.SelectModule,
             ng2_dragula_1.DragulaModule,
             http_1.HttpModule,
+            forms_2.ReactiveFormsModule,
             forms_1.FormsModule,
             router_1.RouterModule.forRoot([
                 {
@@ -105,8 +108,12 @@ AppModule = __decorate([
             add_project_member_dialog_component_1.AddProjectMemberDialog,
             reports_component_1.ReportsComponent, ng2_nvd3_1.nvD3
         ],
+        exports: [
+            forms_1.FormsModule,
+            forms_2.ReactiveFormsModule
+        ],
         entryComponents: [add_project_dialog_component_1.AddProjectDialog, edit_dialog_component_1.EditUserDialog, delete_dialog_component_1.DeleteDialog, task_details_dialog_component_1.TaskDetailsDialog, add_task_dialog_component_1.AddTaskDialog, add_project_member_dialog_component_1.AddProjectMemberDialog],
-        providers: [auth_service_1.AuthService, auth_guard_service_1.AuthGuard, project_service_1.ProjectService, user_service_1.UserService, task_services_1.TaskService, member_service_1.MemberService],
+        providers: [auth_service_1.AuthService, reports_service_1.ReportsService, auth_guard_service_1.AuthGuard, project_service_1.ProjectService, user_service_1.UserService, task_services_1.TaskService, member_service_1.MemberService],
         bootstrap: [app_component_1.AppComponent]
     })
 ], AppModule);
