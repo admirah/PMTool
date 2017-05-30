@@ -93,11 +93,5 @@ public class ProjectController {
         }).toArray().length;
         return new ResponseEntity<String>(Integer.toString(total), HttpStatus.OK);
     }
-    
-    @RequestMapping(value="/{id}", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<Project> GetProjec(@PathVariable("id")Long id) {
-    	return new ResponseEntity<Project>(repository.findById(id), HttpStatus.OK);
-    }
-
 
 }

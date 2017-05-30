@@ -47,20 +47,10 @@ public class TaskController {
     @Autowired
     private UsersRepository uRepository;
 
-    @RequestMapping(value = "", method = RequestMethod.POST)
-    public ResponseEntity<Task> Insert(@RequestBody Task task) {
-        if (task == null) return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        try {
-            repository.save(task);
-        } catch (Exception e) {
-            return new ResponseEntity(new ResponseModel(e.getMessage()), HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<Task>(task, HttpStatus.OK);
-    }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Task> Update(@PathVariable Long id,@RequestBody TaskModel model) {
-    	Task task = repository.findById(id).get(0);
+    	Task task = repository.findById(id);
         if (task == null) return new ResponseEntity(HttpStatus.BAD_REQUEST);
         try {
         	task.setName(model.getName());
@@ -80,7 +70,7 @@ public class TaskController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<ResponseModel> Update(@PathVariable Long id) {
-    	Task task = repository.findById(id).get(0);
+    	Task task = repository.findById(id);
         if (task == null) return new ResponseEntity<ResponseModel>(new ResponseModel("Something went wrong"), HttpStatus.BAD_REQUEST);
         try {
             repository.delete(id);
@@ -152,7 +142,7 @@ public class TaskController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public ResponseEntity<Task> Insert(@RequestBody TaskModel taskModel) {
+    public ResponseEntity<Task> Insert(@RequestBody TaskMModel taskModel) {
         if (taskModel == null) return new ResponseEntity(HttpStatus.BAD_REQUEST);
         try {
             Project project = pRepository.findById(taskModel.getProjectId());
@@ -210,8 +200,8 @@ class CommentModel {
 
 }
 
-class TaskModel {
-    public TaskModel() {
+class TaskMModel {
+    public TaskMModel() {
     }
 
     private String description;
