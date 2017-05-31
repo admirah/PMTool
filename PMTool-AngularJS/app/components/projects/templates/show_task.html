@@ -37,7 +37,20 @@
     <div class="row" style="padding-left: 15px;">
         <h3>Comments</h3>
         <hr>
-
+        <div class="row">
+            <div class="col-md-8">
+                <input type="text" ng-model="$modal.data.new_comment" class="form-control" placeholder="Enter new comment">
+            </div>
+            <div class="col-md-4">
+                <button class="btn btn-primary" ng-click="$modal.insertComment()">Create</button>
+            </div>
+        </div>
+        <hr>
+        <div class="row comment" ng-repeat="comment in $modal.data.comments">
+            <div class="col-md-2">{{ comment.user }}</div>
+            <div class="col-md-7">{{ comment.content }}</div>
+            <div class="col-md-3"><small style="float:right">{{ comment.createdOn | date:'yyyy-MM-dd hh:mm' }}</small></div>
+        </div>
     </div>
 </div>
 <div class="modal-footer">

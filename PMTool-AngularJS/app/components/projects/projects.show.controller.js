@@ -144,6 +144,7 @@
                     templateUrl: 'app/components/projects/templates/show_task.html',
                     controller: 'ModalInstanceController',
                     controllerAs: '$modal',
+                    size: "lg",
                     resolve: {
                         data: function () {
                             return task;
