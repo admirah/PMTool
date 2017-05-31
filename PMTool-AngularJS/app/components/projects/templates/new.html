@@ -21,6 +21,7 @@
                 <p ng-show="new_project.description.$dirty && new_project.description.$error.required" class="help-block">Description is required.</p>
             </div>
         </div>
+         
         <div class="form-group" ng-class="{ 'has-error' : new_project.startedOn.$invalid && !new_project.startedOn.$pristine && new_project.startedOn.$error }">
             <label class="control-label col-sm-2" for="startedOn">Started on:</label>
             <div class="col-sm-6">
@@ -51,6 +52,14 @@
                 <p ng-show="new_project.endOn.$dirty && new_project.endOn.$error.required" class="help-block">End time is required.</p>
             </div>
         </div>
+         <div class="form-group" ng-class="{ 'has-error' : members.$invalid && !members.$pristine }">
+                <label class="control-label col-sm-2" for="document">Members:</label>
+                <div class="col-sm-6">
+                    <oi-select oi-options="item.name for item in $modal.allusers($query) track by item.id" ng-model="$modal.data.members" multiple placeholder="Search for members"  list-placeholder="Not found">
+                    </oi-select>
+                    <p ng-show="new_project.members.$invalid && !new_project.members.$pristine" class="help-block">Members are required.</p>
+                </div>
+            </div>
     </form>
 </div>
 <div class="modal-footer">
