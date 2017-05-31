@@ -1,6 +1,6 @@
 (function () {
 
-    var app = angular.module("NWT", ["ngRoute", "ui.bootstrap", "LocalStorageModule", "dndLists"]);
+    var app = angular.module("NWT", ["ngRoute", "ui.bootstrap", "LocalStorageModule", "dndLists", "oi.select"]);
 
     credentials = {
         token: "",

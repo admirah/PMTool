@@ -6,7 +6,19 @@
             var $modal = this;
 
             $modal.data = data;
-    
+            $modal.data.members=[];
+            $modal.allusers = function (value) {
+                console.log(value);
+                var url="users/users/name/" + value;
+                if (value.length > 2) {
+                    return DataFactory.promise(url).then(function (response) {
+                        console.log(response);
+                        return response.data;
+                    });
+                }
+                
+            };
+
             $modal.ok = function () {
                 $uibModalInstance.close($modal.data);
             };

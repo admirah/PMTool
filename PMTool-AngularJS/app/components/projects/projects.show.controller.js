@@ -30,6 +30,7 @@
 
                 DataFactory.list("projects/project/" + projectId, function (response) {
                     $scope.project = response;
+                    console.log(response);
                     response.tasks.forEach(function (element) {
                         switch (element.taskStatus) {
                             case "BACKLOG":

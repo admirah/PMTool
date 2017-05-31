@@ -39,6 +39,7 @@ public class UsersController {
 
     static final Logger logger = LogManager.getLogger(UsersController.class.getName());
 
+
     @RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<List<UserModel>> Get() {
         try {
@@ -53,6 +54,27 @@ public class UsersController {
         return new ResponseEntity(new ResponseModel("User not found"), HttpStatus.NOT_FOUND);
     }
 
+    @RequestMapping(value = "/name/{name}", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody ResponseEntity<List<UserModel>> GetByName(@PathVariable String name) {
+        try {
+            List<UserModel> filteredUsers = new ArrayList<>();
+            List<UserModel> usersModel = new ArrayList<>();
+            service.Get().forEach(user -> {
+                usersModel.add(factory.Create(user));
+            });
+            for (UserModel user: usersModel) {
+                if (user.getName().contains(name))
+                {
+                    filteredUsers.add(user);
+                }
+            }
+
+            return new ResponseEntity<List<UserModel>>(filteredUsers, HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        return new ResponseEntity(new ResponseModel("Error while fetching data"), HttpStatus.BAD_REQUEST);
+    }
     @RequestMapping(value = "/all", method = RequestMethod.POST, produces = "application/json")
     public @ResponseBody ResponseEntity<List<UserModel>> GetByIds(@RequestBody UsersIds model) {
         try {
