@@ -28,6 +28,21 @@
                 $uibModalInstance.dismiss('cancel');
             };
 
+            $modal.insertComment = function() {
+                var comment = {
+                    content: $modal.data.new_comment,
+                    task: {
+                        id: $modal.data.id
+                    },
+                    user: credentials.id,
+                    createdOn: new Date()
+                };
+                DataFactory.insert("projects/task/comment", comment, function(response) {
+                    $modal.data.comments.push(comment);
+                     $modal.data.new_comment = "";
+                });
+            };
+
         }]);
 
 }());

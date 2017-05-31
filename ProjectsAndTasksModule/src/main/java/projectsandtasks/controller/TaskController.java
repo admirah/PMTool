@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 import projectsandtasks.models.UserModel;
 import projectsandtasks.models.WeightEnum;
 import projectsandtasks.helpers.ResponseModel;
+import projectsandtasks.models.Comment;
 import projectsandtasks.models.Project;
 import projectsandtasks.models.Task;
 import projectsandtasks.models.TaskStatusEnum;
+import projectsandtasks.repository.CommentRepository;
 import projectsandtasks.repository.TaskRepository;
 import projectsandtasks.repository.UsersRepository;
 import projectsandtasks.viewmodels.FinishedTask;
@@ -41,6 +43,8 @@ public class TaskController {
     private TaskRepository repository;
     @Autowired
     private UsersRepository uRepository;
+    @Autowired
+    private CommentRepository cRepository;
     
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseEntity<Task> Insert(@RequestBody Task task) {
@@ -51,6 +55,18 @@ public class TaskController {
             return new ResponseEntity(new ResponseModel(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<Task>(task, HttpStatus.OK);
+    }
+    
+    @RequestMapping(value="/comment", method = RequestMethod.POST)
+    public ResponseEntity<Comment> Insert(@RequestBody Comment comment) {
+    	System.out.println("TUUUU SAAAAM");
+    	if(comment == null) return new ResponseEntity(HttpStatus.BAD_REQUEST);
+    	try {
+    		cRepository.save(comment);
+	    } catch (Exception e) {
+	        return new ResponseEntity(new ResponseModel(e.getMessage()), HttpStatus.BAD_REQUEST);
+	    }
+    	return new ResponseEntity<Comment>(comment, HttpStatus.OK);
     }
     
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
