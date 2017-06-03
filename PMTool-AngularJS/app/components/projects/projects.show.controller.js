@@ -1,9 +1,9 @@
 (function () {
     angular
         .module("NWT")
-        .controller("ProjectsShowController", ['$rootScope',"$scope", '$routeParams', 'DataFactory', '$uibModal', 'ProjectFactory', 'ToasterService', function ($rootScope, $scope, $routeParams, DataFactory, $uibModal, ProjectFactory, ToasterService) {
+        .controller("ProjectsShowController", ['$rootScope', "$scope", '$routeParams', 'DataFactory', '$uibModal', 'ProjectFactory', 'ToasterService', function ($rootScope, $scope, $routeParams, DataFactory, $uibModal, ProjectFactory, ToasterService) {
             var projectId = $routeParams.id;
-          var taskStates = {
+            var taskStates = {
                 "Backlog": 0,
                 "Sprint": 1,
                 "In progress": 2,
@@ -16,8 +16,8 @@
                 "MEDIUM": 1,
                 "HIGH": 2
             };
-     $rootScope.members=[];
-          function ListTasks() {
+
+            function ListTasks() {
 
                 $scope.model = [
                     { label: "Backlog", data: [] },
@@ -28,9 +28,17 @@
                 ];
 
                 DataFactory.list("projects/project/" + projectId, function (response) {
+
                     $scope.project = response;
-                    console.log(response.members);
-                    $rootScope.members=response.members;
+                    var userIds = { ids: [] };
+                    $scope.project.members.forEach(function (element) {
+                        userIds.ids.push(element.userId);
+                    }, this);
+
+                    DataFactory.insert("users/users/all", userIds, function (response) {
+                        $scope.project.members = response;
+                    });
+
                     response.tasks.forEach(function (element) {
                         switch (element.taskStatus) {
                             case "BACKLOG":
@@ -71,10 +79,10 @@
                     }
                 });
 
-                modalInstance.result.then(function (project) {
+                modalInstance.result.then(function (result) {
+                    var project = ProjectFactory.new_project(result);
                     DataFactory.insert("projects/project", project, function (response) {
                         ToasterService.pop('success', "Success", "Project edited");
-                        ListProjects();
                     });
                 }, function () {
                     ToasterService.pop('info', "Info", "Modal closed");
@@ -99,7 +107,6 @@
 
                 modalInstance.result.then(function (task) {
                     task.weight = weights[task.weight];
-                    console.log(task);
                     DataFactory.insert("projects/task", task, function (response) {
                         ToasterService.pop('success', "Success", "Task added to backlog");
                         ListTasks();
@@ -137,7 +144,6 @@
             }
 
             $scope.show = function (task) {
-                console.log(task);
                 var modalInstance = $uibModal.open({
                     animation: true,
                     ariaLabelledBy: 'modal-title',
@@ -154,7 +160,6 @@
                 });
 
                 modalInstance.result.then(function (task) {
-                     
                     DataFactory.delete("projects/task", task.id, function (response) {
                         ToasterService.pop('success', "Success", "Task deleted");
                         ListTasks();

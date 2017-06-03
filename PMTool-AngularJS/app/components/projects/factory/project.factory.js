@@ -30,6 +30,17 @@
                         taskStatus: 0,
                         weight: "LOW"
                     }
+                },
+                new_project: function(project) {
+                    return {
+                        id: project.id,
+                        name: project.name,
+                        description: project.description,
+                        owner: project.owner,
+                        startedOn: project.startedOn,
+                        endOn: project.endOn,
+                        members: project.members
+                    }
                 }
             };
         })

@@ -1,24 +1,21 @@
 (function () {
     angular
         .module("NWT")
-        .controller("ProjectsController", ['$rootScope','$scope', 'DataFactory', '$uibModal', 'ProjectFactory', 'ToasterService', function ($rootScope, $scope, DataFactory, $uibModal, ProjectFactory, ToasterService) {
-            $rootScope.members=[];
-            console.log(credentials);
+        .controller("ProjectsController", ['$rootScope', '$scope', 'DataFactory', '$uibModal', 'ProjectFactory', 'ToasterService', function ($rootScope, $scope, DataFactory, $uibModal, ProjectFactory, ToasterService) {
+            $rootScope.members = [];
             function ListProjects() {
                 DataFactory.list("projects/project/project?userid=" + credentials.id, function (response) {
                     $scope.projects = response;
-                    $rootScope.members=response.members;
-                    console.log(response);
+                    $rootScope.members = response.members;
                 });
             }
             function ListBoards() {
                 DataFactory.list("projects/project/projectMember?userid=" + credentials.id, function (response) {
                     $scope.boards = response;
-                    console.log(response);
                 });
             }
             ListProjects();
-           ListBoards();
+            ListBoards();
             $scope.new = function () {
                 var modalInstance = $uibModal.open({
                     animation: true,
@@ -36,23 +33,11 @@
                 });
 
                 modalInstance.result.then(function (project) {
-
-                    /* DataFactory.insert("projects/project", project, function (response) {
-                         ToasterService.pop('success', "Success", "Project added");
-                         ListProjects();
-                         pp=response;
-                          console.log("Project");
-                  
-                    console.log(response);
-                     });
-                      project.id=pp.id;*/
                     DataFactory.insert("projects/project/member", project, function (response) {
-                              ToasterService.pop('success', "Success", "Project added");
-                             ListProjects();
-                        console.log("Members");
-                        console.log(response);
+                        ToasterService.pop('success', "Success", "Project added");
+                        ListProjects();
                     });
-                       
+
                 }, function () {
                     ToasterService.pop('info', "Info", "Modal closed");
                 });

@@ -16,6 +16,7 @@ import reports.repository.TaskRepository;
 import reports.repository.UsersRepository;
 import reports.viewmodels.FinishedTask;
 import reports.viewmodels.FinishedTaskGroupedTotal;
+import reports.viewmodels.ReportModel;
 
 import java.util.Date;
 import java.util.ArrayList;
@@ -38,6 +39,14 @@ public class ReportController {
     
     @Autowired
     private UsersRepository usersRepository;
+    
+    @RequestMapping(value="report/{id}", method = RequestMethod.GET, produces = "applicaiton/json")
+    public ResponseEntity<ReportModel> Report(@PathVariable("id")Long id) {
+    	ReportModel result = new ReportModel();
+    	if(id == null) return new ResponseEntity(new ResponseModel("Error while fetching data"), HttpStatus.BAD_REQUEST);
+    	
+    	return new ResponseEntity<ReportModel>(result, HttpStatus.OK);
+    }
     
     @RequestMapping(value = "user/{id}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<UserModel> Get(@PathVariable("id") Long id){
