@@ -16,8 +16,8 @@
                 "MEDIUM": 1,
                 "HIGH": 2
             };
-
-            function ListTasks() {
+     $rootScope.members=[];
+          function ListTasks() {
 
                 $scope.model = [
                     { label: "Backlog", data: [] },

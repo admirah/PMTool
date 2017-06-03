@@ -7,8 +7,7 @@
             $modal.data = data;
             $modal.data.members=[]; //[{'name':'emina','id':7,'bio':'bla','email':'email'},{'name':'emi','id':4,'bio':'bla','email':'email'}];
             $modal.data.memberstable = $rootScope.members;
-           function pushMembers() {
-
+             function pushMembers() {
                 for (var i = 0; i < $modal.data.memberstable.length; i++) {
                     var m=$modal.data.memberstable[i];
                     var url = "users/users/"+m.userId;
@@ -16,10 +15,11 @@
                         $modal.data.members.push(response);
                       
                 });
-                   
                 }
             }
-            pushMembers();
+            
+                // pushMembers();
+               
             
             $modal.allusers = function (value) {
 
