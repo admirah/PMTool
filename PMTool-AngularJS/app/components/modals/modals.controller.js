@@ -20,7 +20,15 @@
             
                 // pushMembers();
                
-            
+            $modal.username ="";
+            function GetName(){
+                var url="users/users/"+credentials.id;
+                DataFactory.list(url, function (response) {
+                      $modal.username=response.name;   
+                      console.log(response.name);
+                });
+            }
+            GetName();
             $modal.allusers = function (value) {
 
                 var url = "users/users/name/" + value;
@@ -50,7 +58,8 @@
                         id: $modal.data.id
                     },
                     user: credentials.id,
-                    createdOn: new Date()
+                    createdOn: new Date(),
+                    username : $modal.username
                 };
                 DataFactory.insert("projects/task/comment", comment, function (response) {
                     $modal.data.comments.push(comment);
