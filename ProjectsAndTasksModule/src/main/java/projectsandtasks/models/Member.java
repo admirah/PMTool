@@ -43,7 +43,7 @@ public class Member {
     @JoinColumn(name = "projectId")
     private Project project;
 
-    protected Member () {    }
+    public Member() {    }
 
     public Member(int userId, Project project) {
         this.userId = userId;

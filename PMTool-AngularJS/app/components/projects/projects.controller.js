@@ -28,10 +28,20 @@
                 });
 
                 modalInstance.result.then(function (project) {
-                    DataFactory.insert("projects/project", project, function (response) {
+                    
+                   /* DataFactory.insert("projects/project", project, function (response) {
                         ToasterService.pop('success', "Success", "Project added");
                         ListProjects();
+                        pp=response;
+                         console.log("Project");
+                 
+                   console.log(response);
                     });
+                     project.id=pp.id;*/
+                   DataFactory.insert("projects/project/member", project, function(response) {
+                       console.log("Members");
+                    console.log(response);
+                });
                 }, function () {
                     ToasterService.pop('info', "Info", "Modal closed");
                 });

@@ -51,6 +51,19 @@
                 <p ng-show="edit_project.endOn.$dirty && edit_project.endOn.$error.required" class="help-block">End time is required.</p>
             </div>
         </div>
+        <div class="form-group" ng-class="{ 'has-error' : members.$invalid && !members.$pristine }">
+            <label class="control-label col-sm-2" for="document">Members:</label>
+            <div class="col-sm-6">
+                <oi-select oi-options="item.name for item in $modal.allusers($query) track by item.id" ng-model="$modal.data.members" multiple
+                    placeholder="Search for members" multiple oi-select-options="{
+    newItem: true,
+    newItemFn: '$modal.addItem($query)',
+     editItem: true
+}" list-placeholder="Not found">
+                </oi-select>
+                <p ng-show="new_project.members.$invalid && !new_project.members.$pristine" class="help-block">Members are required.</p>
+            </div>
+        </div>
     </form>
 </div>
 <div class="modal-footer">

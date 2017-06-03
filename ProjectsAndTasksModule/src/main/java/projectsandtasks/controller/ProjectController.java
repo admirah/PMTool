@@ -6,13 +6,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import projectsandtasks.helpers.ResponseModel;
-import projectsandtasks.models.Member;
-import projectsandtasks.models.Project;
-import projectsandtasks.models.Task;
-import projectsandtasks.models.UserModel;
+import projectsandtasks.models.*;
 import projectsandtasks.repository.MemberRepository;
 import projectsandtasks.repository.ProjectRepository;
 import projectsandtasks.repository.UsersRepository;
+import projectsandtasks.viewmodels.ProjectMembersModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +48,38 @@ public class ProjectController {
         }
         return  projectsList;
     }
-        
+    @RequestMapping(value="/member", method = RequestMethod.POST)
+    public ResponseEntity<ProjectMembersModel> Insert(@RequestBody ProjectMembersModel project) {
+        System.out.println("TUUUU SAAAAM");
+        System.out.println(project.getName());
+        if(project == null) return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        List<Member> memberss= new ArrayList<>();
+        try {
+            Project pr = new Project(project.getName(),project.getCreatedOn(),project.getFinishedOn(),project.getDescription(),project.getOwner(),project.getStartedOn(),project.getEndOn(),new ArrayList<>(),new ArrayList<>());
+            repository.save(pr);
+             for (UserModel u : project.getMembers()) {
+                {
+                    System.out.println(project.getName());
+
+                    Member m = new Member();
+                    m.setUserId(Math.toIntExact(u.getId()));
+                    Project p=repository.findByName(project.getName());
+                    m.setProject(p);
+                    memberss.add(m);
+                    p.setMembers(memberss);
+
+                    repository.save(p);
+                    System.out.println(project.getName());
+
+                    members.save(m);
+                }
+            }
+        }catch (Exception e) {
+            return new ResponseEntity<ProjectMembersModel>(project, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<ProjectMembersModel>(project, HttpStatus.OK);
+    }
+
     @RequestMapping(value = "", method = RequestMethod.PATCH)
     public ResponseEntity<Project> Update(@RequestBody Project project) {
         if (project == null) return new ResponseEntity(HttpStatus.BAD_REQUEST);
@@ -67,10 +96,12 @@ public class ProjectController {
         if (project == null) return new ResponseEntity(HttpStatus.BAD_REQUEST);
         try {
             repository.save(project);
-        } catch (Exception e) {
+
+               } catch (Exception e) {
             return new ResponseEntity(new ResponseModel(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<Project>(project, HttpStatus.OK);
+        Project pr = repository.findByName(project.getName());
+         return new ResponseEntity<Project>(pr, HttpStatus.OK);
     }
 
 
