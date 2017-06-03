@@ -154,6 +154,7 @@
                 });
 
                 modalInstance.result.then(function (task) {
+                     
                     DataFactory.delete("projects/task", task.id, function (response) {
                         ToasterService.pop('success', "Success", "Task deleted");
                         ListTasks();

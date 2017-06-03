@@ -48,7 +48,7 @@
                       project.id=pp.id;*/
                     DataFactory.insert("projects/project/member", project, function (response) {
                               ToasterService.pop('success', "Success", "Project added");
-                  ListProjects();
+                             ListProjects();
                         console.log("Members");
                         console.log(response);
                     });

@@ -60,7 +60,7 @@ public class Task {
         this.comments = comments;
     }
 
-    @OneToMany(mappedBy="task")
+    @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy="task")
     private List<Comment> comments;
 
     public Long getId() {
