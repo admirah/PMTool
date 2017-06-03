@@ -63,11 +63,36 @@ public class TaskController {
     	if(comment == null) return new ResponseEntity(HttpStatus.BAD_REQUEST);
     	try {
     		cRepository.save(comment);
+
 	    } catch (Exception e) {
 	        return new ResponseEntity(new ResponseModel(e.getMessage()), HttpStatus.BAD_REQUEST);
 	    }
     	return new ResponseEntity<Comment>(comment, HttpStatus.OK);
     }
+	@RequestMapping(value = "/deletecomment/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<ResponseModel> DeleteComment(@PathVariable Long id) {
+    	List<Comment> allcomments = cRepository.findAll();
+    	List<Comment> comments=new ArrayList<>();
+    	for (Comment c:allcomments)
+		{
+			if (c.getTask().getId()==id)
+			{
+				comments.add(c);
+			}
+		}
+    	if (comments==null) return new ResponseEntity<ResponseModel>(new ResponseModel("Something went wrong"), HttpStatus.BAD_REQUEST);
+		try {
+			System.out.println("SIZEEE" + comments.size());
+			for (Comment c:comments)
+			{
+				System.out.println("TUUUUUUUUUUUUUUUU");
+				cRepository.delete(c);
+			}
+		} catch (Exception e) {
+			return new ResponseEntity<ResponseModel>(new ResponseModel(e.getMessage()), HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<ResponseModel>(new ResponseModel("OK"), HttpStatus.OK);
+	}
     
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Task> Update(@PathVariable Long id,@RequestBody TaskModel model) {

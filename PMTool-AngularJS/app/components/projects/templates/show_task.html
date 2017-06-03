@@ -47,7 +47,7 @@
         </div>
         <hr>
         <div class="row comment" ng-repeat="comment in $modal.data.comments">
-            <div class="col-md-2">{{ comment.user }}</div>
+            <div class="col-md-2">{{ comment.username }}</div>
             <div class="col-md-7">{{ comment.content }}</div>
             <div class="col-md-3"><small style="float:right">{{ comment.createdOn | date:'yyyy-MM-dd hh:mm' }}</small></div>
         </div>

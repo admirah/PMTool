@@ -1,36 +1,24 @@
-package projectsandtasks.models;
+package projectsandtasks.viewmodels;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import projectsandtasks.models.Task;
+import projectsandtasks.models.UserModel;
 
-import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
 /**
- * Created by bake on 3/20/17.
+ * Created by Emina on 01.06.2017..
  */
-@Entity
-@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
-public class Project {
-    @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private Long id;
+public class ProjectMembersModel {
+   private Long id;
     private String name;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdOn;
-    @Temporal(TemporalType.TIMESTAMP)
+   private Date createdOn;
     private Date finishedOn;
-    @Column(columnDefinition = "TEXT")
-    private String description;
+   private String description;
     private int owner;
-    @Temporal(TemporalType.TIMESTAMP)
     private Date startedOn;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date endOn;
-    @OneToMany(mappedBy="project")
-    private List<Member> members;
-    @OneToMany(mappedBy="project")
+   private Date endOn;
+    private List<UserModel> members;
     private List<Task> tasks;
 
     public Long getId() {
@@ -97,21 +85,6 @@ public class Project {
         this.endOn = endOn;
     }
 
-    public List<Member> getProjects() {
-        return members;
-    }
-
-    public void setProjects(List<Member> projects) {
-        this.members = projects;
-    }
-
-    public List<Member> getMembers() {
-        return members;
-    }
-
-    public void setMembers(List<Member> members) {
-        this.members = members;
-    }
 
     public List<Task> getTasks() {
         return tasks;
@@ -120,10 +93,18 @@ public class Project {
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
     }
+    public void setMembers(List<UserModel> users)
+    {
+        System.out.println("TUUUU TUUUUUU");
 
-    protected Project () {    }
+        this.members=users;
+    }
+    public List<UserModel> getMembers(){
+        return this.members;
+    }
+    protected ProjectMembersModel () {    }
 
-    public Project(String name, Date createdOn, Date finishedOn, String description, int owner, Date startedOn, Date endOn, List<Member> members, List<Task> tasks) {
+    public ProjectMembersModel(String name, Date createdOn, Date finishedOn, String description, int owner, Date startedOn, Date endOn, List<UserModel> members, List<Task> tasks) {
         this.name = name;
         this.createdOn = createdOn;
         this.finishedOn = finishedOn;
@@ -133,6 +114,7 @@ public class Project {
         this.endOn = endOn;
         this.members = members;
         this.tasks = tasks;
-    }
+        System.out.println("TUUUU TUUUUUU");
 
+    }
 }

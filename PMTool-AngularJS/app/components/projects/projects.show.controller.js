@@ -1,10 +1,9 @@
 (function () {
     angular
         .module("NWT")
-        .controller("ProjectsShowController", ["$scope", '$routeParams', 'DataFactory', '$uibModal', 'ProjectFactory', 'ToasterService', function ($scope, $routeParams, DataFactory, $uibModal, ProjectFactory, ToasterService) {
+        .controller("ProjectsShowController", ['$rootScope',"$scope", '$routeParams', 'DataFactory', '$uibModal', 'ProjectFactory', 'ToasterService', function ($rootScope, $scope, $routeParams, DataFactory, $uibModal, ProjectFactory, ToasterService) {
             var projectId = $routeParams.id;
-
-            var taskStates = {
+          var taskStates = {
                 "Backlog": 0,
                 "Sprint": 1,
                 "In progress": 2,
@@ -17,8 +16,8 @@
                 "MEDIUM": 1,
                 "HIGH": 2
             };
-
-            function ListTasks() {
+     $rootScope.members=[];
+          function ListTasks() {
 
                 $scope.model = [
                     { label: "Backlog", data: [] },
@@ -30,7 +29,8 @@
 
                 DataFactory.list("projects/project/" + projectId, function (response) {
                     $scope.project = response;
-                    console.log(response);
+                    console.log(response.members);
+                    $rootScope.members=response.members;
                     response.tasks.forEach(function (element) {
                         switch (element.taskStatus) {
                             case "BACKLOG":
@@ -154,6 +154,7 @@
                 });
 
                 modalInstance.result.then(function (task) {
+                     
                     DataFactory.delete("projects/task", task.id, function (response) {
                         ToasterService.pop('success', "Success", "Task deleted");
                         ListTasks();

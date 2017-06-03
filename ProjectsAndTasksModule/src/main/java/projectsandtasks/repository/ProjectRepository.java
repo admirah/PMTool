@@ -14,7 +14,8 @@ import java.util.List;
 
 public interface ProjectRepository extends org.springframework.data.jpa.repository.JpaRepository<Project, Long> {
     Project findById(@Param("id") Long id);
-
+    @Query("select distinct i from Project i where i.name=:name")
+    Project findByName(@Param("name") String name);
 
     @Query("select distinct i from Project i where i.owner=:userid")
     List<Project> getByUser(@Param("userid") int userid);
