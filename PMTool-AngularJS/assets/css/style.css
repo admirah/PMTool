@@ -484,3 +484,8 @@ ul[dnd-list] > li.dndPlaceholder {
     margin-right: 20px;
     margin-left: 10px;
 }
+
+.circle{
+    left: 50%;
+    transform: translate(-50%);
+}

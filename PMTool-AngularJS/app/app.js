@@ -1,6 +1,6 @@
 (function () {
 
-    var app = angular.module("NWT", ["ngRoute", "ui.bootstrap", "LocalStorageModule", "dndLists", "oi.select"]);
+    var app = angular.module("NWT", ["ngRoute", "ui.bootstrap", "LocalStorageModule", "dndLists", "oi.select", 'nvd3']);
 
     credentials = {
         token: "",
@@ -37,6 +37,10 @@
             .when("/project/:id", {
                 templateUrl: "app/components/projects/templates/show.html",
                 controller: "ProjectsShowController"
+            })
+            .when("/project/report/:id", {
+                templateUrl: "app/components/reports/templates/report.html",
+                controller: "ReportsController"
             })
             .otherwise({ redirectTo: "/projects" });
     }).run(function ($rootScope, $location) {
