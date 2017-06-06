@@ -11,9 +11,15 @@ import projectsandtasks.repository.MemberRepository;
 import projectsandtasks.repository.ProjectRepository;
 import projectsandtasks.repository.UsersRepository;
 import projectsandtasks.viewmodels.ProjectMembersModel;
+import projectsandtasks.viewmodels.ProjectModel;
+import projectsandtasks.viewmodels.ReportModel;
+import projectsandtasks.viewmodels.TaskModel;
+import projectsandtasks.viewmodels.UsersIds;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Vejsil on 28.03.2017..
@@ -126,6 +132,71 @@ public class ProjectController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
 	public ResponseEntity<Project> GetProjec(@PathVariable("id") Long id) {
 		return new ResponseEntity<Project>(repository.findById(id), HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/report/{id}", method = RequestMethod.GET, produces = "application/json")
+	public ResponseEntity<ReportModel> GetById(@PathVariable("id") Long id) {
+		Project p = repository.findById(id);
+
+		ProjectModel pm = new ProjectModel();
+		pm.setCreatedOn(p.getCreatedOn());
+		pm.setDescription(p.getDescription());
+		pm.setEndOn(p.getEndOn());
+		pm.setFinishedOn(p.getFinishedOn());
+		pm.setId(pm.getId());
+		/*
+		 * UsersIds ids = new UsersIds(); List<Long> liId = new
+		 * ArrayList<Long>(); for (Member m : p.getMembers()) {
+		 * liId.add(m.getId()); } ids.setIds(liId);
+		 * pm.setMembers(users.GetByIds(ids).getBody());
+		 */
+		pm.setName(p.getName());
+		pm.setOwner(pm.getOwner());
+		pm.setStartedOn(p.getStartedOn());
+		/*
+		 * List<TaskModel> tl = new ArrayList<TaskModel>(); for(Task t :
+		 * p.getTasks()) { TaskModel tm = new TaskModel();
+		 * tm.setDescription(t.getDescription()); tm.setEndOn(t.getEndOn());
+		 * tm.setName(t.getName()); tm.setStartedOn(t.getStartedOn());
+		 * tm.setTaskStatus(t.getTaskStatus()); tm.setWeight(t.getWeight());
+		 * tl.add(tm); } pm.setTasks(tl);
+		 */
+
+		ReportModel result = new ReportModel();
+
+		result.setProject(pm);
+		result.setNumberOfMembers(p.getMembers().size());
+		result.setNumberOfTasks(p.getTasks().size());
+		result.setTasksDone(p.getTasks().stream().filter(x -> x.getFinishedOn() != null).toArray().length);
+
+		Map<String, Integer> map = new HashMap<String, Integer>();
+
+		for (TaskStatusEnum tsk : TaskStatusEnum.values()) {
+			map.put(tsk.toString(), 0);
+		}
+
+		for (Task t : p.getTasks()) {
+			int count = map.containsKey(t.getTaskStatus().toString()) ? map.get(t.getTaskStatus().toString()) : 0;
+			map.put(t.getTaskStatus().toString(), count + 1);
+		}
+
+		result.setTasksInStatus(map);
+
+		Map<String, Integer> map2 = new HashMap<String, Integer>();
+
+		for (WeightEnum tsk : WeightEnum.values()) {
+			map2.put(tsk.toString(), 0);
+		}
+
+		for (Task t : p.getTasks()) {
+			int count = map2.containsKey(t.getWeight().toString()) ? map2.get(t.getWeight().toString()) : 0;
+			map2.put(t.getWeight().toString(), count + 1);
+		}
+		
+		result.setTasksInWeights(map2);
+
+		return new ResponseEntity<ReportModel>(result, HttpStatus.OK);
+
 	}
 
 }

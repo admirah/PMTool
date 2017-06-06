@@ -2,12 +2,14 @@ package reports.repository;
 
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import reports.FeignConfiguration;
 import reports.viewmodels.FinishedTask;
 import reports.viewmodels.FinishedTaskGroupedTotal;
+import reports.viewmodels.ProjectModel;
 
 import java.util.List;
 
@@ -17,6 +19,10 @@ import java.util.List;
 
 @FeignClient(name="pt-module", configuration=FeignConfiguration.class)
 public interface TaskRepository {
+	
+	@RequestMapping(value = "/project/report/{id}", method = RequestMethod.GET, produces = "application/json")
+	public ResponseEntity<ProjectModel> GetById(@PathVariable("id") Long id);
+	
     @RequestMapping("/tasks")
     public ResponseEntity<List<FinishedTask>> getFinishedTasks();
 
