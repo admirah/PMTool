@@ -9,6 +9,7 @@ import reports.FeignConfiguration;
 import reports.viewmodels.FinishedTask;
 import reports.viewmodels.FinishedTaskGroupedTotal;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,7 +25,7 @@ public interface TaskRepository {
     public ResponseEntity<String> finishedTasksGrouped(@RequestParam(value = "projectId") Long projectId, @RequestParam(value = "userId") Long userId);
 
     @RequestMapping(value = "/tasks/finished", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<List<FinishedTask>> finishedTasks(@RequestParam(value = "projectId") Long projectId);
+    public ResponseEntity<ArrayList<FinishedTask>> finishedTasks(@RequestParam(value = "projectId") long projectId);
 
     @RequestMapping(value = "/tasks/finished/grouped", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<FinishedTaskGroupedTotal> finishedTasksGroupedBy (@RequestParam(value="taskStatus") Long taskStatus);

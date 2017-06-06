@@ -1,6 +1,7 @@
 package reports.viewmodels;
 import java.util.Date;
 
+
 public class FinishedTask {
     private Long userId;
     private String name;
@@ -37,5 +38,16 @@ public class FinishedTask {
         this.name = name;
         this.taskName = taskName;
         this.finishedOn = date;
+    }
+
+    public FinishedTask() {
+
+    }
+
+    public FinishedTask(FinishedTask ft) {
+        this.userId = ft.getUserId();
+        this.name = ft.getName();
+        this.taskName = ft.getTaskName();
+        this.finishedOn = ft.getFinishedOn();
     }
 }

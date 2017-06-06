@@ -85,7 +85,7 @@ public class TaskController {
     private CommentRepository commentRepository;
 
 	@RequestMapping(value = "/finished", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<List<projectsandtasks.viewmodels.FinishedTask>> finishedTasks(@RequestParam(value="projectId") Long projectId) {
+	public ResponseEntity<ArrayList<projectsandtasks.viewmodels.FinishedTask>> finishedTasks(@RequestParam(value="projectId") Long projectId) {
 		List<projectsandtasks.models.Task> tasks = new ArrayList<>();
 		repository.findAll().stream().filter(x -> {return (x.getProject().getId() == projectId && x.getFinishedOn() != null);}).map(x -> new projectsandtasks.models.Task(x))
 				.forEach(x -> tasks.add(x));
@@ -95,11 +95,11 @@ public class TaskController {
     		idovi.add(task.getId());
     	UsersIds userIDs = new UsersIds();
         userIDs.setIds(idovi);
-        List<UserModel> sviUseri = uRepository.GetByIds(userIDs).getBody();
+        ArrayList<UserModel> sviUseri = (ArrayList<UserModel>) uRepository.GetByIds(userIDs).getBody();
         for (projectsandtasks.models.Task task : tasks) {
             finishedTasks.add(new FinishedTask(task.getId(), this.getUserName(sviUseri, task.getId()), task.getName(), task.getFinishedOn()));
         }
-        return new ResponseEntity<List<projectsandtasks.viewmodels.FinishedTask>>(finishedTasks, HttpStatus.OK);
+        return new ResponseEntity<ArrayList<FinishedTask>>(finishedTasks, HttpStatus.OK);
     }
 
 	@RequestMapping(value = "/finished/grouped", method = RequestMethod.GET, produces = "application/json")

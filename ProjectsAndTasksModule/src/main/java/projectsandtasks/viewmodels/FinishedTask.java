@@ -39,4 +39,15 @@ public class FinishedTask {
 		this.taskName = taskName;
 		this.finishedOn = date;
 	}
+
+	public FinishedTask() {
+
+	}
+
+	public FinishedTask(FinishedTask ft) {
+		this.userId = ft.getUserId();
+		this.name = ft.getName();
+		this.taskName = ft.getTaskName();
+		this.finishedOn = ft.getFinishedOn();
+	}
 }

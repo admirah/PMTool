@@ -66,7 +66,7 @@ public class ReportController {
 
     }
     @RequestMapping(value = "/task/finished", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<List<FinishedTask>> finishedTasks(@RequestParam(value="projectId") long projectId)
+    public ResponseEntity<ArrayList<FinishedTask>> finishedTasks(@RequestParam(value="projectId") Long projectId)
     {
         return repository.finishedTasks(projectId);
     }
