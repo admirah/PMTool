@@ -22,6 +22,7 @@ export class ReportsComponent implements OnInit {
     projectId: number;
     members: any;
     dataAvailable: boolean;
+    finished: Array<any>;
 
     constructor(private router: Router, private reportsService: ReportsService, private route: ActivatedRoute, private memberService: MemberService, private auth: AuthService) {
         this.data = [
@@ -43,10 +44,12 @@ export class ReportsComponent implements OnInit {
 
             this.route.params.subscribe(params => {
                 this.projectId = +params['id'];
-                this.reportsService.getFinished(this.projectId).subscribe(res=>
-                console.log(res));
+                this.reportsService.getFinished(this.projectId).subscribe((res: any) =>{
+                this.finished = res;});
+
 
                 this.memberService.get(this.projectId).subscribe(members => {
+                    console.log(members);
                     this.members = members;
                     this.members.forEach((member: any) => {
                         this.reportsService.getFinishedByUser(this.projectId, member.id).subscribe(res => {
