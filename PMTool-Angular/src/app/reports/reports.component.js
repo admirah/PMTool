@@ -90,7 +90,7 @@ var ReportsComponent = (function () {
                         },
                         showValues: true,
                         valueFormat: function (d) {
-                            return d3.format(',.4f')(d);
+                            return d3.format('.')(d);
                         },
                         duration: 500,
                         xAxis: {
@@ -98,7 +98,8 @@ var ReportsComponent = (function () {
                         },
                         yAxis: {
                             axisLabel: 'Y Axis',
-                            axisLabelDistance: -10
+                            axisLabelDistance: -10,
+                            tickFormat: function (d) { return d3.format(".")(d); }
                         }
                     }
                 };

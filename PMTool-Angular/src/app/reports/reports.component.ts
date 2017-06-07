@@ -109,7 +109,7 @@ export class ReportsComponent implements OnInit {
                         },
                         showValues: true,
                         valueFormat: function (d: any) {
-                            return d3.format(',.4f')(d);
+                            return d3.format('.')(d);
                         },
                         duration: 500,
                         xAxis: {
@@ -117,7 +117,8 @@ export class ReportsComponent implements OnInit {
                         },
                         yAxis: {
                             axisLabel: 'Y Axis',
-                            axisLabelDistance: -10
+                            axisLabelDistance: -10,
+                            tickFormat: function(d: any) { return d3.format(".")(d)}
                         }
                     }
                 }
