@@ -53,7 +53,7 @@ export class ReportsComponent implements OnInit {
                     this.members = members;
                     this.members.forEach((member: any) => {
                         this.reportsService.getFinishedByUser(this.projectId, member.id).subscribe(res => {
-                                let x = {'label': member.name, 'value': 150}
+                                let x = {'label': member.name, 'value': res};
                                  this.data[0]['values'].push(x);
                                 if (this.data[0].values.length === this.members.length ) {
                                     this.dataAvailable = true;
@@ -89,7 +89,7 @@ export class ReportsComponent implements OnInit {
                         },
                         duration: 500,
                         xAxis: {
-                            axisLabel: 'X Axis'
+                            axisLabel: 'X Axis',
                         },
                         yAxis: {
                             axisLabel: 'Y Axis',

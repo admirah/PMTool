@@ -97,7 +97,7 @@ public class TaskController {
         userIDs.setIds(idovi);
         ArrayList<UserModel> sviUseri = (ArrayList<UserModel>) uRepository.GetByIds(userIDs).getBody();
         for (projectsandtasks.models.Task task : tasks) {
-            finishedTasks.add(new FinishedTask(task.getId(), this.getUserName(sviUseri, task.getId()), task.getName(), task.getFinishedOn()));
+            finishedTasks.add(new FinishedTask(task.getId(), this.getUserName(sviUseri, task.getOwner()), task.getName(), task.getFinishedOn()));
         }
         return new ResponseEntity<ArrayList<FinishedTask>>(finishedTasks, HttpStatus.OK);
     }

@@ -40,13 +40,14 @@ var ReportsComponent = (function () {
             this.route.params.subscribe(function (params) {
                 _this.projectId = +params['id'];
                 _this.reportsService.getFinished(_this.projectId).subscribe(function (res) {
-                    return console.log(res);
+                    _this.finished = res;
                 });
                 _this.memberService.get(_this.projectId).subscribe(function (members) {
+                    console.log(members);
                     _this.members = members;
                     _this.members.forEach(function (member) {
                         _this.reportsService.getFinishedByUser(_this.projectId, member.id).subscribe(function (res) {
-                            var x = { 'label': member.name, 'value': 150 };
+                            var x = { 'label': member.name, 'value': res };
                             _this.data[0]['values'].push(x);
                             if (_this.data[0].values.length === _this.members.length) {
                                 _this.dataAvailable = true;
@@ -76,7 +77,7 @@ var ReportsComponent = (function () {
                         },
                         duration: 500,
                         xAxis: {
-                            axisLabel: 'X Axis'
+                            axisLabel: 'X Axis',
                         },
                         yAxis: {
                             axisLabel: 'Y Axis',

@@ -1,5 +1,6 @@
 package projectsandtasks.controller;
 
+import com.netflix.discovery.converters.Auto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import projectsandtasks.models.Task;
 import projectsandtasks.models.UserModel;
 import projectsandtasks.repository.MemberRepository;
 import projectsandtasks.repository.ProjectRepository;
+import projectsandtasks.repository.TaskRepository;
 import projectsandtasks.repository.UsersRepository;
 
 import java.util.ArrayList;
@@ -30,6 +32,9 @@ public class ProjectController {
     private UsersRepository users;
     @Autowired
     private MemberRepository members;
+    @Autowired
+    private TaskRepository tasks;
+
 
     @RequestMapping(value = "/users", method = RequestMethod.GET)
     public ResponseEntity<List<UserModel>> GetUsers() {
@@ -85,11 +90,11 @@ public class ProjectController {
         return new ResponseEntity<Project>(project, HttpStatus.OK);
     }
 
-
+    //broj taskova po useru
     @RequestMapping(value = "/numberoftasks", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<String> finishedTasksGroupedBy(@RequestParam(value = "projectId") Long projectId, @RequestParam(value = "userId") Long userId) {
-        int total = repository.findAll().stream().filter(x -> {
-            return x.getOwner() == userId && x.getId() == projectId;
+        int total = tasks.findAll().stream().filter(x -> {
+            return x.getOwner() == userId && x.getProject().getId() == projectId;
         }).toArray().length;
         return new ResponseEntity<String>(Integer.toString(total), HttpStatus.OK);
     }
