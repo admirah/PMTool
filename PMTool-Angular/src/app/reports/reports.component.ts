@@ -23,6 +23,8 @@ export class ReportsComponent implements OnInit {
     members: any;
     dataAvailable: boolean;
     finished: Array<any>;
+    data2: any;
+    dataAvailable2: boolean;
 
     constructor(private router: Router, private reportsService: ReportsService, private route: ActivatedRoute, private memberService: MemberService, private auth: AuthService) {
         this.data = [
@@ -31,6 +33,13 @@ export class ReportsComponent implements OnInit {
                 values: []
             }
         ];
+
+        this.data2 = [
+            {
+                key: "Description",
+                values: []
+            }
+        ]
 
     }
 
@@ -41,11 +50,25 @@ export class ReportsComponent implements OnInit {
             this.router.navigate(['login']);
         } else {
 
+            let taskStatuses: Array<string> = ["Backlog", "Sprint", "In progress", "QA", "Done"];
+            [1, 2, 3, 4, 5].forEach((key: number, value: number) => {
+                this.reportsService.getFinishedGrouped(value).subscribe((res:any) => {
+                    console.log(value);
+                    let x = {'label': taskStatuses[value], 'value': res.totalWeight + 1};
+                    this.data2[0]['values'].push(x);
+                    if (this.data2[0].values.length === 5 ) {
+                        this.dataAvailable2 = true;
+                    }
+
+                });
+            });
+
 
             this.route.params.subscribe(params => {
                 this.projectId = +params['id'];
                 this.reportsService.getFinished(this.projectId).subscribe((res: any) =>{
                 this.finished = res;});
+
 
 
                 this.memberService.get(this.projectId).subscribe(members => {
@@ -66,6 +89,7 @@ export class ReportsComponent implements OnInit {
 
 
                 });
+
 
                 this.options = {
                     chart: {

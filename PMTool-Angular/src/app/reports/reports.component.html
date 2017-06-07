@@ -1,9 +1,12 @@
 <md-tab-group>
     <md-tab label="Report 1">
+        <md-card id="rep1">
+            <p>Number of finished tasks per user</p>
+            <div *ngIf="dataAvailable">
+                <nvd3 [options]="options" [data]="data"></nvd3>
+            </div>
+        </md-card>
 
-        <div *ngIf="dataAvailable">
-            <nvd3 [options]="options" [data]="data"></nvd3>
-        </div>
 
         <md-card id="tabela1">
         <p>List of finished tasks on project</p>
@@ -22,5 +25,13 @@
         </md-card>
 
     </md-tab>
-    <md-tab label="Report 2">Content 2</md-tab>
+    <md-tab label="Report 2">
+        <md-card id="repor2">
+            <p>Total weight of finised tasks categorized by task status</p>
+            <div *ngIf="dataAvailable2">
+                <nvd3 [options]="options" [data]="data2"></nvd3>
+            </div>
+        </md-card>
+
+    </md-tab>
 </md-tab-group>

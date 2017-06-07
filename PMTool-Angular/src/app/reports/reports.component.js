@@ -30,6 +30,12 @@ var ReportsComponent = (function () {
                 values: []
             }
         ];
+        this.data2 = [
+            {
+                key: "Description",
+                values: []
+            }
+        ];
     }
     ReportsComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -37,6 +43,17 @@ var ReportsComponent = (function () {
             this.router.navigate(['login']);
         }
         else {
+            var taskStatuses_1 = ["Backlog", "Sprint", "In progress", "QA", "Done"];
+            [1, 2, 3, 4, 5].forEach(function (key, value) {
+                _this.reportsService.getFinishedGrouped(value).subscribe(function (res) {
+                    console.log(value);
+                    var x = { 'label': taskStatuses_1[value], 'value': res.totalWeight + 1 };
+                    _this.data2[0]['values'].push(x);
+                    if (_this.data2[0].values.length === 5) {
+                        _this.dataAvailable2 = true;
+                    }
+                });
+            });
             this.route.params.subscribe(function (params) {
                 _this.projectId = +params['id'];
                 _this.reportsService.getFinished(_this.projectId).subscribe(function (res) {

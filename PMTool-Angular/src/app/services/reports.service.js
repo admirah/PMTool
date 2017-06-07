@@ -33,6 +33,13 @@ var ReportsService = (function () {
         return this.http.get('http://localhost:7010/reports/task/finished?projectId=' + projectid, { headers: this.headers })
             .map(function (res) { return res.json(); });
     };
+    ReportsService.prototype.getFinishedGrouped = function (taskStatus) {
+        this.headers = new http_1.Headers();
+        this.headers.append('Content-Type', 'application/json');
+        this.headers.append('Token', this.auth.getToken());
+        return this.http.get('http://localhost:7010/reports/task/finished/grouped?taskStatus=' + taskStatus, { headers: this.headers })
+            .map(function (res) { return res.json(); });
+    };
     ReportsService.prototype.getProjectById = function (id) {
         console.log(id);
         this.headers = new http_1.Headers();

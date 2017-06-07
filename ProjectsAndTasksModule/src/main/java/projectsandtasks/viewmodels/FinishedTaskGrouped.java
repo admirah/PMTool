@@ -60,4 +60,15 @@ public class FinishedTaskGrouped {
         this.finishedOn = finishedOn;
         this.weightName=weightName;
     }
+
+    public FinishedTaskGrouped() {
+    }
+
+    public FinishedTaskGrouped(FinishedTaskGrouped ftg) {
+       this.taskStatusName = ftg.taskStatusName;
+       this.name = ftg.getName();
+       this.weightValue = ftg.getWeightValue();
+       this.weightName = ftg.getWeightName();
+       this.finishedOn = ftg.getFinishedOn();
+    }
 }
