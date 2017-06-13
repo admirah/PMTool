@@ -34,5 +34,12 @@ export class UserService {
 
     }
 
+    uploadImage(image: any, userId: number): Observable<Response> {
+        this.headers = new Headers();
+        this.headers.append('enctype', 'multipart/form-data');
+        this.headers.append('Token', this.auth.getToken());
+        return this.http.post('http://localhost:7010/users/users/upload?userId='+userId, image, {headers: this.headers})
+            .map(r => r.json());
+    }
 
 }

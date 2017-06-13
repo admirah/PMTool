@@ -15,6 +15,10 @@ public class User extends Base{
 
     public User() {super();}
 
+    public User(String image) {
+        this.image = image;
+    }
+
     public User(String email, String name, String bio, String imagem, String username){
         super();
         this.email = email;

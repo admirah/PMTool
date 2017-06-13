@@ -25,6 +25,12 @@ var EditUserDialog = (function () {
             _this.userData = result;
         });
     };
+    EditUserDialog.prototype.onChange = function (event) {
+        var file = event.srcElement.files["0"];
+        var formData = new FormData();
+        formData.append('image', file, file.name);
+        this.userData.image = formData;
+    };
     return EditUserDialog;
 }());
 EditUserDialog = __decorate([

@@ -43,10 +43,11 @@ var UserComponent = (function () {
                 _this.user = new User();
             }
             else {
+                _this.userService.uploadImage(result.image, result.id).subscribe(function (res) { return console.log(res); });
+                result.image = "";
                 _this.userService.editUser(result).subscribe(function (editedUser) {
                     _this.user.name = editedUser.name;
                     _this.user.bio = editedUser.bio;
-                    _this.user.image = editedUser.image;
                     _this.user.email = editedUser.email;
                 });
             }
@@ -70,6 +71,7 @@ var UserComponent = (function () {
         }
         else {
             this.auth.getUser().subscribe(function (result) {
+                console.log(result);
                 _this.user = result;
                 _this.user.username = _this.auth.getUserData();
             });

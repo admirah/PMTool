@@ -5,7 +5,7 @@
             <tr>
                 <td>
                     <div class="imageBlock">
-                        pikcr
+                        <img *ngIf="user.image" height="192" width="192" [src]="'data:image/jpg;base64,' + user.image ">
                     </div>
                 </td>
                 <td>

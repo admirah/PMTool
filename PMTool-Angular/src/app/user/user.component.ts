@@ -17,7 +17,7 @@ export class User {
     surname: string;
     email: any;
     bio: string;
-    image: string;
+    image?: any;
     password: string;
     username: string;
 }
@@ -38,15 +38,16 @@ export class UserComponent implements OnInit {
 
     editUser() {
         let dialogRef = this.dialog.open(EditUserDialog);
-        dialogRef.afterClosed().subscribe(result => {
+        dialogRef.afterClosed().subscribe((result: any) => {
             console.log(result);
             if (result === 'Cancel') {
                 this.user = new User();
             } else {
+                this.userService.uploadImage(result.image, result.id).subscribe(res => console.log(res));
+                result.image = "";
                 this.userService.editUser(result).subscribe(editedUser => {
                         this.user.name = editedUser.name;
                         this.user.bio = editedUser.bio;
-                        this.user.image = editedUser.image;
                         this.user.email = editedUser.email;
                     }
                 )
@@ -72,6 +73,7 @@ export class UserComponent implements OnInit {
             this.router.navigate(['login']);
         } else {
             this.auth.getUser().subscribe(result => {
+                console.log(result);
                 this.user = result;
                 this.user.username = this.auth.getUserData();
             });

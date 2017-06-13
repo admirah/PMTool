@@ -1,5 +1,9 @@
 package users.controllers;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import users.database.AuthToken;
 import users.database.User;
 import users.models.AuthTokenModel;
@@ -18,14 +22,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by abasic on 20.03.2017..
- */
+import java.io.IOException;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("/users")
 public class UsersController {
@@ -84,6 +94,21 @@ public class UsersController {
     public ResponseEntity<UserModel> Get(@PathVariable("id") Long id) {
         try {
             UserModel model = factory.Create(service.Get(id));
+            if(!StringUtils.isEmpty(model.getImage())){
+            File file = new File("C://" + model.getImage());
+            FileInputStream fis=new FileInputStream(file);
+            ByteArrayOutputStream bos=new ByteArrayOutputStream();
+            int b;
+            byte[] buffer = new byte[1024];
+            while((b=fis.read(buffer))!=-1){
+                bos.write(buffer,0,b);
+            }
+            byte[] fileBytes=bos.toByteArray();
+            fis.close();
+            bos.close();
+            byte[] encoded= Base64.encodeBase64(fileBytes);
+            String encodedString = new String(encoded);
+            model.setImage(encodedString);}
             if(model != null) return new ResponseEntity<UserModel>(model, HttpStatus.OK);
         } catch (Exception e) {
             logger.error(e.getMessage());
@@ -203,4 +228,44 @@ public class UsersController {
 		
 		return result;
 	}
+
+    private static String UPLOADED_FOLDER = "C://";
+    @RequestMapping(value = "/upload", method = RequestMethod.POST, produces = "application/json")
+    public Resp singleFileUpload(@RequestParam(value = "userId") Long userId, @RequestParam("image") MultipartFile image) {
+
+        try {
+            System.out.print(userId);
+            // Get the file and save it somewhere
+            byte[] bytes = image.getBytes();
+            Path path = Paths.get(UPLOADED_FOLDER + image.getOriginalFilename());
+            System.out.print(image.getOriginalFilename());
+            Files.write(path, bytes);
+            User user = service.Get(userId);
+            user.setImage(image.getOriginalFilename());
+            service.Update(user, userId);
+            return new Resp("OK");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new Resp("NOK");
+        }
+
+    }
+
+    public class Resp {
+        public Resp(String attr) {
+            this.attr = attr;
+        }
+
+        public String getAttr() {
+            return attr;
+        }
+
+        public void setAttr(String attr) {
+            this.attr = attr;
+        }
+
+        private String attr;
+
+    }
 }

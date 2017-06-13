@@ -33,6 +33,13 @@ var UserService = (function () {
         return this.http.delete('http://localhost:7010/users/users/' + id, { headers: this.headers })
             .map(function (res) { return res.json(); });
     };
+    UserService.prototype.uploadImage = function (image, userId) {
+        this.headers = new http_1.Headers();
+        this.headers.append('enctype', 'multipart/form-data');
+        this.headers.append('Token', this.auth.getToken());
+        return this.http.post('http://localhost:7010/users/users/upload?userId=' + userId, image, { headers: this.headers })
+            .map(function (r) { return r.json(); });
+    };
     return UserService;
 }());
 UserService = __decorate([
