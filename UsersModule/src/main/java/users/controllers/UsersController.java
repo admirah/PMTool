@@ -95,7 +95,7 @@ public class UsersController {
         try {
             UserModel model = factory.Create(service.Get(id));
             if(!StringUtils.isEmpty(model.getImage())){
-            File file = new File("C://" + model.getImage());
+            File file = new File(UPLOADED_FOLDER + model.getImage());
             FileInputStream fis=new FileInputStream(file);
             ByteArrayOutputStream bos=new ByteArrayOutputStream();
             int b;
