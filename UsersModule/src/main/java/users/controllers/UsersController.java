@@ -229,7 +229,7 @@ public class UsersController {
 		return result;
 	}
 
-    private static String UPLOADED_FOLDER = "C://";
+    private static String UPLOADED_FOLDER = "C://Users//Vejsil//Documents//PMTool//PMTool-Angular//src//";
     @RequestMapping(value = "/upload", method = RequestMethod.POST, produces = "application/json")
     public Resp singleFileUpload(@RequestParam(value = "userId") Long userId, @RequestParam("image") MultipartFile image) {
 
