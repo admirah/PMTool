@@ -84,7 +84,8 @@
     <div class="comments-section" *ngIf="isDataAvailable">
         <md-list class="comments">
             <md-list-item class="list-item" *ngFor="let comment of comments">
-                <img md-list-avatar src="http://firstbagorganizer.com/image/m/user.png">
+                     <img *ngIf="comment.member.image" height="47" width="47" [src]="comment.member.image">
+
                 <table style="overflow-y: auto;">
                     <tr><td>{{comment.member.name}}</td></tr>
                     <tr><td>{{comment.content}}</td></tr>
