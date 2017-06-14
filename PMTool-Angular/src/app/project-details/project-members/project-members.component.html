@@ -5,7 +5,7 @@
                 <div *ngIf="dataAvailable" style="width:500px; text-align:center">
                     <h1>{{project.name}}</h1>
                     <h2> by</h2>
-                    <h2><img style="margin-bottom:0px !important" md-list-avatar src="http://static.bleacherreport.net/images/redesign/avatars/default-user-icon-comment.png"> {{owner.username}}</h2>
+                    <h2><img *ngIf="owner.image" height="47" width="47" [src]="owner.image">{{owner.username}}</h2>
                     <button style="background-color: #95B5D6" (click)="showReports()"><h3 style="border-bottom:none !important">Show reports</h3></button>
 
                 </div>
@@ -18,7 +18,8 @@
                         </h3>
                     </md-list-item>
                     <md-list-item class="list-item" *ngFor="let member of members">
-                        <img md-list-avatar src="http://static.bleacherreport.net/images/redesign/avatars/default-user-icon-comment.png">
+                        <img md-list-avatar   height="47" width="47" [src]="member.image">
+
                         <table style="overflow-y: auto;">
                             <tr>
                                 <td>{{member.name}}</td>
