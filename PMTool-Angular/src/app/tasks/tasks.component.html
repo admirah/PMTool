@@ -71,10 +71,12 @@
         <div *ngFor='let item of group.items' class="cards" (mousedown)="onClick(item)">
             <md-card>
                 <md-card-content>{{item.name}}</md-card-content>
-                <md-card-actions>
+                <md-card-actions style="border-top:1px solid grey">
 
-                    <button md-button (click)="seeDetails(item,group)">See details</button>
-
+                    <button style="padding:0 !important;" md-button (click)="seeDetails(item,group)">See details</button>
+                    <button (click)="deleteTask(item)" style="padding:5px 5px">
+                        <md-icon>delete</md-icon>
+                    </button>
                 </md-card-actions>
             </md-card>
         </div>

@@ -17,9 +17,22 @@ export class UserService {
     editUser(user: any): Observable<User> {
 
         this.headers = new Headers();
-        this.headers.append('Content-Type', 'application/json');
+        this.headers.append('Content-Type','application/json' );
         this.headers.append('Token', this.auth.getToken())
         return this.http.put('http://localhost:7010/users/users/' + user.id, user, {headers: this.headers})
+            .map(res => res.json());
+
+    }
+
+    addPhoto(photo: any): Observable<User> {
+
+        let formData = new FormData();
+        formData.append('photo', photo);
+        console.log(photo);
+        this.headers = new Headers();
+        this.headers.append('Content-Type', 'application/json');
+        this.headers.append('Token', this.auth.getToken())
+        return this.http.put('http://localhost:7010/users/users/photo/' + this.auth.getId(), formData, {headers: this.headers})
             .map(res => res.json());
 
     }

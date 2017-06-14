@@ -21,6 +21,7 @@ var TaskService = (function () {
     }
     TaskService.prototype.addNewTask = function (task) {
         console.log(task);
+        task.createdOn = new Date();
         task.owner = this.auth.getId();
         this.headers = new http_1.Headers();
         this.headers.append('Token', this.auth.getToken());
@@ -39,13 +40,26 @@ var TaskService = (function () {
     };
     TaskService.prototype.changeTaskStatus = function (taskId, ind) {
         var task = {
-            taskStatus: ind
+            taskStatus: ind,
         };
-        console.log(task);
+        if (ind === 4) {
+            task['finishedOn'] = new Date();
+        }
+        else {
+            task['finishedOn'] = null;
+        }
         this.headers = new http_1.Headers();
         this.headers.append('Token', this.auth.getToken());
         this.headers.append('Content-Type', 'application/json');
         return this.http.patch('http://localhost:7010/projects/task/' + taskId, task, { headers: this.headers })
+            .map(function (res) { return res.json(); });
+    };
+    TaskService.prototype.deleteTask = function (task) {
+        console.log(task);
+        this.headers = new http_1.Headers();
+        this.headers.append('Content-Type', 'application/json');
+        this.headers.append('Token', this.auth.getToken());
+        return this.http.delete('http://localhost:7010/projects/task/' + task.id, { headers: this.headers })
             .map(function (res) { return res.json(); });
     };
     return TaskService;

@@ -80,4 +80,11 @@ export class UserComponent implements OnInit {
         }
     }
 
+    onChange(event:any) {
+        console.log('onChange');
+        var files = event.srcElement.files;
+        console.log(files['0']);
+        this.userService.addPhoto(files['0']).subscribe(result=>console.log(result));
+    }
+
 }

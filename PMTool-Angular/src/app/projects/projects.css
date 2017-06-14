@@ -15,8 +15,9 @@
 
 }
 
-.cardContent{
-    height:70px;
+
+.card-content{
+
 }
 .horScrollContainer:hover {
     overflow-x: auto
@@ -68,6 +69,7 @@ h4 {
 
 h4:hover{
     color: slategray;
+    cursor: pointer;
 }
 
 h3 {

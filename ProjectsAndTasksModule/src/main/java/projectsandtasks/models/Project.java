@@ -28,9 +28,9 @@ public class Project {
     private Date startedOn;
     @Temporal(TemporalType.TIMESTAMP)
     private Date endOn;
-    @OneToMany(mappedBy="project")
+    @OneToMany(mappedBy="project", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Member> members;
-    @OneToMany(mappedBy="project")
+    @OneToMany(mappedBy="project", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Task> tasks;
 
     public Long getId() {

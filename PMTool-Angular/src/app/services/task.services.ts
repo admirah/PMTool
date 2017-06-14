@@ -15,6 +15,7 @@ export class TaskService {
 
     addNewTask(task: any): Observable<Response> {
         console.log(task);
+        task.createdOn = new Date();
         task.owner = this.auth.getId();
         this.headers = new Headers();
         this.headers.append('Token', this.auth.getToken())
@@ -36,15 +37,32 @@ export class TaskService {
 
     changeTaskStatus(taskId: number, ind: number): Observable<Response> {
         let task = {
-            taskStatus: ind
+            taskStatus: ind,
         }
-        console.log(task);
+        if (ind === 4) {
+            task['finishedOn'] = new Date();
+        }
+        else {
+            task['finishedOn'] = null;
+        }
         this.headers = new Headers();
         this.headers.append('Token', this.auth.getToken())
         this.headers.append('Content-Type', 'application/json');
         return this.http.patch('http://localhost:7010/projects/task/' + taskId, task, {headers: this.headers})
             .map(res => res.json());
     }
+
+    deleteTask(task: any): Observable<Response> {
+        console.log(task);
+        this.headers = new Headers();
+        this.headers.append('Content-Type', 'application/json');
+        this.headers.append('Token', this.auth.getToken())
+        return this.http.delete('http://localhost:7010/projects/task/' + task.id, {headers: this.headers})
+            .map(res => res.json());
+
+
+    }
+
 }
 /**
  * Created by Admira on 20.05.2017..

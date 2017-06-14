@@ -19,8 +19,25 @@ var TaskDetailsDialog = (function () {
         this.taskService = taskService;
         this.memberService = memberService;
         this.item = this.dialogRef._containerInstance.dialogConfig.data;
+        this.item.createdOn = this.formatDate(new Date(this.item.createdOn));
+        console.log(this.item);
+        if (this.item.finishedOn) {
+            this.item.finishedOn = this.formatDate(new Date(this.item.finishedOn));
+        }
         console.log(this.item);
     }
+    TaskDetailsDialog.prototype.formatDate = function (date) {
+        var monthNames = [
+            "January", "February", "March",
+            "April", "May", "June", "July",
+            "August", "September", "October",
+            "November", "December"
+        ];
+        var day = date.getDate();
+        var monthIndex = date.getMonth();
+        var year = date.getFullYear();
+        return day + ' ' + monthNames[monthIndex] + ' ' + year;
+    };
     TaskDetailsDialog.prototype.showButton = function () {
         if (this.comment.length !== 0) {
             this.showButtonVar = true;
@@ -54,6 +71,7 @@ var TaskDetailsDialog = (function () {
     TaskDetailsDialog.prototype.ngOnInit = function () {
         var _this = this;
         this.item = this.dialogRef._containerInstance.dialogConfig.data;
+        console.log(this.item);
         this.comments = (this.item.comments) ? this.item.comments : [];
         this.comment = { content: '' };
         this.showButtonVar = false;
@@ -75,6 +93,15 @@ var TaskDetailsDialog = (function () {
                     var ind = _this.members.findIndex(function (member) {
                         return member.id == comment.user;
                     });
+                    var indTaskOwner = _this.members.findIndex(function (member) {
+                        return member.id == _this.item.owner;
+                    });
+                    if (indTaskOwner === -1)
+                        _this.taskOwner = _this.owner;
+                    else
+                        _this.taskOwner = _this.members[indTaskOwner];
+                    _this.ownerAvailable = true;
+                    console.log(_this.taskOwner);
                     console.log(ind);
                     console.log(_this.members[ind]);
                     console.log(_this.owner);

@@ -7,6 +7,7 @@ import {MdDialog, MdDialogConfig} from '@angular/material';
 import {TaskService} from '../services/task.services';
 import {AddTaskDialog} from './add-task-dialog/add-task-dialog.component';
 import {ProjectService} from '../services/project.service';
+import {DeleteDialog} from "../delete-dialog/delete-dialog.component";
 
 
 @Component({
@@ -55,8 +56,12 @@ export class TasksComponent implements OnInit {
         el = null;
         if (target.id !== source.id) {
             let ind = this.groups.findIndex(item => item.name === target.id);
-            this.taskService.changeTaskStatus(this.task.id, ind).subscribe(result =>
-                console.log(result));
+            this.taskService.changeTaskStatus(this.task.id, ind).subscribe(result => {
+                    console.log(result);
+                    this.task.finishedOn = result['finishedOn'];
+                }
+            );
+
         }
     }
 
@@ -86,11 +91,41 @@ export class TasksComponent implements OnInit {
         });
     }
 
+    deleteTask(res: any) {
+
+        let dialogRef = this.dialog.open(DeleteDialog);
+        dialogRef.afterClosed().subscribe(result => {
+            console.log(result);
+            if (result !== 'No') {
+                this.taskService.deleteTask(res).subscribe(response => {
+                    if (res['taskStatus'] === 'BACKLOG') {
+                        let ind = this.groups[0].items.indexOf(res);
+                        this.groups[0].items.splice(ind, 1);
+                    } else if (res['taskStatus'] === 'SPRINT') {
+                        let ind = this.groups[1].items.indexOf(res);
+                        this.groups[1].items.splice(ind, 1);
+                    } else if (res['taskStatus'] === 'INPROGRESS') {
+                        let ind = this.groups[2].items.indexOf(res);
+                        this.groups[2].items.splice(ind, 1);
+                    } else if (res['taskStatus'] === 'QA') {
+                        let ind = this.groups[3].items.indexOf(res);
+                        this.groups[3].items.splice(ind, 1);
+                    } else if (res['taskStatus'] === 'DONE') {
+                        let ind = this.groups[4].items.indexOf(res);
+                        this.groups[4].items.splice(ind, 1);
+                    }
+
+                });
+            }
+        });
+    }
+
     seeDetails(item: any, group: any) {
         const config = new MdDialogConfig();
         let ind = this.groups.indexOf(group);
         let ind1 = this.groups[ind].items.indexOf(item);
         config.data = item;
+        console.log(item);
         let dialogRef = this.dialog.open(TaskDetailsDialog, config);
         dialogRef.afterClosed().subscribe(result => {
             this.groups[ind].items[ind1].comments = result;
@@ -103,20 +138,22 @@ export class TasksComponent implements OnInit {
         config.data = ind;
         let dialogRef = this.dialog.open(AddTaskDialog, config);
         dialogRef.afterClosed().subscribe(result => {
-           if(result!='Cancel') {result.projectId = this.projectId;
-            this.taskService.addNewTask(result).subscribe(res => {
-                if (res['taskStatus'] === 'BACKLOG') {
-                    this.groups[0].items.push(res);
-                } else if (res['taskStatus'] === 'SPRINT') {
-                    this.groups[1].items.push(res);
-                } else if (res['taskStatus'] === 'INPROGRESS') {
-                    this.groups[2].items.push(res);
-                } else if (res['taskStatus'] === 'QA') {
-                    this.groups[3].items.push(res);
-                } else if (res['taskStatus'] === 'DONE') {
-                    this.groups[4].items.push(res);
-                }
-            });}
+            if (result != 'Cancel') {
+                result.projectId = this.projectId;
+                this.taskService.addNewTask(result).subscribe(res => {
+                    if (res['taskStatus'] === 'BACKLOG') {
+                        this.groups[0].items.push(res);
+                    } else if (res['taskStatus'] === 'SPRINT') {
+                        this.groups[1].items.push(res);
+                    } else if (res['taskStatus'] === 'INPROGRESS') {
+                        this.groups[2].items.push(res);
+                    } else if (res['taskStatus'] === 'QA') {
+                        this.groups[3].items.push(res);
+                    } else if (res['taskStatus'] === 'DONE') {
+                        this.groups[4].items.push(res);
+                    }
+                });
+            }
         });
     }
 

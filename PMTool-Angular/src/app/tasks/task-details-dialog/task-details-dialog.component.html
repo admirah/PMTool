@@ -67,12 +67,18 @@
     <div md-dialog-content class="content">
         <div>
             <p>Title: {{item.name}}</p>
+            <hr>
+            <p>Created on: {{item.createdOn}}</p>
+            <p *ngIf="item.finishedOn">Finished on: {{item.finishedOn}}</p>
         </div>
         <div>
             <p>Description: {{item.description}}</p>
         </div>
         <div>
             <p>Weight: {{item.weight}}</p>
+        </div>
+        <div *ngIf="ownerAvailable">
+            <p>Assigned to: {{taskOwner.username}}</p>
         </div>
     </div>
     <div class="comments-section" *ngIf="isDataAvailable">

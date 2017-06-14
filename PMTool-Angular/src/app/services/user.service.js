@@ -26,6 +26,16 @@ var UserService = (function () {
         return this.http.put('http://localhost:7010/users/users/' + user.id, user, { headers: this.headers })
             .map(function (res) { return res.json(); });
     };
+    UserService.prototype.addPhoto = function (photo) {
+        var formData = new FormData();
+        formData.append('photo', photo);
+        console.log(photo);
+        this.headers = new http_1.Headers();
+        this.headers.append('Content-Type', 'application/json');
+        this.headers.append('Token', this.auth.getToken());
+        return this.http.put('http://localhost:7010/users/users/photo/' + this.auth.getId(), formData, { headers: this.headers })
+            .map(function (res) { return res.json(); });
+    };
     UserService.prototype.deleteUser = function (id) {
         this.headers = new http_1.Headers();
         this.headers.append('Content-Type', 'application/json');

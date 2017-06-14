@@ -18,6 +18,7 @@ var material_1 = require("@angular/material");
 var task_services_1 = require("../services/task.services");
 var add_task_dialog_component_1 = require("./add-task-dialog/add-task-dialog.component");
 var project_service_1 = require("../services/project.service");
+var delete_dialog_component_1 = require("../delete-dialog/delete-dialog.component");
 var TasksComponent = (function () {
     function TasksComponent(auth, taskService, projectService, router, dragulaService, dialog) {
         var _this = this;
@@ -52,12 +53,14 @@ var TasksComponent = (function () {
         dragulaService.dropModel.subscribe(function (value) { return _this.onDropModel(value, value.slice(1)); });
     }
     TasksComponent.prototype.onDropModel = function (val, args) {
+        var _this = this;
         var el = args[0], target = args[1], source = args[2];
         el = null;
         if (target.id !== source.id) {
             var ind = this.groups.findIndex(function (item) { return item.name === target.id; });
             this.taskService.changeTaskStatus(this.task.id, ind).subscribe(function (result) {
-                return console.log(result);
+                console.log(result);
+                _this.task.finishedOn = result['finishedOn'];
             });
         }
     };
@@ -88,12 +91,44 @@ var TasksComponent = (function () {
             });
         });
     };
+    TasksComponent.prototype.deleteTask = function (res) {
+        var _this = this;
+        var dialogRef = this.dialog.open(delete_dialog_component_1.DeleteDialog);
+        dialogRef.afterClosed().subscribe(function (result) {
+            console.log(result);
+            if (result !== 'No') {
+                _this.taskService.deleteTask(res).subscribe(function (response) {
+                    if (res['taskStatus'] === 'BACKLOG') {
+                        var ind = _this.groups[0].items.indexOf(res);
+                        _this.groups[0].items.splice(ind, 1);
+                    }
+                    else if (res['taskStatus'] === 'SPRINT') {
+                        var ind = _this.groups[1].items.indexOf(res);
+                        _this.groups[1].items.splice(ind, 1);
+                    }
+                    else if (res['taskStatus'] === 'INPROGRESS') {
+                        var ind = _this.groups[2].items.indexOf(res);
+                        _this.groups[2].items.splice(ind, 1);
+                    }
+                    else if (res['taskStatus'] === 'QA') {
+                        var ind = _this.groups[3].items.indexOf(res);
+                        _this.groups[3].items.splice(ind, 1);
+                    }
+                    else if (res['taskStatus'] === 'DONE') {
+                        var ind = _this.groups[4].items.indexOf(res);
+                        _this.groups[4].items.splice(ind, 1);
+                    }
+                });
+            }
+        });
+    };
     TasksComponent.prototype.seeDetails = function (item, group) {
         var _this = this;
         var config = new material_1.MdDialogConfig();
         var ind = this.groups.indexOf(group);
         var ind1 = this.groups[ind].items.indexOf(item);
         config.data = item;
+        console.log(item);
         var dialogRef = this.dialog.open(task_details_dialog_component_1.TaskDetailsDialog, config);
         dialogRef.afterClosed().subscribe(function (result) {
             _this.groups[ind].items[ind1].comments = result;

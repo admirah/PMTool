@@ -55,7 +55,7 @@ export class ProjectService {
         this.headers = new Headers();
         this.headers.append('Content-Type', 'application/json');
         this.headers.append('Token', this.auth.getToken())
-        return this.http.delete('http://localhost:7010/projects/project/' + project.id, {headers: this.headers})
+        return this.http.delete('http://localhost:7010/projects/projects/' + project.id, {headers: this.headers})
             .map(res => res.json());
 
 

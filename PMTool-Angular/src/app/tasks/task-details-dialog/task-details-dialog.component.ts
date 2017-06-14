@@ -17,13 +17,34 @@ export class TaskDetailsDialog implements OnInit {
     isDataAvailable: boolean;
     notMembers: Array<User>;
     owner: User;
+    taskOwner: User;
+    ownerAvailable: boolean;
 
     constructor(public dialogRef: MdDialogRef<TaskDetailsDialog>, private taskService: TaskService, private memberService: MemberService) {
         this.item = this.dialogRef._containerInstance.dialogConfig.data;
+        this.item.createdOn = this.formatDate(new Date(this.item.createdOn));
+        console.log(this.item);
+        if (this.item.finishedOn) {
+            this.item.finishedOn = this.formatDate(new Date(this.item.finishedOn));
+        }
         console.log(this.item);
 
 
+    }
 
+    formatDate(date: Date): string {
+        let monthNames = [
+            "January", "February", "March",
+            "April", "May", "June", "July",
+            "August", "September", "October",
+            "November", "December"
+        ];
+
+        let day = date.getDate();
+        let monthIndex = date.getMonth();
+        let year = date.getFullYear();
+
+        return day + ' ' + monthNames[monthIndex] + ' ' + year;
     }
 
     showButton() {
@@ -57,14 +78,14 @@ export class TaskDetailsDialog implements OnInit {
 
     ngOnInit() {
         this.item = this.dialogRef._containerInstance.dialogConfig.data;
-
+        console.log(this.item);
         this.comments = (this.item.comments) ? this.item.comments : [];
         this.comment = {content: ''};
         this.showButtonVar = false;
         this.isDataAvailable = false;
-        let prId:any;
-        if(!this.item.project.id) prId=this.item.project;
-        else prId=this.item.project.id;
+        let prId: any;
+        if (!this.item.project.id) prId = this.item.project;
+        else prId = this.item.project.id;
         this.memberService.getNotOnProject(prId).subscribe((members: any) => {
             this.notMembers = members;
             let ind = this.notMembers.findIndex(o => o.id == this.item.owner);
@@ -77,6 +98,14 @@ export class TaskDetailsDialog implements OnInit {
                     let ind = this.members.findIndex((member: User) =>
                         member.id == comment.user
                     );
+                    let indTaskOwner = this.members.findIndex((member: User) =>
+                        member.id == this.item.owner
+                    );
+
+                    if (indTaskOwner === -1) this.taskOwner = this.owner;
+                    else this.taskOwner = this.members[indTaskOwner];
+                    this.ownerAvailable = true;
+                    console.log(this.taskOwner);
                     console.log(ind);
                     console.log(this.members[ind]);
                     console.log(this.owner);
@@ -87,7 +116,6 @@ export class TaskDetailsDialog implements OnInit {
                 this.isDataAvailable = true;
             });
         });
-
 
 
     }

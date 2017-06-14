@@ -77,6 +77,12 @@ var UserComponent = (function () {
             });
         }
     };
+    UserComponent.prototype.onChange = function (event) {
+        console.log('onChange');
+        var files = event.srcElement.files;
+        console.log(files['0']);
+        this.userService.addPhoto(files['0']).subscribe(function (result) { return console.log(result); });
+    };
     return UserComponent;
 }());
 UserComponent = __decorate([
